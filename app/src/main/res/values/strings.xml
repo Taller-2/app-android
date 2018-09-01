@@ -1,3 +1,7 @@
 <resources>
-    <string name="app_name">MercadoLibre</string>
+    <string name="app_name">Not-MercadoLibre</string>
+    <string name="login_email_helptext">Email</string>
+    <string name="login_password_helptext">Password</string>
+    <string name="login_sign_in_button">SIGN IN</string>
+    <string name="login_sign_up_button">SIGN UP</string>
 </resources>
