@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "148642265280",
+    "firebase_url": "https://mercadolibre-dc978.firebaseio.com",
+    "project_id": "mercadolibre-dc978",
+    "storage_bucket": "mercadolibre-dc978.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:148642265280:android:18a9f2292e59f3b7",
+        "android_client_info": {
+          "package_name": "ar.uba.fi.mercadolibre"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "148642265280-jh9384ml65q43v2mnls28tfn7nv6nk05.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "ar.uba.fi.mercadolibre",
+            "certificate_hash": "80a4e05c4ab932b69f6f7b656f14aeebe7dfaaa6"
+          }
+        },
+        {
+          "client_id": "148642265280-f5kon28jcm5n0ec6cnal48m8rv5skiic.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCP1WQ0_5A2Hy5RVOq35jXq634ekWhZVa8"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "148642265280-f5kon28jcm5n0ec6cnal48m8rv5skiic.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
