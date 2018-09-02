@@ -2,7 +2,7 @@ language: android
 
 # Hack??
 before_install:
-  - yes | sdkmanager "platforms;android-28"
+  - yes | sdkmanager "platforms;android-27"
 
 android:
   components:
