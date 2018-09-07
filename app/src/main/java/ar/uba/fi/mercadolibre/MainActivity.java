@@ -4,6 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.util.Log;
+import android.widget.TextView;
 
 import ar.uba.fi.mercadolibre.ServerApi.ApiService;
 import ar.uba.fi.mercadolibre.ServerApi.ExampleResponse;
@@ -38,6 +39,10 @@ public class MainActivity extends AppCompatActivity {
         ApiService apiService = retrofit.create(ApiService.class);
         Single<ExampleResponse> response = apiService.getExample(3);
 
+        // Debug confirm message!
+        TextView loginConfirm = (TextView) this.findViewById(R.id.login_confirm_toast);
+        loginConfirm.setText("Hiciste click en sign in");
+        loginConfirm.setVisibility(View.VISIBLE);
 
         response.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
