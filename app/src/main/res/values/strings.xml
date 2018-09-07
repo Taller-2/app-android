@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">MercadoLibre</string>
+    <string name="signin_success">Success! You logged in!</string>
 </resources>

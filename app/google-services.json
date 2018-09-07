@@ -23,6 +23,14 @@
           }
         },
         {
+          "client_id": "148642265280-9k37d5uem0ee2lktm2903irarene398o.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "ar.uba.fi.mercadolibre",
+            "certificate_hash": "4ffae6d7533c4e1cec23a8769d30598bebea60f2"
+          }
+        },
+        {
           "client_id": "148642265280-f5kon28jcm5n0ec6cnal48m8rv5skiic.apps.googleusercontent.com",
           "client_type": 3
         }
