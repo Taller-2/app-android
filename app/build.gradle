@@ -4,7 +4,7 @@ android {
     compileSdkVersion 28
     defaultConfig {
         applicationId "ar.uba.fi.mercadolibre"
-        minSdkVersion 15
+        minSdkVersion 16
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
@@ -28,8 +28,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-messaging:17.3.0'
     implementation 'com.google.firebase:firebase-auth:16.0.3'
 
-    implementation 'com.facebook.android:facebook-android-sdk:4.36.0'
-
+    implementation 'com.firebaseui:firebase-ui-auth:4.1.0'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
