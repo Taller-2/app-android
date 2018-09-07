@@ -45,26 +45,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         // Esto se ejecuta luego del (intento de) sign in del usuario
         super.onActivityResult(requestCode, resultCode, data);
-
         if (requestCode == RC_SIGN_IN) {
             // IdpResponse response = IdpResponse.fromResultIntent(data);
 
             if (resultCode == RESULT_OK) {
                 // Successfully signed in
-                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                assert user != null;
-                user.getIdToken(true)
-                        .addOnCompleteListener(new OnCompleteListener<GetTokenResult>() {
-                            public void onComplete(@NonNull Task<GetTokenResult> task) {
-                                if (task.isSuccessful()) {
-                                    String idToken = task.getResult().getToken();
-                                    // Send token to your backend via HTTPS
-                                    // ...
-                                } else {
-                                    // Handle error -> task.getException();
-                                }
-                            }
-                        });                setContentView(R.layout.activity_signed_in);
+                processSuccessSignin();
 
             } else {
                 // Sign in failed. If response is null the user canceled the
@@ -75,6 +61,24 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
+
+    private void processSuccessSignin() {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        assert user != null;
+        user.getIdToken(true)
+            .addOnCompleteListener(new OnCompleteListener<GetTokenResult>() {
+                public void onComplete(@NonNull Task<GetTokenResult> task) {
+                if (task.isSuccessful()) {
+                    String idToken = task.getResult().getToken();
+                    setContentView(R.layout.activity_signed_in);
+                    // ...
+                } else {
+                    // Handle error -> task.getException();
+                }
+            }
+        });
+    }
+
     @Override
     public void onStart() {
         super.onStart();
