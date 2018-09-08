@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">MercadoLibre</string>
+    <string name="nombre">Nombre</string>
+    <string name="description">Descripción</string>
+    <string name="available_units">Unidades disponibles</string>
+    <string name="price">Precio</string>
+    <string name="publish_article">Publicar Artículo</string>
+    <string name="publish_article_success">Publicado!</string>
 </resources>
