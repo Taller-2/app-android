@@ -4,8 +4,9 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.widget.TextView;
+import android.util.Log;
 
+import com.firebase.ui.auth.IdpResponse;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -16,8 +17,11 @@ import com.google.firebase.auth.GetTokenResult;
 import java.util.Arrays;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+import ar.uba.fi.mercadolibre.server_api.AppServer;
+import io.reactivex.disposables.CompositeDisposable;
 
+public class MainActivity extends AppCompatActivity {
+    protected CompositeDisposable compositeDisposable;
     private FirebaseAuth mAuth;
     private static final int RC_SIGN_IN = 123;
 
@@ -46,18 +50,14 @@ public class MainActivity extends AppCompatActivity {
         // Esto se ejecuta luego del (intento de) sign in del usuario
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == RC_SIGN_IN) {
-            // IdpResponse response = IdpResponse.fromResultIntent(data);
+            IdpResponse response = IdpResponse.fromResultIntent(data);
 
             if (resultCode == RESULT_OK) {
                 // Successfully signed in
                 processSuccessSignin();
 
             } else {
-                // Sign in failed. If response is null the user canceled the
-                // sign-in flow using the back button. Otherwise check
-                // response.getError().getErrorCode() and handle the error.
-                TextView msg = findViewById(R.id.init_view);
-                msg.setText("LOGIN FAILED");
+                Log.e("Firebase login API call", response.getError().getMessage());
             }
         }
     }
@@ -66,17 +66,21 @@ public class MainActivity extends AppCompatActivity {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         assert user != null;
         user.getIdToken(true)
-            .addOnCompleteListener(new OnCompleteListener<GetTokenResult>() {
-                public void onComplete(@NonNull Task<GetTokenResult> task) {
-                if (task.isSuccessful()) {
-                    String idToken = task.getResult().getToken();
-                    setContentView(R.layout.activity_signed_in);
-                    // ...
-                } else {
-                    // Handle error -> task.getException();
-                }
-            }
-        });
+                .addOnCompleteListener(new OnCompleteListener<GetTokenResult>() {
+                    public void onComplete(@NonNull Task<GetTokenResult> task) {
+                        if (task.isSuccessful()) {
+                            // String idToken = task.getResult().getToken();
+                            setContentView(R.layout.activity_signed_in);
+                            // ...
+                        } else {
+                            String msg = task.getException().getLocalizedMessage();
+                            if (msg != null) {
+                                Log.e("Firebase Signin", msg);
+
+                            }
+                        }
+                    }
+                });
     }
 
     @Override
@@ -89,5 +93,19 @@ public class MainActivity extends AppCompatActivity {
         } else {  // Firebase login view
             this.setFirebaseLoginActivity();
         }
+
+        // SAMPLE API CALL!
+        AppServer as = new AppServer("http://0.0.0.0:8000");
+        as.api();
+
     }
+
+    @Override
+    protected void onDestroy() {
+        if (!compositeDisposable.isDisposed()) {
+            compositeDisposable.dispose();
+        }
+        super.onDestroy();
+    }
+
 }
