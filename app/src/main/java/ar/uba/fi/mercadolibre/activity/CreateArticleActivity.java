@@ -10,7 +10,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import ar.uba.fi.mercadolibre.R;
-import filter.InputFilterMinMax;
+import ar.uba.fi.mercadolibre.filter.InputFilterMinMax;
 
 public class CreateArticleActivity extends AppCompatActivity {
     int[] textFieldIDs = {

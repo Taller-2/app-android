@@ -1,4 +1,4 @@
-package filter;
+package ar.uba.fi.mercadolibre.filter;
 
 import android.text.InputFilter;
 import android.text.Spanned;
