@@ -21,6 +21,9 @@ import ar.uba.fi.mercadolibre.server_api.AppServer;
 import io.reactivex.disposables.CompositeDisposable;
 
 public class MainActivity extends AppCompatActivity {
+    // No se como leer esto desde una env variable o lo que sea
+    static final String APP_SERVER_URL = "http://0.0.0.0:8000";
+
     protected CompositeDisposable compositeDisposable;
     private FirebaseAuth mAuth;
     private static final int RC_SIGN_IN = 123;
@@ -95,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         // SAMPLE API CALL!
-        AppServer as = new AppServer("http://0.0.0.0:8000");
+        AppServer as = new AppServer(APP_SERVER_URL);
         as.api();
 
     }
