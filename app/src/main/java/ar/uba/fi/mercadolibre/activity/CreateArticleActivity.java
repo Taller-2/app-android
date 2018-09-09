@@ -9,8 +9,19 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.util.HashMap;
+
 import ar.uba.fi.mercadolibre.R;
 import ar.uba.fi.mercadolibre.filter.InputFilterMinMax;
+import ar.uba.fi.mercadolibre.server_api.Article;
+import io.reactivex.Single;
+import io.reactivex.SingleObserver;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
+import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class CreateArticleActivity extends AppCompatActivity {
     int[] textFieldIDs = {
@@ -37,13 +48,48 @@ public class CreateArticleActivity extends AppCompatActivity {
     }
 
     public void createArticle(View view) {
-        // TODO: actual submission goes here, toast text should depend on response
-        Toast.makeText(
-                getApplicationContext(),
-                getString(R.string.publish_article_success),
-                Toast.LENGTH_SHORT
-        ).show();
-        finish();
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("https://taller2-app-server.herokuapp.com/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .build();
+
+        HashMap<String, Object> body = new HashMap<>();
+        body.put("name", ((EditText) findViewById(R.id.name)).getText().toString());
+        body.put("description", ((EditText) findViewById(R.id.description)).getText().toString());
+        body.put("available_units", Integer.parseInt(((EditText) findViewById(R.id.available_units)).getText().toString()));
+        body.put("price", Integer.parseInt(((EditText) findViewById(R.id.price)).getText().toString()));
+        Single<Object> response = retrofit
+                .create(Article.class)
+                .post("application/json", body);
+
+        response.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new SingleObserver<Object>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                    }
+
+                    @Override
+                    public void onSuccess(Object bject) {
+                        Toast.makeText(
+                                getApplicationContext(),
+                                getString(R.string.publish_article_success),
+                                Toast.LENGTH_SHORT
+                        ).show();
+                        finish();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Toast.makeText(
+                                getApplicationContext(),
+                                getString(R.string.publish_article_error),
+                                Toast.LENGTH_SHORT
+                        ).show();
+                        finish();
+                    }
+                });
     }
 
     private final TextWatcher watcher = new TextWatcher() {
