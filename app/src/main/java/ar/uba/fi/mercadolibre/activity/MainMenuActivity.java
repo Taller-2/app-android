@@ -2,12 +2,11 @@ package ar.uba.fi.mercadolibre.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import ar.uba.fi.mercadolibre.R;
 
-public class MainMenuActivity extends AppCompatActivity {
+public class MainMenuActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,5 +16,9 @@ public class MainMenuActivity extends AppCompatActivity {
 
     public void createArticle(View view) {
         startActivity(new Intent(getApplicationContext(), CreateArticleActivity.class));
+    }
+
+    public void listArticles(View view) {
+        startActivity(new Intent(getApplicationContext(), ListArticlesActivity.class));
     }
 }

@@ -26,4 +26,17 @@ public class Article {
         this.availableUnits = availableUnits;
         this.price = price;
     }
+
+    public String getName() {
+        return name;
+    }
+    public String getDescription() {
+        return description;
+    }
+    public int getAvailableUnits() {
+        return availableUnits;
+    }
+    public int getPrice() {
+        return price;
+    }
 }

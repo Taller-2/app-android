@@ -3,7 +3,6 @@ package ar.uba.fi.mercadolibre.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import com.firebase.ui.auth.AuthUI;
@@ -17,10 +16,7 @@ import com.google.firebase.auth.GetTokenResult;
 import java.util.Arrays;
 import java.util.List;
 
-import io.reactivex.disposables.CompositeDisposable;
-
-public class MainActivity extends AppCompatActivity {
-    protected CompositeDisposable compositeDisposable;
+public class MainActivity extends BaseActivity {
     private FirebaseAuth mAuth;
     private static final int RC_SIGN_IN = 123;
 
@@ -92,13 +88,5 @@ public class MainActivity extends AppCompatActivity {
         } else {  // Firebase login view
             this.setFirebaseLoginActivity();
         }
-    }
-
-    @Override
-    protected void onDestroy() {
-        if (!compositeDisposable.isDisposed()) {
-            compositeDisposable.dispose();
-        }
-        super.onDestroy();
     }
 }

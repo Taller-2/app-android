@@ -2,13 +2,11 @@ package ar.uba.fi.mercadolibre.activity;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import ar.uba.fi.mercadolibre.R;
 import ar.uba.fi.mercadolibre.controller.ControllerFactory;
@@ -18,7 +16,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class CreateArticleActivity extends AppCompatActivity {
+public class CreateArticleActivity extends BaseActivity {
     int[] textFieldIDs = {
             R.id.name,
             R.id.description,
@@ -65,14 +63,6 @@ public class CreateArticleActivity extends AppCompatActivity {
                 finish();
             }
         });
-    }
-
-    private void toast(int message) {
-        Toast.makeText(
-                getApplicationContext(),
-                getString(message),
-                Toast.LENGTH_SHORT
-        ).show();
     }
 
     private String getViewText(int viewID) {
