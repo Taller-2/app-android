@@ -3,7 +3,7 @@ package ar.uba.fi.mercadolibre.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Article {
+public class Article extends BaseModel {
     @SerializedName("name")
     @Expose
     private String name;
@@ -30,12 +30,15 @@ public class Article {
     public String getName() {
         return name;
     }
+
     public String getDescription() {
         return description;
     }
+
     public int getAvailableUnits() {
         return availableUnits;
     }
+
     public int getPrice() {
         return price;
     }

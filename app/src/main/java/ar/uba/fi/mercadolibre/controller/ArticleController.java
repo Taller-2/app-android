@@ -17,6 +17,6 @@ public interface ArticleController {
     @POST("article/")
     Call<Article> create(@Body Article article);
 
-    @DELETE("article/{id}")
-    Call<Article> destroy(@Path("id") int id);
+    @DELETE("article/{id}/")
+    Call<Object> destroy(@Path("id") String id);
 }
