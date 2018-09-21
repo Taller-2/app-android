@@ -8,6 +8,7 @@ import android.util.Log;
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.IdpResponse;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -15,6 +16,8 @@ import com.google.firebase.auth.GetTokenResult;
 
 import java.util.Arrays;
 import java.util.List;
+
+import ar.uba.fi.mercadolibre.client.RetrofitClient;
 
 public class MainActivity extends BaseActivity {
     private FirebaseAuth mAuth;
@@ -84,6 +87,13 @@ public class MainActivity extends BaseActivity {
 
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if (currentUser != null) {
+            currentUser.getIdToken(true).addOnSuccessListener(
+                    new OnSuccessListener<GetTokenResult>() {
+                        @Override
+                        public void onSuccess(GetTokenResult result) {
+                            RetrofitClient.firebaseToken = result.getToken();
+                        }
+                    });
             startActivity(new Intent(getApplicationContext(), MainMenuActivity.class));
         } else {  // Firebase login view
             this.setFirebaseLoginActivity();
