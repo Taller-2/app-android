@@ -33,6 +33,7 @@ dependencies {
     implementation 'io.reactivex.rxjava2:rxandroid:2.0.2'
     implementation 'io.reactivex.rxjava2:rxjava:2.1.13'
     implementation 'com.squareup.retrofit2:adapter-rxjava2:2.4.0'
+    implementation 'com.koushikdutta.ion:ion:2.2.1'
 
     implementation('com.mikepenz:materialdrawer:5.9.5@aar') {
         transitive = true

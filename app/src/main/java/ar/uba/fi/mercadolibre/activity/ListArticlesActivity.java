@@ -18,6 +18,11 @@ import retrofit2.Response;
 
 public class ListArticlesActivity extends BaseActivity {
     @Override
+    public int identifierForDrawer() {
+        return HOME_IDENTIFIER;
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_articles);

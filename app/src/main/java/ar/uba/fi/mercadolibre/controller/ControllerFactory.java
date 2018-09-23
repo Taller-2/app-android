@@ -12,4 +12,8 @@ public class ControllerFactory {
     public static ArticleController getArticleController() {
         return RetrofitClient.getClient(API_URL).create(ArticleController.class);
     }
+
+    public static AccountController getAccountController() {
+        return RetrofitClient.getClient(API_URL).create(AccountController.class);
+    }
 }

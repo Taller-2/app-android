@@ -1,12 +1,16 @@
 package ar.uba.fi.mercadolibre.activity;
 
+import android.content.Intent;
 import android.support.annotation.LayoutRes;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.koushikdutta.ion.Ion;
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.DrawerBuilder;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
@@ -14,11 +18,15 @@ import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 
 import ar.uba.fi.mercadolibre.R;
 
-public class BaseActivity extends AppCompatActivity {
+public abstract class BaseActivity extends AppCompatActivity {
     static final public boolean KEEP_DRAWER_OPEN_ON_ITEM_CLICK = false;
 
     static final public int HOME_IDENTIFIER = 1;
     static final public int MY_ACCOUNT_IDENTIFIER = 2;
+
+    public int identifierForDrawer() {
+        return HOME_IDENTIFIER;
+    }
 
     protected void toast(int message) {
         Toast.makeText(
@@ -75,7 +83,7 @@ public class BaseActivity extends AppCompatActivity {
                 .withTranslucentStatusBar(false)
                 .withCloseOnClick(true)
                 .withToolbar(toolbar)
-                .withSelectedItem(HOME_IDENTIFIER)
+                .withSelectedItem(identifierForDrawer())
                 .addDrawerItems(home, myAccount)
                 .withOnDrawerItemClickListener(drawerItemClickListener())
                 .build();
@@ -87,8 +95,10 @@ public class BaseActivity extends AppCompatActivity {
             public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
                 switch ((int) drawerItem.getIdentifier()) {
                     case HOME_IDENTIFIER:
+                        startActivity(new Intent(getApplicationContext(), MainMenuActivity.class));
                         break;
                     case MY_ACCOUNT_IDENTIFIER:
+                        startActivity(new Intent(getApplicationContext(), AccountDetailActivity.class));
                         break;
                     default:
                         break;
@@ -96,5 +106,18 @@ public class BaseActivity extends AppCompatActivity {
                 return KEEP_DRAWER_OPEN_ON_ITEM_CLICK;
             }
         };
+    }
+
+    public void fillTextView(int id, String text) {
+        ((TextView) findViewById(id)).setText(text);
+    }
+
+    public void fillImageViewWithURL(int id, String url) {
+        ImageView imageView = findViewById(id);
+        Ion.with(imageView)
+                .resize(imageView.getWidth(), imageView.getHeight())
+                .crossfade(true)
+                .fitXY()
+                .load(url);
     }
 }

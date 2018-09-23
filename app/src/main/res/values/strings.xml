@@ -16,4 +16,6 @@
     <string name="new_article">Nuevo Artículo</string>
     <string name="my_account">Mi cuenta</string>
     <string name="home">Inicio</string>
+    <string name="email">Email</string>
+    <string name="account_picture">Foto de Perfil</string>
 </resources>

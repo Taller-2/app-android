@@ -18,6 +18,11 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class CreateArticleActivity extends BaseActivity {
+    @Override
+    public int identifierForDrawer() {
+        return HOME_IDENTIFIER;
+    }
+
     int[] textFieldIDs = {
             R.id.name,
             R.id.description,

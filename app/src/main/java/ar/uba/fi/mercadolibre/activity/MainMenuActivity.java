@@ -7,6 +7,10 @@ import android.view.View;
 import ar.uba.fi.mercadolibre.R;
 
 public class MainMenuActivity extends BaseActivity {
+    @Override
+    public int identifierForDrawer() {
+        return HOME_IDENTIFIER;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

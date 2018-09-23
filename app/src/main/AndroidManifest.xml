@@ -9,8 +9,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/MaterialDrawerTheme.Light.DarkToolbar"
-        android:usesCleartextTraffic="true">
+        android:theme="@style/MaterialDrawerTheme.Light.DarkToolbar">
         <activity android:name=".activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -24,6 +23,8 @@
         <activity
             android:name=".activity.ListArticlesActivity"
             android:label="@string/articles" />
-        <activity android:name=".activity.BaseActivity" />
+        <activity
+            android:name=".activity.AccountDetailActivity"
+            android:label="@string/my_account" />
     </application>
 </manifest>
