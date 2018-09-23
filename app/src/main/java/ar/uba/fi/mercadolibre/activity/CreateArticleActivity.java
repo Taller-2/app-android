@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
@@ -51,14 +52,18 @@ public class CreateArticleActivity extends BaseActivity {
         ).enqueue(new Callback<Article>() {
             @Override
             public void onResponse(@NonNull Call<Article> call, @NonNull Response<Article> response) {
-                toast(response.isSuccessful() ?
-                        R.string.publish_article_success :
-                        R.string.publish_article_error);
+                if (response.isSuccessful()) {
+                    toast(R.string.publish_article_success);
+                } else {
+                    toast(R.string.publish_article_error);
+                    Log.e("Article POST", response.toString());
+                }
                 finish();
             }
 
             @Override
             public void onFailure(@NonNull Call<Article> call, @NonNull Throwable t) {
+                Log.e("Article POST", t.toString());
                 toast(R.string.publish_article_error);
                 finish();
             }
