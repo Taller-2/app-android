@@ -14,4 +14,6 @@
     <string name="delete">Eliminar</string>
     <string name="articles">Artículos</string>
     <string name="new_article">Nuevo Artículo</string>
+    <string name="my_account">Mi cuenta</string>
+    <string name="home">Inicio</string>
 </resources>
