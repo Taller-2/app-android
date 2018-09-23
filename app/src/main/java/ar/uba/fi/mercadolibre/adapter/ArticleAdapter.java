@@ -2,6 +2,7 @@ package ar.uba.fi.mercadolibre.adapter;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,17 +49,20 @@ public class ArticleAdapter extends ArrayAdapter<Article> {
                                 article.getID()
                         ).enqueue(new Callback<Object>() {
                             @Override
-                            public void onResponse(Call<Object> call, Response<Object> response) {
+                            public void onResponse(@NonNull Call<Object> call, @NonNull Response<Object> response) {
                                 if (!response.isSuccessful()) {
                                     onDeleteFailure();
+                                    Log.e("Article delete", response.errorBody().toString());
                                     return;
                                 }
                                 onDeleteSuccess(article);
                             }
 
                             @Override
-                            public void onFailure(Call<Object> call, Throwable t) {
+                            public void onFailure(@NonNull Call<Object> call, @NonNull Throwable t) {
                                 onDeleteFailure();
+                                Log.e("Article delete", t.getMessage());
+
                             }
                         });
                     }

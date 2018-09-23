@@ -2,6 +2,7 @@ package ar.uba.fi.mercadolibre.activity;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.util.Log;
 import android.widget.ListView;
 
 import java.util.ArrayList;
@@ -26,6 +27,7 @@ public class ListArticlesActivity extends BaseActivity {
             public void onResponse(@NonNull Call<List<Article>> call, @NonNull Response<List<Article>> response) {
                 if (!response.isSuccessful()) {
                     toast(R.string.generic_error);
+                    Log.e("Articles GET", response.errorBody().toString());
                     return;
                 }
                 List<Article> body = response.body();
@@ -37,6 +39,7 @@ public class ListArticlesActivity extends BaseActivity {
 
             @Override
             public void onFailure(@NonNull Call<List<Article>> call, @NonNull Throwable t) {
+                Log.e("Articles GET", t.getMessage());
                 toast(R.string.generic_error);
             }
         });
