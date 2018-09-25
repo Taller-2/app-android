@@ -20,11 +20,22 @@ public class Article extends BaseModel {
     @Expose
     private int price;
 
-    public Article(String name, String description, int availableUnits, int price) {
+    @SerializedName("latitude")
+    @Expose
+    private double latitude;
+
+    @SerializedName("longitude")
+    @Expose
+    private double longitude;
+
+    public Article(String name, String description, int availableUnits, int price,
+                   double latitude, double longitude) {
         this.name = name;
         this.description = description;
         this.availableUnits = availableUnits;
         this.price = price;
+        this.latitude = latitude;
+        this.longitude = longitude;
     }
 
     public String getName() {
