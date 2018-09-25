@@ -1,6 +1,7 @@
 package ar.uba.fi.mercadolibre.activity;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
@@ -65,43 +66,46 @@ public class CreateArticleActivity extends BaseActivity {
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (permissions[0].equals(ACCESS_COARSE_LOCATION) && creating) {
-            // Estabamos creando un article, volvemos a la lógica de creación
-            setupArticleData();
+        for (String permission :
+                permissions) {
+            if (permission.equals(ACCESS_COARSE_LOCATION) && creating) {
+                // Back to the create article logic
+                setupArticleData();
+            }
         }
     }
 
     public void createArticle(View view) {
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        if (!hasCoarseLocationPermission()) {
             creating = true;
             ActivityCompat.requestPermissions(this, new String[]{ACCESS_COARSE_LOCATION}, 0);
-        } else {
-            setupArticleData();
+            return;
         }
-
+        setupArticleData();
     }
 
+    @SuppressLint("MissingPermission")
     private void setupArticleData() {
-        // Obtengo location (lat + lon) para los datos geográficos del article
-        Task<Location> t;
-        if (ActivityCompat.checkSelfPermission(this, ACCESS_COARSE_LOCATION) !=
-                PackageManager.PERMISSION_GRANTED) {
-            return;  // Sólo llamar a esta función si hay permisos!
-        }
-        t = mFusedLocationClient.getLastLocation();
+        // Precondition: Location permission already granted
+        Task<Location> t = mFusedLocationClient.getLastLocation();
         t.addOnSuccessListener(this, new OnSuccessListener<Location>() {
             @Override
             public void onSuccess(Location location) {
-                // Got last known location. In some rare situations this can be null.
-                if (location != null) {
-                    postArticle(location);
-                } else {
+                if (location == null) {
                     Log.w("Article POST", "Location == null");
                     toast(R.string.publish_article_error);
                     finish();
+                    return;
                 }
+
+                postArticle(location);
             }
         });
+    }
+
+    private boolean hasCoarseLocationPermission() {
+        return ActivityCompat.checkSelfPermission(this, ACCESS_COARSE_LOCATION) !=
+                PackageManager.PERMISSION_GRANTED;
     }
 
     private void postArticle(Location location) {
