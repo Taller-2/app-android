@@ -95,6 +95,7 @@ public class MainActivity extends BaseActivity {
                         }
                     });
             startActivity(new Intent(getApplicationContext(), MainMenuActivity.class));
+            finish();
         } else {  // Firebase login view
             this.setFirebaseLoginActivity();
         }
