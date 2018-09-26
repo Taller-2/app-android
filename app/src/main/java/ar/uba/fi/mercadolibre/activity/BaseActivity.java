@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.annotation.LayoutRes;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.SparseArray;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -24,8 +25,24 @@ public abstract class BaseActivity extends AppCompatActivity {
     static final public int HOME_IDENTIFIER = 1;
     static final public int MY_ACCOUNT_IDENTIFIER = 2;
 
+    private static final SparseArray<Class<?>> activityClasses =
+            getActivitiesByIdentifier();
+
+    private static SparseArray<Class<?>> getActivitiesByIdentifier() {
+        SparseArray<Class<?>> activities = new SparseArray<>();
+        activities.append(HOME_IDENTIFIER, MainMenuActivity.class);
+        activities.append(MY_ACCOUNT_IDENTIFIER, AccountDetailActivity.class);
+        return activities;
+    }
+
     public int identifierForDrawer() {
         return HOME_IDENTIFIER;
+    }
+
+    @Override
+    public void startActivity(Intent intent) {
+        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        super.startActivity(intent);
     }
 
     protected void toast(int message) {
@@ -93,16 +110,10 @@ public abstract class BaseActivity extends AppCompatActivity {
         return new Drawer.OnDrawerItemClickListener() {
             @Override
             public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
-                switch ((int) drawerItem.getIdentifier()) {
-                    case HOME_IDENTIFIER:
-                        startActivity(new Intent(getApplicationContext(), MainMenuActivity.class));
-                        break;
-                    case MY_ACCOUNT_IDENTIFIER:
-                        startActivity(new Intent(getApplicationContext(), AccountDetailActivity.class));
-                        break;
-                    default:
-                        break;
-                }
+                startActivity(new Intent(
+                        getApplicationContext(),
+                        activityClasses.get((int) drawerItem.getIdentifier())
+                ));
                 return KEEP_DRAWER_OPEN_ON_ITEM_CLICK;
             }
         };
