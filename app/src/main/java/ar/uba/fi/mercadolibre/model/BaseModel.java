@@ -6,9 +6,9 @@ import com.google.gson.annotations.SerializedName;
 public class BaseModel {
     @SerializedName("_id")
     @Expose
-    private ID id;
+    private String id;
 
     public String getID() {
-        return id.getID();
+        return id;
     }
 }
