@@ -5,13 +5,10 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 import android.widget.ListView;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import ar.uba.fi.mercadolibre.R;
 import ar.uba.fi.mercadolibre.adapter.ArticleAdapter;
 import ar.uba.fi.mercadolibre.controller.ControllerFactory;
-import ar.uba.fi.mercadolibre.model.Article;
+import ar.uba.fi.mercadolibre.model.BaseResponse;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -27,23 +24,22 @@ public class ListArticlesActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_articles);
 
-        ControllerFactory.getArticleController().list().enqueue(new Callback<List<Article>>() {
+        ControllerFactory.getArticleController().list().enqueue(new Callback<BaseResponse>() {
             @Override
-            public void onResponse(@NonNull Call<List<Article>> call, @NonNull Response<List<Article>> response) {
+            public void onResponse(@NonNull Call<BaseResponse> call, @NonNull Response<BaseResponse> response) {
                 if (!response.isSuccessful()) {
                     toast(R.string.generic_error);
                     Log.e("Articles GET", response.errorBody().toString());
                     return;
                 }
-                List<Article> body = response.body();
-                if (body == null) body = new ArrayList<>();
+                BaseResponse body = response.body();
                 ((ListView) findViewById(R.id.articleList)).setAdapter(
-                        new ArticleAdapter(ListArticlesActivity.this, body)
+                        new ArticleAdapter(ListArticlesActivity.this, body.getData())
                 );
             }
 
             @Override
-            public void onFailure(@NonNull Call<List<Article>> call, @NonNull Throwable t) {
+            public void onFailure(@NonNull Call<BaseResponse> call, @NonNull Throwable t) {
                 Log.e("Articles GET", t.getMessage());
                 toast(R.string.generic_error);
             }
