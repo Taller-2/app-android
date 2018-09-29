@@ -14,6 +14,7 @@ import android.widget.Toast;
 import com.koushikdutta.ion.Ion;
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.DrawerBuilder;
+import com.mikepenz.materialdrawer.model.DividerDrawerItem;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 
@@ -24,6 +25,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     static final public int HOME_IDENTIFIER = 1;
     static final public int MY_ACCOUNT_IDENTIFIER = 2;
+    static final public int SIGN_OUT_IDENTIFIER = 3;
 
     private static final SparseArray<Class<?>> activityClasses =
             getActivitiesByIdentifier();
@@ -32,6 +34,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         SparseArray<Class<?>> activities = new SparseArray<>();
         activities.append(HOME_IDENTIFIER, MainMenuActivity.class);
         activities.append(MY_ACCOUNT_IDENTIFIER, AccountDetailActivity.class);
+        activities.append(SIGN_OUT_IDENTIFIER, SignOutActivity.class);
         return activities;
     }
 
@@ -92,6 +95,10 @@ public abstract class BaseActivity extends AppCompatActivity {
                 .withIdentifier(MY_ACCOUNT_IDENTIFIER)
                 .withName(R.string.my_account)
                 .withIcon(R.drawable.ic_person_black_24dp);
+        PrimaryDrawerItem signOut = new PrimaryDrawerItem()
+                .withIdentifier(SIGN_OUT_IDENTIFIER)
+                .withName(R.string.sign_out)
+                .withIcon(R.drawable.ic_exit_to_app_black_24dp);
         new DrawerBuilder()
                 .withActivity(this)
                 .withActionBarDrawerToggle(true)
@@ -101,7 +108,7 @@ public abstract class BaseActivity extends AppCompatActivity {
                 .withCloseOnClick(true)
                 .withToolbar(toolbar)
                 .withSelectedItem(identifierForDrawer())
-                .addDrawerItems(home, myAccount)
+                .addDrawerItems(home, myAccount, new DividerDrawerItem(), signOut)
                 .withOnDrawerItemClickListener(drawerItemClickListener())
                 .build();
     }
