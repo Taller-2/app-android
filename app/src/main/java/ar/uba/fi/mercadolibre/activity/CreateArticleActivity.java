@@ -1,6 +1,5 @@
 package ar.uba.fi.mercadolibre.activity;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -93,7 +92,7 @@ public class CreateArticleActivity extends BaseActivity {
             public void onSuccess(Location location) {
                 if (location == null) {
                     Log.w("Article POST", "Location == null");
-                    toast(R.string.publish_article_error);
+                    toast(R.string.location_is_mandatory);
                     finish();
                     return;
                 }
@@ -104,8 +103,10 @@ public class CreateArticleActivity extends BaseActivity {
     }
 
     private boolean hasCoarseLocationPermission() {
-        return ActivityCompat.checkSelfPermission(this, ACCESS_COARSE_LOCATION) !=
-                PackageManager.PERMISSION_GRANTED;
+        return ActivityCompat.checkSelfPermission(
+                this,
+                ACCESS_COARSE_LOCATION
+        ) == PackageManager.PERMISSION_GRANTED;
     }
 
     private void postArticle(Location location) {

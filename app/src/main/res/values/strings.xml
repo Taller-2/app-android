@@ -8,6 +8,7 @@
     <string name="publish_article_success">Publicado!</string>
     <string name="delete_success">Eliminado!</string>
     <string name="publish_article_error">Error al publicar</string>
+    <string name="location_is_mandatory">Es necesario activar la ubicación</string>
     <string name="signin_success">Success! You logged in!</string>
     <string name="list_articles">Listar artículos</string>
     <string name="generic_error">Hubo un error</string>
