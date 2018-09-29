@@ -5,10 +5,15 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 import android.widget.ListView;
 
+import java.util.List;
+
 import ar.uba.fi.mercadolibre.R;
 import ar.uba.fi.mercadolibre.adapter.ArticleAdapter;
+import ar.uba.fi.mercadolibre.controller.APIResponse;
 import ar.uba.fi.mercadolibre.controller.ControllerFactory;
-import ar.uba.fi.mercadolibre.model.BaseResponse;
+import ar.uba.fi.mercadolibre.controller.InvalidResponseException;
+import ar.uba.fi.mercadolibre.model.Article;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -24,22 +29,37 @@ public class ListArticlesActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_articles);
 
-        ControllerFactory.getArticleController().list().enqueue(new Callback<BaseResponse>() {
+        ControllerFactory.getArticleController().list().enqueue(new Callback<APIResponse<List<Article>>>() {
             @Override
-            public void onResponse(@NonNull Call<BaseResponse> call, @NonNull Response<BaseResponse> response) {
+            public void onResponse(@NonNull Call<APIResponse<List<Article>>> call,
+                                   @NonNull Response<APIResponse<List<Article>>> response) {
                 if (!response.isSuccessful()) {
-                    toast(R.string.generic_error);
-                    Log.e("Articles GET", response.errorBody().toString());
+                    ResponseBody errorBody = response.errorBody();
+                    onFailure(call, new Exception(
+                            errorBody == null ? "Error body was null" : errorBody.toString()
+                    ));
                     return;
                 }
-                BaseResponse body = response.body();
+                APIResponse<List<Article>> body = response.body();
+                if (body == null) {
+                    onFailure(call, new Exception("Response body was null"));
+                    return;
+                }
+                List<Article> articles;
+                try {
+                    articles = body.getData();
+                } catch (InvalidResponseException e) {
+                    onFailure(call, e);
+                    return;
+                }
                 ((ListView) findViewById(R.id.articleList)).setAdapter(
-                        new ArticleAdapter(ListArticlesActivity.this, body.getData())
+                        new ArticleAdapter(ListArticlesActivity.this, articles)
                 );
             }
 
             @Override
-            public void onFailure(@NonNull Call<BaseResponse> call, @NonNull Throwable t) {
+            public void onFailure(@NonNull Call<APIResponse<List<Article>>> call,
+                                  @NonNull Throwable t) {
                 Log.e("Articles GET", t.getMessage());
                 toast(R.string.generic_error);
             }
