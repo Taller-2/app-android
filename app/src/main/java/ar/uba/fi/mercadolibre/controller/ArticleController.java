@@ -1,7 +1,7 @@
 package ar.uba.fi.mercadolibre.controller;
 
 import ar.uba.fi.mercadolibre.model.Article;
-import ar.uba.fi.mercadolibre.model.ArticleBase;
+import ar.uba.fi.mercadolibre.model.BaseResponse;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
@@ -11,7 +11,7 @@ import retrofit2.http.Path;
 
 public interface ArticleController {
     @GET("article/")
-    Call<ArticleBase> list();
+    Call<BaseResponse> list();
 
     @POST("article/")
     Call<Article> create(@Body Article article);
