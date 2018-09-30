@@ -26,6 +26,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     static final public int HOME_IDENTIFIER = 1;
     static final public int MY_ACCOUNT_IDENTIFIER = 2;
     static final public int SIGN_OUT_IDENTIFIER = 3;
+    static final public int MY_ITEMS_IDENTIFIER = 4;
 
     private static final SparseArray<Class<?>> activityClasses =
             getActivitiesByIdentifier();
@@ -35,6 +36,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         activities.append(HOME_IDENTIFIER, MainMenuActivity.class);
         activities.append(MY_ACCOUNT_IDENTIFIER, AccountDetailActivity.class);
         activities.append(SIGN_OUT_IDENTIFIER, SignOutActivity.class);
+        activities.append(MY_ITEMS_IDENTIFIER, UserArticlesActivity.class);
         return activities;
     }
 
@@ -99,6 +101,10 @@ public abstract class BaseActivity extends AppCompatActivity {
                 .withIdentifier(SIGN_OUT_IDENTIFIER)
                 .withName(R.string.sign_out)
                 .withIcon(R.drawable.ic_exit_to_app_black_24dp);
+        PrimaryDrawerItem myItems = new PrimaryDrawerItem()
+                .withIdentifier(MY_ITEMS_IDENTIFIER)
+                .withName(R.string.my_items)
+                .withIcon(R.drawable.ic_baseline_loyalty_24px);
         new DrawerBuilder()
                 .withActivity(this)
                 .withActionBarDrawerToggle(true)
@@ -108,7 +114,7 @@ public abstract class BaseActivity extends AppCompatActivity {
                 .withCloseOnClick(true)
                 .withToolbar(toolbar)
                 .withSelectedItem(identifierForDrawer())
-                .addDrawerItems(home, myAccount, new DividerDrawerItem(), signOut)
+                .addDrawerItems(home, myAccount, myItems, new DividerDrawerItem(), signOut)
                 .withOnDrawerItemClickListener(drawerItemClickListener())
                 .build();
     }

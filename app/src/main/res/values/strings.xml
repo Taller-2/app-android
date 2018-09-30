@@ -20,4 +20,7 @@
     <string name="email">Email</string>
     <string name="account_picture">Foto de Perfil</string>
     <string name="sign_out">Cerrar sesión</string>
+    <string name="user_articles">Mis artículos</string>
+    <string name="my_items">Mis artículos</string>
+    <string name="empty_list">No tenés artículos bajo tu usuario. Publica uno nuevo!</string>
 </resources>

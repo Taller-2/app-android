@@ -30,5 +30,8 @@
             android:name=".activity.AccountDetailActivity"
             android:label="@string/my_account" />
         <activity android:name=".activity.SignOutActivity" />
+        <activity
+            android:name=".activity.UserArticlesActivity"
+            android:label="@string/user_articles"/>
     </application>
 </manifest>

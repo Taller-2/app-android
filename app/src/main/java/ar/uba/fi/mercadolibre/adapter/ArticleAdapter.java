@@ -21,10 +21,11 @@ import retrofit2.Response;
 
 public class ArticleAdapter extends ArrayAdapter<Article> {
     private Context context;
-
-    public ArticleAdapter(Context context, List<Article> articles) {
+    private boolean showDeleteButton;
+    public ArticleAdapter(Context context, List<Article> articles, boolean show_delete) {
         super(context, 0, articles);
         this.context = context;
+        this.showDeleteButton = show_delete;
     }
 
     @NonNull
@@ -39,8 +40,17 @@ public class ArticleAdapter extends ArrayAdapter<Article> {
         ((TextView) view.findViewById(R.id.item_name)).setText(article.getName());
         ((TextView) view.findViewById(R.id.item_description)).setText(article.getDescription());
         ((TextView) view.findViewById(R.id.item_available_units)).setText(Integer.toString(article.getAvailableUnits()));
-        ((TextView) view.findViewById(R.id.item_price)).setText(Integer.toString(article.getPrice()));
+        ((TextView) view.findViewById(R.id.item_price)).setText(Double.toString(article.getPrice()));
 
+        if (showDeleteButton) {
+            addDeleteButton(view, article);
+        } else {
+            view.findViewById(R.id.delete_article).setVisibility(View.INVISIBLE);
+        }
+        return view;
+    }
+
+    private void addDeleteButton(View view, final Article article) {
         view.findViewById(R.id.delete_article).setOnClickListener(
                 new View.OnClickListener() {
                     @Override
@@ -68,8 +78,6 @@ public class ArticleAdapter extends ArrayAdapter<Article> {
                     }
                 }
         );
-
-        return view;
     }
 
     private void onDeleteSuccess(Article deletedArticle) {

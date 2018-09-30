@@ -9,10 +9,14 @@ import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 public interface ArticleController {
     @GET("article/")
     Call<APIResponse<List<Article>>> list();
+
+    @GET("article/")
+    Call<APIResponse<List<Article>>> list_by_user(@Query("user") String user);
 
     @POST("article/")
     Call<Article> create(@Body Article article);

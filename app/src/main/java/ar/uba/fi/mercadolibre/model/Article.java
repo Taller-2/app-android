@@ -18,7 +18,7 @@ public class Article extends BaseModel {
 
     @SerializedName("price")
     @Expose
-    private int price;
+    private double price;
 
     @SerializedName("latitude")
     @Expose
@@ -50,7 +50,7 @@ public class Article extends BaseModel {
         return availableUnits;
     }
 
-    public int getPrice() {
+    public double getPrice() {
         return price;
     }
 }
