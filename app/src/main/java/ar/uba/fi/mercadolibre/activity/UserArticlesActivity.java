@@ -33,10 +33,16 @@ public class UserArticlesActivity extends BaseActivity {
     }
 
     void getAccount() {
-        ControllerFactory.getAccountController().currentAccount().enqueue(new Callback<Account>() {
+        ControllerFactory.getAccountController().currentAccount().enqueue(new Callback<APIResponse<Account>>() {
             @Override
-            public void onResponse(@NonNull Call<Account> call, @NonNull Response<Account> response) {
-                Account account = response.body();
+            public void onResponse(@NonNull Call<APIResponse<Account>> call, @NonNull Response<APIResponse<Account>> response) {
+                Account account = null;
+                try {
+                    if (response.body() != null) account = response.body().getData();
+                } catch (InvalidResponseException e) {
+                    onFailure(call, e);
+                    return;
+                }
                 if (!response.isSuccessful() || account == null) {
                     onFetchFailure();
                     ResponseBody body = response.errorBody();
@@ -50,12 +56,13 @@ public class UserArticlesActivity extends BaseActivity {
             }
 
             @Override
-            public void onFailure(@NonNull Call<Account> call, @NonNull Throwable t) {
+            public void onFailure(@NonNull Call<APIResponse<Account>> call, @NonNull Throwable t) {
                 onFetchFailure();
                 Log.e("Account fetch", t.getMessage());
             }
         });
     }
+
     private void onFetchFailure() {
         toast(R.string.generic_error);
         finish();
@@ -63,7 +70,7 @@ public class UserArticlesActivity extends BaseActivity {
 
     private void fillList(Account account) {
         Log.d("UAA", account.getUserID());
-        ControllerFactory.getArticleController().list_by_user(account.getUserID()).enqueue(new Callback<APIResponse<List<Article>>>() {
+        ControllerFactory.getArticleController().listByUser(account.getUserID()).enqueue(new Callback<APIResponse<List<Article>>>() {
             @Override
             public void onResponse(@NonNull Call<APIResponse<List<Article>>> call,
                                    @NonNull Response<APIResponse<List<Article>>> response) {

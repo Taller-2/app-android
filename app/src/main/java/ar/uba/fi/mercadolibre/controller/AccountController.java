@@ -6,5 +6,5 @@ import retrofit2.http.GET;
 
 public interface AccountController {
     @GET("account/current/")
-    Call<Account> currentAccount();
+    Call<APIResponse<Account>> currentAccount();
 }

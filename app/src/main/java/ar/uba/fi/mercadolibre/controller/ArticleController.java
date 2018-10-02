@@ -16,7 +16,7 @@ public interface ArticleController {
     Call<APIResponse<List<Article>>> list();
 
     @GET("article/")
-    Call<APIResponse<List<Article>>> list_by_user(@Query("user") String user);
+    Call<APIResponse<List<Article>>> listByUser(@Query("user") String user);
 
     @POST("article/")
     Call<Article> create(@Body Article article);

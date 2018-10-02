@@ -5,7 +5,9 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 
 import ar.uba.fi.mercadolibre.R;
+import ar.uba.fi.mercadolibre.controller.APIResponse;
 import ar.uba.fi.mercadolibre.controller.ControllerFactory;
+import ar.uba.fi.mercadolibre.controller.InvalidResponseException;
 import ar.uba.fi.mercadolibre.model.Account;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -23,10 +25,16 @@ public class AccountDetailActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account_detail);
 
-        ControllerFactory.getAccountController().currentAccount().enqueue(new Callback<Account>() {
+        ControllerFactory.getAccountController().currentAccount().enqueue(new Callback<APIResponse<Account>>() {
             @Override
-            public void onResponse(@NonNull Call<Account> call, @NonNull Response<Account> response) {
-                Account account = response.body();
+            public void onResponse(@NonNull Call<APIResponse<Account>> call, @NonNull Response<APIResponse<Account>> response) {
+                Account account = null;
+                try {
+                    if (response.body() != null) account = response.body().getData();
+                } catch (InvalidResponseException e) {
+                    onFailure(call, e);
+                    return;
+                }
                 if (!response.isSuccessful() || account == null) {
                     onFetchFailure();
                     ResponseBody body = response.errorBody();
@@ -40,7 +48,7 @@ public class AccountDetailActivity extends BaseActivity {
             }
 
             @Override
-            public void onFailure(@NonNull Call<Account> call, @NonNull Throwable t) {
+            public void onFailure(@NonNull Call<APIResponse<Account>> call, @NonNull Throwable t) {
                 onFetchFailure();
                 Log.e("Account fetch", t.getMessage());
             }
