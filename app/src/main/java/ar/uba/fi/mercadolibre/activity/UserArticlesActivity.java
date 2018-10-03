@@ -36,29 +36,14 @@ public class UserArticlesActivity extends BaseActivity {
         ControllerFactory.getAccountController().currentAccount().enqueue(new Callback<APIResponse<Account>>() {
             @Override
             public void onResponse(@NonNull Call<APIResponse<Account>> call, @NonNull Response<APIResponse<Account>> response) {
-                Account account = null;
-                try {
-                    if (response.body() != null) account = response.body().getData();
-                } catch (InvalidResponseException e) {
-                    onFailure(call, e);
-                    return;
-                }
-                if (!response.isSuccessful() || account == null) {
-                    onFetchFailure();
-                    ResponseBody body = response.errorBody();
-                    Log.e(
-                            "Account fetch",
-                            body != null ? body.toString() : "Empty response"
-                    );
-                    return;
-                }
+                Account account = getData(response);
+                if (account == null) return;
                 fillList(account);
             }
 
             @Override
             public void onFailure(@NonNull Call<APIResponse<Account>> call, @NonNull Throwable t) {
-                onFetchFailure();
-                Log.e("Account fetch", t.getMessage());
+                onGetDataFailure(t);
             }
         });
     }
