@@ -136,9 +136,7 @@ public class CreateArticleActivity extends BaseActivity {
 
             @Override
             public void onFailure(@NonNull Call<Article> call, @NonNull Throwable t) {
-                Log.e("Article POST", t.toString());
-                toast(R.string.publish_article_error);
-                finish();
+                onGetDataFailure(t);
             }
         });
     }

@@ -74,28 +74,10 @@ public class UserArticlesActivity extends BaseActivity {
             @Override
             public void onResponse(@NonNull Call<APIResponse<List<Article>>> call,
                                    @NonNull Response<APIResponse<List<Article>>> response) {
-                if (!response.isSuccessful()) {
-                    ResponseBody errorBody = response.errorBody();
-                    onFailure(call, new Exception(
-                            errorBody == null ? "Error body was null" : errorBody.toString()
-                    ));
-                    return;
-                }
-                APIResponse<List<Article>> body = response.body();
-                if (body == null) {
-                    onFailure(call, new Exception("Response body was null"));
-                    return;
-                }
-                List<Article> articles;
-                try {
-                    articles = body.getData();
-                } catch (InvalidResponseException e) {
-                    onFailure(call, e);
-                    return;
-                }
-                Log.d("Articles GET", "success");
+                List<Article> articles = getData(response);
+                if (articles == null) return;
                 if (articles.isEmpty()) {
-                    toast(R.string.empty_list);
+                    toast(R.string.user_has_no_articles);
                     return;
                 }
                 ((ListView) findViewById(R.id.articleList)).setAdapter(
