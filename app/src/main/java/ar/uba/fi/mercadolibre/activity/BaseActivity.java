@@ -2,8 +2,10 @@ package ar.uba.fi.mercadolibre.activity;
 
 import android.content.Intent;
 import android.support.annotation.LayoutRes;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.util.SparseArray;
 import android.view.View;
 import android.widget.ImageView;
@@ -19,6 +21,10 @@ import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 
 import ar.uba.fi.mercadolibre.R;
+import ar.uba.fi.mercadolibre.controller.APIResponse;
+import ar.uba.fi.mercadolibre.controller.InvalidResponseException;
+import okhttp3.ResponseBody;
+import retrofit2.Response;
 
 public abstract class BaseActivity extends AppCompatActivity {
     static final public boolean KEEP_DRAWER_OPEN_ON_ITEM_CLICK = false;
@@ -143,5 +149,42 @@ public abstract class BaseActivity extends AppCompatActivity {
                 .crossfade(true)
                 .fitXY()
                 .load(url);
+    }
+
+    protected <Data> Data getDataOrThrowException(
+            @NonNull Response<APIResponse<Data>> response
+    ) throws InvalidResponseException {
+        if (!response.isSuccessful()) {
+            ResponseBody errorBody = response.errorBody();
+            throw new InvalidResponseException(
+                    errorBody == null ? "Error body was null" : errorBody.toString()
+            );
+        }
+        APIResponse<Data> body = response.body();
+        if (body == null) {
+            throw new InvalidResponseException("Response body was null");
+        }
+        return body.getData();
+    }
+
+    /**
+     * Tries to return data wrapped by APIResponse.
+     * If it can't, it will call onGetDataFailure and return null.
+     *
+     * @return  Data wrapped by APIResponse or null if there was an error
+     */
+    protected <Data> Data getData(@NonNull Response<APIResponse<Data>> response) {
+        try {
+            return getDataOrThrowException(response);
+        } catch (InvalidResponseException e) {
+            onGetDataFailure(e);
+            return null;
+        }
+    }
+
+    protected void onGetDataFailure(@NonNull Throwable t) {
+        Log.e("onGetDataFailure", t.getMessage());
+        toast(R.string.generic_error);
+        finish();
     }
 }

@@ -20,9 +20,8 @@ public class APIResponse<Data> {
 
     @NonNull
     public Data getData() throws InvalidResponseException {
-        if (!ok || data == null) {
-            throw new InvalidResponseException();
-        }
+        if (!ok) throw new InvalidResponseException("'ok' was false");
+        if (data == null) throw new InvalidResponseException("'data' was null");
         return data;
     }
 }
