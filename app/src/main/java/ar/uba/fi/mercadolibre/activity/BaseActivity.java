@@ -1,6 +1,7 @@
 package ar.uba.fi.mercadolibre.activity;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -13,6 +14,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.GetTokenResult;
 import com.koushikdutta.ion.Ion;
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.DrawerBuilder;
@@ -21,6 +27,7 @@ import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 
 import ar.uba.fi.mercadolibre.R;
+import ar.uba.fi.mercadolibre.client.RetrofitClient;
 import ar.uba.fi.mercadolibre.controller.APIResponse;
 import ar.uba.fi.mercadolibre.controller.InvalidResponseException;
 import okhttp3.ResponseBody;
@@ -54,6 +61,22 @@ public abstract class BaseActivity extends AppCompatActivity {
     public void startActivity(Intent intent) {
         intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
         super.startActivity(intent);
+    }
+
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        FirebaseUser mUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (mUser != null) {
+            mUser.getIdToken(true).addOnCompleteListener(new OnCompleteListener<GetTokenResult>() {
+                public void onComplete(@NonNull Task<GetTokenResult> task) {
+                    if (task.isSuccessful()) {
+                        RetrofitClient.firebaseToken = task.getResult().getToken();
+                    }
+                }
+            });
+        }
     }
 
     protected void toast(int message) {
