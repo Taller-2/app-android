@@ -14,7 +14,7 @@
     <string name="signin_success">Success! You logged in!</string>
     <string name="list_articles">Listar artículos</string>
     <string name="generic_error">Hubo un error</string>
-    <string name="delete">Eliminar</string>
+    <string name="article_edit">Editar</string>
     <string name="articles">Artículos</string>
     <string name="new_article">Nuevo Artículo</string>
     <string name="my_account">Mi cuenta</string>
@@ -26,4 +26,7 @@
     <string name="my_items">Mis artículos</string>
     <string name="no_results">No hay resultados</string>
     <string name="user_has_no_articles">No tenés artículos bajo tu usuario. Publica uno nuevo!</string>
+    <string name="edit_article_save">Guardar</string>
+    <string name="article_delete">Borrar articulo</string>
+    <string name="edit_article_image_desc">Imagen del articulo</string>
 </resources>

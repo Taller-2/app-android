@@ -84,9 +84,9 @@
     </TableLayout>
 
     <Button
-        android:id="@+id/delete_article"
+        android:id="@+id/edit_article"
         android:layout_width="0dp"
-        android:layout_weight=".30"
         android:layout_height="wrap_content"
-        android:text="@string/delete" />
+        android:layout_weight=".30"
+        android:text="@string/article_edit" />
 </LinearLayout>
