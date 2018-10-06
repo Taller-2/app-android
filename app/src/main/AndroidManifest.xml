@@ -27,7 +27,7 @@
             android:name=".activity.ListArticlesActivity"
             android:label="@string/articles" />
         <activity
-            android:name=".activity.AccountDetailActivity"
+            android:name=".activity.AccountActivity"
             android:label="@string/my_account" />
         <activity android:name=".activity.SignOutActivity" />
         <activity

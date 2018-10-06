@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".activity.AccountDetailActivity">
+    tools:context=".activity.AccountActivity">
 
     <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
@@ -26,6 +26,7 @@
         </TableRow>
 
         <TableRow
+            android:padding="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -42,9 +43,16 @@
                 android:layout_height="wrap_content"
                 android:layout_weight=".70" />
 
+            <ImageButton
+                android:onClick="onChangeName"
+                android:src="@drawable/ic_edit_black_24dp"
+                android:contentDescription="@string/edit">
+            </ImageButton>
+
         </TableRow>
 
         <TableRow
+            android:padding="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -60,6 +68,12 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight=".70" />
+
+            <ImageButton
+                android:onClick="onChangeEmail"
+                android:src="@drawable/ic_edit_black_24dp"
+                android:contentDescription="@string/edit">
+            </ImageButton>
         </TableRow>
 
     </TableLayout>

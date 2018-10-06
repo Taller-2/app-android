@@ -19,6 +19,7 @@ public class Account {
     @SerializedName("user_id")
     @Expose
     private String userID;
+
     public String getEmail() {
         return email;
     }
@@ -33,5 +34,13 @@ public class Account {
 
     public String getUserID() {
         return userID;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }
