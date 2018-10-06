@@ -26,6 +26,7 @@ import com.mikepenz.materialdrawer.model.DividerDrawerItem;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 
+import java.io.IOError;
 import java.io.IOException;
 
 import ar.uba.fi.mercadolibre.R;
@@ -180,13 +181,14 @@ public abstract class BaseActivity extends AppCompatActivity {
             @NonNull Response<APIResponse<Data>> response
     ) throws InvalidResponseException {
         if (!response.isSuccessful()) {
+            ResponseBody errorBody = response.errorBody();
+            String message;
             try {
-                ResponseBody errorBody = response.errorBody();
-                String message = errorBody == null ? "Error body was null" : errorBody.string();
-                throw new InvalidResponseException(message);
+                message  = errorBody.string();
             } catch (IOException e) {
-                throw new InvalidResponseException("IOException when parsing error body");
+                message = "Error body was null";
             }
+            throw new InvalidResponseException(message);
         }
         APIResponse<Data> body = response.body();
         if (body == null) throw new InvalidResponseException("Response body was null");
