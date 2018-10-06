@@ -1,12 +1,21 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal">
 
+    <ImageView
+        android:id="@+id/list_article_image"
+        android:layout_width="25dp"
+        android:layout_height="100dp"
+        android:layout_weight="1"
+        app:srcCompat="@android:drawable/ic_menu_camera"
+        android:contentDescription="@string/list_article_image" />
+
     <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="0dp"
-        android:layout_weight=".70"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_weight="3">
 
         <TableRow
             android:layout_width="match_parent"
@@ -15,15 +24,15 @@
             <TextView
                 android:id="@+id/textView"
                 android:layout_width="0dp"
-                android:layout_weight=".40"
                 android:layout_height="wrap_content"
+                android:layout_weight=".40"
                 android:text="@string/name" />
 
             <TextView
                 android:id="@+id/item_name"
                 android:layout_width="0dp"
-                android:layout_weight=".60"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_weight=".60" />
 
         </TableRow>
 
@@ -34,15 +43,15 @@
             <TextView
                 android:id="@+id/textView2"
                 android:layout_width="0dp"
-                android:layout_weight=".40"
                 android:layout_height="wrap_content"
+                android:layout_weight=".40"
                 android:text="@string/description" />
 
             <TextView
                 android:id="@+id/item_description"
                 android:layout_width="0dp"
-                android:layout_weight=".60"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_weight=".60" />
         </TableRow>
 
         <TableRow
@@ -52,15 +61,15 @@
             <TextView
                 android:id="@+id/textView3"
                 android:layout_width="0dp"
-                android:layout_weight=".40"
                 android:layout_height="wrap_content"
+                android:layout_weight=".40"
                 android:text="@string/available_units" />
 
             <TextView
                 android:id="@+id/item_available_units"
                 android:layout_width="0dp"
-                android:layout_weight=".60"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_weight=".60" />
         </TableRow>
 
         <TableRow
@@ -70,15 +79,15 @@
             <TextView
                 android:id="@+id/textView4"
                 android:layout_width="0dp"
-                android:layout_weight=".40"
                 android:layout_height="wrap_content"
+                android:layout_weight=".40"
                 android:text="@string/price" />
 
             <TextView
                 android:id="@+id/item_price"
                 android:layout_width="0dp"
-                android:layout_weight=".60"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_weight=".60" />
 
         </TableRow>
     </TableLayout>
@@ -87,6 +96,6 @@
         android:id="@+id/edit_article"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight=".30"
+        android:layout_weight="1"
         android:text="@string/article_edit" />
 </LinearLayout>

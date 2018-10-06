@@ -3,6 +3,8 @@ package ar.uba.fi.mercadolibre.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
+
 public class Article extends BaseModel {
     @SerializedName("name")
     @Expose
@@ -28,6 +30,10 @@ public class Article extends BaseModel {
     @Expose
     private double longitude;
 
+    @SerializedName("pictures")
+    @Expose
+    private ArrayList<String> pictures;
+
     public Article(String name, String description, int availableUnits, int price,
                    double latitude, double longitude) {
         this.name = name;
@@ -52,5 +58,9 @@ public class Article extends BaseModel {
 
     public double getPrice() {
         return price;
+    }
+
+    public ArrayList<String> getPictures() {
+        return pictures;
     }
 }

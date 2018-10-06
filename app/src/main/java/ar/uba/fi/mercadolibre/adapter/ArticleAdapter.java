@@ -4,24 +4,19 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.squareup.picasso.Picasso;
 import java.util.List;
 
 import ar.uba.fi.mercadolibre.R;
-import ar.uba.fi.mercadolibre.activity.CreateArticleActivity;
 import ar.uba.fi.mercadolibre.activity.EditArticleActivity;
-import ar.uba.fi.mercadolibre.controller.ControllerFactory;
 import ar.uba.fi.mercadolibre.model.Article;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class ArticleAdapter extends ArrayAdapter<Article> {
     private Context context;
@@ -45,6 +40,14 @@ public class ArticleAdapter extends ArrayAdapter<Article> {
         ((TextView) view.findViewById(R.id.item_description)).setText(article.getDescription());
         ((TextView) view.findViewById(R.id.item_available_units)).setText(Integer.toString(article.getAvailableUnits()));
         ((TextView) view.findViewById(R.id.item_price)).setText(Double.toString(article.getPrice()));
+
+        if (!article.getPictures().isEmpty()) {
+            ImageView image = view.findViewById(R.id.list_article_image);
+            Picasso.get().load(article.getPictures().get(0)).into(image);
+        } else {
+            ImageView image = view.findViewById(R.id.list_article_image);
+            Picasso.get().load("http://i.imgur.com/DvpvklR.png").into(image);
+        }
 
         if (showEditButton) {
             addEditButton(view, article);
