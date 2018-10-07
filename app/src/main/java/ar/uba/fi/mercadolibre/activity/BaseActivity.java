@@ -26,6 +26,8 @@ import com.mikepenz.materialdrawer.model.DividerDrawerItem;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 
+import java.io.IOException;
+
 import ar.uba.fi.mercadolibre.R;
 import ar.uba.fi.mercadolibre.client.RetrofitClient;
 import ar.uba.fi.mercadolibre.controller.APIResponse;
@@ -178,15 +180,16 @@ public abstract class BaseActivity extends AppCompatActivity {
             @NonNull Response<APIResponse<Data>> response
     ) throws InvalidResponseException {
         if (!response.isSuccessful()) {
-            ResponseBody errorBody = response.errorBody();
-            throw new InvalidResponseException(
-                    errorBody == null ? "Error body was null" : errorBody.toString()
-            );
+            try {
+                ResponseBody errorBody = response.errorBody();
+                String message = errorBody == null ? "Error body was null" : errorBody.string();
+                throw new InvalidResponseException(message);
+            } catch (IOException e) {
+                throw new InvalidResponseException("IOException when parsing error body");
+            }
         }
         APIResponse<Data> body = response.body();
-        if (body == null) {
-            throw new InvalidResponseException("Response body was null");
-        }
+        if (body == null) throw new InvalidResponseException("Response body was null");
         return body.getData();
     }
 
@@ -194,7 +197,7 @@ public abstract class BaseActivity extends AppCompatActivity {
      * Tries to return data wrapped by APIResponse.
      * If it can't, it will call onGetDataFailure and return null.
      *
-     * @return  Data wrapped by APIResponse or null if there was an error
+     * @return Data wrapped by APIResponse or null if there was an error
      */
     protected <Data> Data getData(@NonNull Response<APIResponse<Data>> response) {
         try {
