@@ -3,9 +3,7 @@ package ar.uba.fi.mercadolibre.adapter;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.support.annotation.NonNull;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,17 +11,12 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-import com.squareup.picasso.Picasso;
-
 import java.util.List;
 
 import ar.uba.fi.mercadolibre.R;
 import ar.uba.fi.mercadolibre.activity.EditArticleActivity;
 import ar.uba.fi.mercadolibre.model.Article;
+import ar.uba.fi.mercadolibre.utils.FirebaseImageManager;
 
 public class ArticleAdapter extends ArrayAdapter<Article> {
     private Context context;
@@ -78,23 +71,7 @@ public class ArticleAdapter extends ArrayAdapter<Article> {
     }
 
     private void loadImage(final ImageView imageView, Article a) {
-        FirebaseStorage storage = FirebaseStorage.getInstance();
-        StorageReference storageRef = storage.getReference();
         final String path = a.getPictureURLs().get(0);
-        StorageReference pic = storageRef.child(path);
-        pic.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-            @Override
-            public void onSuccess(Uri uri) {
-                Picasso.get().load(uri)
-                        .resize(imageView.getWidth(), imageView.getHeight())
-                        .into(imageView);
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Log.e("Article adapter",
-                        "Error loading image: ref path " + path + ". Exception " + e.getMessage());
-            }
-        });
+        new FirebaseImageManager().loadImageInto(path, imageView);
     }
 }

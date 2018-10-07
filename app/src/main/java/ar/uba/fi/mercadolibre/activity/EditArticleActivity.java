@@ -12,13 +12,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
@@ -26,6 +21,8 @@ import java.io.IOException;
 import ar.uba.fi.mercadolibre.R;
 import ar.uba.fi.mercadolibre.controller.ControllerFactory;
 import ar.uba.fi.mercadolibre.model.Article;
+import ar.uba.fi.mercadolibre.utils.FirebaseImageManager;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -33,8 +30,6 @@ import retrofit2.Response;
 public class EditArticleActivity extends BaseActivity {
 
     private static final int GET_FROM_GALLERY = 3;
-    FirebaseStorage storage = FirebaseStorage.getInstance();
-
     Uri newImageUri = null;
 
     @Override
@@ -47,6 +42,7 @@ public class EditArticleActivity extends BaseActivity {
     private void fillEditText(int edit_text_id, String text) {
         ((EditText) findViewById(edit_text_id)).setText(text);
     }
+
     private void initData() {
         final Article article = getArticle();
         setDeleteOnClick(findViewById(R.id.edit_article_delete), article);
@@ -58,24 +54,9 @@ public class EditArticleActivity extends BaseActivity {
         fillEditText(R.id.edit_article_units, String.valueOf(article.getAvailableUnits()));
 
         if (!article.getPictureURLs().isEmpty()) {
-            storage.getReference(article.getPictureURLs().get(0)).getDownloadUrl().addOnSuccessListener(
-                    new OnSuccessListener<Uri>() {
-                        @Override
-                        public void onSuccess(Uri uri) {
-                            ImageView view = findViewById(R.id.edit_article_image);
-                            Picasso.get().load(uri)
-                                    .resize(view.getWidth(), view.getHeight())
-                                    .into(view);
-                        }
-                    }
-            ).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    Log.d("Article edit",
-                            "Error reading Firebase image received from backend: " +
-                                    article.getPictureURLs().get(0) + ". Exception: " + e.getMessage());
-                }
-            });
+            final String path = article.getPictureURLs().get(0);
+            ImageView view = findViewById(R.id.edit_article_image);
+            new FirebaseImageManager().loadImageInto(path, view);
         }
     }
 
@@ -105,12 +86,14 @@ public class EditArticleActivity extends BaseActivity {
                             public void onResponse(@NonNull Call<Object> call, @NonNull Response<Object> response) {
                                 if (!response.isSuccessful()) {
                                     onDeleteFailure();
+                                    String msg;
                                     try {
-                                        String msg = response.errorBody().string();
-                                        Log.e("Article delete", msg);
+                                        ResponseBody body = response.errorBody();
+                                        msg = body == null ? "Error body was null" : body.string();
                                     } catch (IOException e) {
-                                        e.printStackTrace();
+                                        msg = "IOException while reading the response: " + e.getMessage();
                                     }
+                                    Log.e("Article delete", msg);
                                     return;
                                 }
                                 onDeleteSuccess();
@@ -208,29 +191,13 @@ public class EditArticleActivity extends BaseActivity {
         }
         Log.d("Article edit", "Starting image upload");
 
-        StorageReference storageRef = storage.getReference();
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         assert user != null;
 
         String path =
                 user.getUid() + "/" + article.getID() + "/" + newImageUri.getLastPathSegment();
 
-        UploadTask task = storageRef.child(path).putFile(newImageUri);
-        task.addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception exception) {
-                Log.e("Article edit",
-                        "Image upload to firebase failed: " + exception.getMessage());
-            }
-        }).addOnSuccessListener(
-                new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                        Log.d("Article edit",
-                                "Image upload to firebase successful");
-                    }
-                }
-        );
+        new FirebaseImageManager().upload(newImageUri, path);
         article.getPictureURLs().add(path);
     }
 
