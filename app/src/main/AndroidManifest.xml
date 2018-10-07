@@ -33,5 +33,6 @@
         <activity
             android:name=".activity.UserArticlesActivity"
             android:label="@string/user_articles"/>
+        <activity android:name=".activity.EditArticleActivity" />
     </application>
 </manifest>
