@@ -3,7 +3,9 @@ package ar.uba.fi.mercadolibre.adapter;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +13,11 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.gms.auth.api.signin.internal.Storage;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 import java.util.List;
 
@@ -43,10 +50,7 @@ public class ArticleAdapter extends ArrayAdapter<Article> {
 
         if (!article.getPictures().isEmpty()) {
             ImageView image = view.findViewById(R.id.list_article_image);
-            Picasso.get().load(article.getPictures().get(0)).into(image);
-        } else {
-            ImageView image = view.findViewById(R.id.list_article_image);
-            Picasso.get().load("http://i.imgur.com/DvpvklR.png").into(image);
+            loadImage(image, article);
         }
 
         if (showEditButton) {
@@ -72,4 +76,24 @@ public class ArticleAdapter extends ArrayAdapter<Article> {
         );
     }
 
+    private void loadImage(final ImageView imageView, Article a) {
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        StorageReference storageRef = storage.getReference();
+        final String path = a.getPictures().get(0);
+        StorageReference pic = storageRef.child(path);
+        pic.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                Picasso.get().load(uri)
+                        .resize(imageView.getWidth(), imageView.getHeight())
+                        .into(imageView);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.e("Article adapter",
+                        "Error loading image: ref path " + path + ". Exception " + e.getMessage());
+            }
+        });
+    }
 }
