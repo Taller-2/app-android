@@ -184,9 +184,9 @@ public abstract class BaseActivity extends AppCompatActivity {
             ResponseBody errorBody = response.errorBody();
             String message;
             try {
-                message  = errorBody.string();
+                message  = errorBody == null ? "Error body was null" : errorBody.string();
             } catch (IOException e) {
-                message = "Error body was null";
+                message = "IOException while reading the response: " + e.getMessage();
             }
             throw new InvalidResponseException(message);
         }

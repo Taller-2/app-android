@@ -13,12 +13,12 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.google.android.gms.auth.api.signin.internal.Storage;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
+
 import java.util.List;
 
 import ar.uba.fi.mercadolibre.R;
@@ -28,6 +28,7 @@ import ar.uba.fi.mercadolibre.model.Article;
 public class ArticleAdapter extends ArrayAdapter<Article> {
     private Context context;
     private boolean showEditButton;
+
     public ArticleAdapter(Context context, List<Article> articles, boolean show_delete) {
         super(context, 0, articles);
         this.context = context;
@@ -48,7 +49,7 @@ public class ArticleAdapter extends ArrayAdapter<Article> {
         ((TextView) view.findViewById(R.id.item_available_units)).setText(Integer.toString(article.getAvailableUnits()));
         ((TextView) view.findViewById(R.id.item_price)).setText(Double.toString(article.getPrice()));
 
-        if (!article.getPictures().isEmpty()) {
+        if (!article.getPictureURLs().isEmpty()) {
             ImageView image = view.findViewById(R.id.list_article_image);
             loadImage(image, article);
         }
@@ -65,21 +66,21 @@ public class ArticleAdapter extends ArrayAdapter<Article> {
         final Activity a = (Activity) this.context;
 
         view.findViewById(R.id.edit_article).setOnClickListener(
-            new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent i = new Intent(a, EditArticleActivity.class);
-                    i.putExtra("article", article);
-                    a.startActivity(i);
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent i = new Intent(a, EditArticleActivity.class);
+                        i.putExtra("article", article);
+                        a.startActivity(i);
+                    }
                 }
-            }
         );
     }
 
     private void loadImage(final ImageView imageView, Article a) {
         FirebaseStorage storage = FirebaseStorage.getInstance();
         StorageReference storageRef = storage.getReference();
-        final String path = a.getPictures().get(0);
+        final String path = a.getPictureURLs().get(0);
         StorageReference pic = storageRef.child(path);
         pic.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override

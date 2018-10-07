@@ -60,7 +60,7 @@ public class Article extends BaseModel {
         return price;
     }
 
-    public ArrayList<String> getPictures() {
+    public ArrayList<String> getPictureURLs() {
         return pictures;
     }
 

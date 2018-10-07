@@ -36,6 +36,7 @@ public class EditArticleActivity extends BaseActivity {
     FirebaseStorage storage = FirebaseStorage.getInstance();
 
     Uri newImageUri = null;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,18 +44,21 @@ public class EditArticleActivity extends BaseActivity {
         initData();
     }
 
+    private void fillEditText(int edit_text_id, String text) {
+        ((EditText) findViewById(edit_text_id)).setText(text);
+    }
     private void initData() {
-        final Article a = getArticle();
-        setDeleteOnClick(findViewById(R.id.edit_article_delete), a);
+        final Article article = getArticle();
+        setDeleteOnClick(findViewById(R.id.edit_article_delete), article);
         setSaveOnClick(findViewById(R.id.edit_article_save));
         setEditImageOnClick(findViewById(R.id.edit_article_image));
-        ((EditText)findViewById(R.id.edit_article_name)).setText(a.getName());
-        ((EditText)findViewById(R.id.edit_article_description)).setText(a.getDescription());
-        ((EditText)findViewById(R.id.edit_article_price)).setText(String.valueOf(a.getPrice()));
-        ((EditText)findViewById(R.id.edit_article_units)).setText(String.valueOf(a.getAvailableUnits()));
+        fillEditText(R.id.edit_article_name, article.getName());
+        fillEditText(R.id.edit_article_description, article.getDescription());
+        fillEditText(R.id.edit_article_price, String.valueOf(article.getPrice()));
+        fillEditText(R.id.edit_article_units, String.valueOf(article.getAvailableUnits()));
 
-        if (!a.getPictures().isEmpty()) {
-            storage.getReference(a.getPictures().get(0)).getDownloadUrl().addOnSuccessListener(
+        if (!article.getPictureURLs().isEmpty()) {
+            storage.getReference(article.getPictureURLs().get(0)).getDownloadUrl().addOnSuccessListener(
                     new OnSuccessListener<Uri>() {
                         @Override
                         public void onSuccess(Uri uri) {
@@ -69,7 +73,7 @@ public class EditArticleActivity extends BaseActivity {
                 public void onFailure(@NonNull Exception e) {
                     Log.d("Article edit",
                             "Error reading Firebase image received from backend: " +
-                    a.getPictures().get(0) + ". Exception: " + e.getMessage());
+                                    article.getPictureURLs().get(0) + ". Exception: " + e.getMessage());
                 }
             });
         }
@@ -77,53 +81,54 @@ public class EditArticleActivity extends BaseActivity {
 
     private void setEditImageOnClick(View view) {
         view.setOnClickListener(
-            new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    startActivityForResult(new Intent(Intent.ACTION_PICK,
-                            android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI),
-                            GET_FROM_GALLERY);
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        startActivityForResult(new Intent(Intent.ACTION_PICK,
+                                        android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI),
+                                GET_FROM_GALLERY);
 
+                    }
                 }
-            }
         );
     }
 
     private void setDeleteOnClick(View delete, final Article article) {
         delete.setOnClickListener(
-            new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    ControllerFactory.getArticleController().destroy(
-                            article.getID()
-                    ).enqueue(new Callback<Object>() {
-                        @Override
-                        public void onResponse(@NonNull Call<Object> call, @NonNull Response<Object> response) {
-                            if (!response.isSuccessful()) {
-                                onDeleteFailure();
-                                try {
-                                    String msg = response.errorBody().string();
-                                    Log.e("Article delete", msg);
-                                } catch (IOException e) {
-                                    e.printStackTrace();
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        ControllerFactory.getArticleController().destroy(
+                                article.getID()
+                        ).enqueue(new Callback<Object>() {
+                            @Override
+                            public void onResponse(@NonNull Call<Object> call, @NonNull Response<Object> response) {
+                                if (!response.isSuccessful()) {
+                                    onDeleteFailure();
+                                    try {
+                                        String msg = response.errorBody().string();
+                                        Log.e("Article delete", msg);
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
+                                    return;
                                 }
-                                return;
+                                onDeleteSuccess();
                             }
-                            onDeleteSuccess();
-                        }
 
-                        @Override
-                        public void onFailure(@NonNull Call<Object> call, @NonNull Throwable t) {
-                            onDeleteFailure();
-                            Log.e("Article delete", t.getMessage());
+                            @Override
+                            public void onFailure(@NonNull Call<Object> call, @NonNull Throwable t) {
+                                onDeleteFailure();
+                                Log.e("Article delete", t.getMessage());
 
-                        }
-                    });
+                            }
+                        });
 
+                    }
                 }
-            }
         );
     }
+
     private void onDeleteSuccess() {
         Toast.makeText(
                 this,
@@ -140,13 +145,14 @@ public class EditArticleActivity extends BaseActivity {
                 Toast.LENGTH_SHORT
         ).show();
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
 
         //Detects request codes
-        if(requestCode==GET_FROM_GALLERY && resultCode == Activity.RESULT_OK) {
+        if (requestCode == GET_FROM_GALLERY && resultCode == Activity.RESULT_OK) {
             Uri selectedImage = data.getData();
             if (selectedImage == null) {
                 Log.e("Article edit", "Uploaded image from user is null");
@@ -175,15 +181,15 @@ public class EditArticleActivity extends BaseActivity {
     }
 
     private void save() {
-        Article a = getArticle();
+        Article article = getArticle();
 
-        a.setName(getViewText(R.id.edit_article_name));
-        a.setDescription(getViewText(R.id.edit_article_description));
-        a.setAvailableUnits(Integer.parseInt(getViewText(R.id.edit_article_units)));
-        a.setPrice(Double.parseDouble(getViewText(R.id.edit_article_price)));
+        article.setName(getViewText(R.id.edit_article_name));
+        article.setDescription(getViewText(R.id.edit_article_description));
+        article.setAvailableUnits(Integer.parseInt(getViewText(R.id.edit_article_units)));
+        article.setPrice(Double.parseDouble(getViewText(R.id.edit_article_price)));
 
-        uploadImageToFirebase(a);
-        ControllerFactory.getArticleController().update(a).enqueue(new Callback<Article>() {
+        uploadImageToFirebase(article);
+        ControllerFactory.getArticleController().update(article).enqueue(new Callback<Article>() {
             @Override
             public void onResponse(@NonNull Call<Article> call, @NonNull Response<Article> response) {
                 Log.d("Article edit", "Successfully updated article");
@@ -217,15 +223,15 @@ public class EditArticleActivity extends BaseActivity {
                         "Image upload to firebase failed: " + exception.getMessage());
             }
         }).addOnSuccessListener(
-            new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    Log.d("Article edit",
-                            "Image upload to firebase successful");
+                new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        Log.d("Article edit",
+                                "Image upload to firebase successful");
+                    }
                 }
-            }
         );
-        article.getPictures().add(path);
+        article.getPictureURLs().add(path);
     }
 
     final Article getArticle() {
