@@ -41,6 +41,8 @@ dependencies {
         transitive = true
         exclude group: 'com.android.support'
     }
+
+    implementation 'com.facebook.android:facebook-login:4.37.0'
 }
 
 apply plugin: 'com.google.gms.google-services'
