@@ -50,7 +50,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     private static SparseArray<Class<?>> getActivitiesByIdentifier() {
         SparseArray<Class<?>> activities = new SparseArray<>();
         activities.append(HOME_IDENTIFIER, MainMenuActivity.class);
-        activities.append(MY_ACCOUNT_IDENTIFIER, AccountDetailActivity.class);
+        activities.append(MY_ACCOUNT_IDENTIFIER, AccountActivity.class);
         activities.append(SIGN_OUT_IDENTIFIER, SignOutActivity.class);
         activities.append(MY_ITEMS_IDENTIFIER, UserArticlesActivity.class);
         return activities;
