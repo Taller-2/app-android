@@ -13,7 +13,8 @@
 
         <TableRow
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:padding="10dp">
 
             <ImageView
                 android:id="@+id/picture"
@@ -23,12 +24,17 @@
                 android:contentDescription="@string/account_picture"
                 android:src="@drawable/ic_image_white_24dp" />
 
+            <ImageButton
+                android:contentDescription="@string/edit"
+                android:onClick="onChangePicture"
+                android:src="@drawable/ic_edit_black_24dp" />
+
         </TableRow>
 
         <TableRow
-            android:padding="10dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:padding="10dp">
 
             <TextView
                 android:id="@+id/textView"
@@ -44,17 +50,16 @@
                 android:layout_weight=".70" />
 
             <ImageButton
+                android:contentDescription="@string/edit"
                 android:onClick="onChangeName"
-                android:src="@drawable/ic_edit_black_24dp"
-                android:contentDescription="@string/edit">
-            </ImageButton>
+                android:src="@drawable/ic_edit_black_24dp" />
 
         </TableRow>
 
         <TableRow
-            android:padding="10dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:padding="10dp">
 
             <TextView
                 android:id="@+id/textView2"
@@ -70,10 +75,10 @@
                 android:layout_weight=".70" />
 
             <ImageButton
+                android:contentDescription="@string/edit"
                 android:onClick="onChangeEmail"
-                android:src="@drawable/ic_edit_black_24dp"
-                android:contentDescription="@string/edit">
-            </ImageButton>
+                android:src="@drawable/ic_edit_black_24dp" />
+
         </TableRow>
 
     </TableLayout>

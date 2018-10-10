@@ -12,9 +12,9 @@ public class Account {
     @Expose
     private String name;
 
-    @SerializedName("picture")
+    @SerializedName("profile_picture_url")
     @Expose
-    private String picture;
+    private String profilePictureURL;
 
     @SerializedName("user_id")
     @Expose
@@ -28,8 +28,8 @@ public class Account {
         return name;
     }
 
-    public String getPicture() {
-        return picture;
+    public String getProfilePictureURL() {
+        return this.profilePictureURL;
     }
 
     public String getUserID() {
@@ -42,5 +42,9 @@ public class Account {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public void setProfilePictureURL(String path) {
+        this.profilePictureURL = path;
     }
 }

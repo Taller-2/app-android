@@ -16,6 +16,17 @@ public class FirebaseImageManager {
     private FirebaseStorage storage = FirebaseStorage.getInstance();
 
     public void upload(Uri fileUri, String destinationPath) {
+        upload(fileUri, destinationPath, new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        Log.d("Firebase upload",
+                                "Image upload to firebase successful");
+                    }
+                }
+        );
+    }
+
+    public void upload(Uri fileUri, String destinationPath, OnSuccessListener<UploadTask.TaskSnapshot> onSuccess) {
         StorageReference storageRef = storage.getReference();
 
         UploadTask task = storageRef.child(destinationPath).putFile(fileUri);
@@ -25,15 +36,7 @@ public class FirebaseImageManager {
                 Log.e("Firebase upload",
                         "Image upload to firebase failed: " + exception.getMessage());
             }
-        }).addOnSuccessListener(
-                new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                        Log.d("Firebase upload",
-                                "Image upload to firebase successful");
-                    }
-                }
-        );
+        }).addOnSuccessListener(onSuccess);
     }
 
     public void loadImageInto(final String path, final ImageView imageView) {

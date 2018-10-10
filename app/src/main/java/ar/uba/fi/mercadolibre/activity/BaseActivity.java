@@ -9,7 +9,6 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.util.SparseArray;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -19,14 +18,12 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GetTokenResult;
-import com.koushikdutta.ion.Ion;
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.DrawerBuilder;
 import com.mikepenz.materialdrawer.model.DividerDrawerItem;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 
-import java.io.IOError;
 import java.io.IOException;
 
 import ar.uba.fi.mercadolibre.R;
@@ -168,15 +165,6 @@ public abstract class BaseActivity extends AppCompatActivity {
         ((TextView) findViewById(id)).setText(text);
     }
 
-    public void fillImageViewWithURL(int id, String url) {
-        ImageView imageView = findViewById(id);
-        Ion.with(imageView)
-                .resize(imageView.getWidth(), imageView.getHeight())
-                .crossfade(true)
-                .fitXY()
-                .load(url);
-    }
-
     protected <Data> Data getDataOrThrowException(
             @NonNull Response<APIResponse<Data>> response
     ) throws InvalidResponseException {
@@ -184,7 +172,7 @@ public abstract class BaseActivity extends AppCompatActivity {
             ResponseBody errorBody = response.errorBody();
             String message;
             try {
-                message  = errorBody == null ? "Error body was null" : errorBody.string();
+                message = errorBody == null ? "Error body was null" : errorBody.string();
             } catch (IOException e) {
                 message = "IOException while reading the response: " + e.getMessage();
             }
