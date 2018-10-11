@@ -58,6 +58,10 @@ public class AccountActivity extends BaseActivity {
     private void updateShownAccount(Account account) {
         fillTextView(R.id.email, account.getEmail());
         fillTextView(R.id.name, account.getName());
+        String pictureURL = account.getProfilePictureURL();
+        if (pictureURL == null) {
+            return;
+        }
         new FirebaseImageManager().loadImageInto(
                 account.getProfilePictureURL(),
                 (ImageView) findViewById(R.id.picture)
