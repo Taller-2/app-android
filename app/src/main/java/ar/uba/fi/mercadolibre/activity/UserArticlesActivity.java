@@ -76,6 +76,8 @@ public class UserArticlesActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        fillList();
+        if (account != null) {
+            fillList();
+        }
     }
 }
