@@ -19,7 +19,7 @@ public class MainMenuActivity extends BaseActivity {
     }
 
     public void createArticle(View view) {
-        startActivity(new Intent(getApplicationContext(), CreateArticleActivity.class));
+        startActivity(new Intent(getApplicationContext(), EditArticleActivity.class));
     }
 
     public void listArticles(View view) {

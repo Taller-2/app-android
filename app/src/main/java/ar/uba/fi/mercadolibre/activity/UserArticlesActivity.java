@@ -18,6 +18,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class UserArticlesActivity extends BaseActivity {
+    Account account = null;
     @Override
     public int identifierForDrawer() {
         return HOME_IDENTIFIER;
@@ -34,9 +35,9 @@ public class UserArticlesActivity extends BaseActivity {
         ControllerFactory.getAccountController().currentAccount().enqueue(new Callback<APIResponse<Account>>() {
             @Override
             public void onResponse(@NonNull Call<APIResponse<Account>> call, @NonNull Response<APIResponse<Account>> response) {
-                Account account = getData(response);
+                account = getData(response);
                 if (account == null) return;
-                fillList(account);
+                fillList();
             }
 
             @Override
@@ -45,13 +46,8 @@ public class UserArticlesActivity extends BaseActivity {
             }
         });
     }
-
-    private void onFetchFailure() {
-        toast(R.string.generic_error);
-        finish();
-    }
-
-    private void fillList(Account account) {
+    
+    private void fillList() {
         Log.d("UAA", account.getUserID());
         ControllerFactory.getArticleController().listByUser(account.getUserID()).enqueue(new Callback<APIResponse<List<Article>>>() {
             @Override
@@ -75,5 +71,11 @@ public class UserArticlesActivity extends BaseActivity {
                 toast(R.string.generic_error);
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        fillList();
     }
 }
