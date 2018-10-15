@@ -7,6 +7,7 @@ import android.widget.ImageView;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -40,9 +41,7 @@ public class FirebaseImageManager {
     }
 
     public void loadImageInto(final String path, final ImageView imageView) {
-        StorageReference storageRef = storage.getReference();
-        StorageReference pic = storageRef.child(path);
-        pic.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+        getDownloadUrl(path, new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
                 Picasso.get().load(uri)
@@ -58,4 +57,9 @@ public class FirebaseImageManager {
         });
     }
 
+    public Task<Uri> getDownloadUrl(String path, OnSuccessListener<Uri> callback) {
+        StorageReference storageRef = storage.getReference();
+        StorageReference pic = storageRef.child(path);
+        return pic.getDownloadUrl().addOnSuccessListener(callback);
+    }
 }

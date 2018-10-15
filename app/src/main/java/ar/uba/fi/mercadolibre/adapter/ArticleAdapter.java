@@ -11,12 +11,13 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.List;
 
 import ar.uba.fi.mercadolibre.R;
 import ar.uba.fi.mercadolibre.activity.EditArticleActivity;
 import ar.uba.fi.mercadolibre.model.Article;
-import ar.uba.fi.mercadolibre.utils.FirebaseImageManager;
 
 public class ArticleAdapter extends ArrayAdapter<Article> {
     private Context context;
@@ -72,6 +73,6 @@ public class ArticleAdapter extends ArrayAdapter<Article> {
 
     private void loadImage(final ImageView imageView, Article a) {
         final String path = a.getPictureURLs().get(0);
-        new FirebaseImageManager().loadImageInto(path, imageView);
+        Picasso.get().load(path).into(imageView);
     }
 }

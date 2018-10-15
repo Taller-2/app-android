@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".activity.EditImageActivity">
+    <item
+        android:id="@+id/action_camera"
+        android:orderInCategory="100"
+        android:title="@string/image_camera"
+        android:icon="@drawable/ic_baseline_photo_camera_24px"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_gallery"
+        android:orderInCategory="200"
+        android:title="@string/image_gallery"
+        android:icon="@drawable/ic_baseline_add_box_24px"
+        app:showAsAction="ifRoom"/>
+</menu>
