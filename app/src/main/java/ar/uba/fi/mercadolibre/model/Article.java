@@ -1,19 +1,13 @@
 package ar.uba.fi.mercadolibre.model;
 
-import android.support.annotation.NonNull;
-import android.util.Log;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
 
-import ar.uba.fi.mercadolibre.R;
-import ar.uba.fi.mercadolibre.controller.ArticleController;
 import ar.uba.fi.mercadolibre.controller.ControllerFactory;
-import retrofit2.Call;
 import retrofit2.Callback;
-import retrofit2.Response;
 
 public class Article extends BaseModel {
     @SerializedName("name")
@@ -55,6 +49,8 @@ public class Article extends BaseModel {
         this.pictures = new ArrayList<>();
     }
 
+    public Article() {}
+
     public String getName() {
         return name;
     }
@@ -91,6 +87,10 @@ public class Article extends BaseModel {
         this.availableUnits = availableUnits;
     }
 
+    public void setLatLon(double lat, double lon) {
+        latitude = lat;
+        longitude = lon;
+    }
     public void post(Callback<Article> callback) {
         ControllerFactory.getArticleController()
                 .create(this)
@@ -98,6 +98,9 @@ public class Article extends BaseModel {
     }
 
     public void addPicture(String pictureURL) {
+        if (this.pictures == null) {
+            this.pictures = new ArrayList<>();
+        }
         this.pictures.add(pictureURL);
     }
 }

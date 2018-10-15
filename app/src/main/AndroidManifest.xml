@@ -31,5 +31,7 @@
             android:name=".activity.UserArticlesActivity"
             android:label="@string/user_articles"/>
         <activity android:name=".activity.EditArticleActivity" />
+        <activity android:name=".activity.EditArticleImagesActivity"
+            android:label='@string/article_images'/>
     </application>
 </manifest>

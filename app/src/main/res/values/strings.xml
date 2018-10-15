@@ -34,4 +34,9 @@
     <string name="article_delete">Borrar articulo</string>
     <string name="edit_article_image_desc">Imagen del articulo</string>
     <string name="list_article_image">Imagen del articulo</string>
+    <string name="article_images">Imágenes</string>
+    <string name="image_gallery">Galeria</string>
+    <string name="image_camera">Camara</string>
+    <string name="article_has_no_images">Este artículo aún no tiene imágenes asociadas. Cargá una desde la galería o la cámara!</string>
+    <string name="image_view_desc">Imagen de articulo</string>
 </resources>

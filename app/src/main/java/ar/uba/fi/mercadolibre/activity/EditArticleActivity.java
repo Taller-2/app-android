@@ -1,11 +1,9 @@
 package ar.uba.fi.mercadolibre.activity;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -22,16 +20,16 @@ import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import ar.uba.fi.mercadolibre.R;
 import ar.uba.fi.mercadolibre.controller.ControllerFactory;
 import ar.uba.fi.mercadolibre.model.Article;
-import ar.uba.fi.mercadolibre.utils.FirebaseImageManager;
+import ir.apend.slider.model.Slide;
+import ir.apend.slider.ui.Slider;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -41,10 +39,10 @@ import static android.Manifest.permission.ACCESS_COARSE_LOCATION;
 
 public class EditArticleActivity extends BaseActivity {
     private FusedLocationProviderClient mFusedLocationClient;
+    private Article article = null;
 
-    private static final int GET_FROM_GALLERY = 3;
     private static final int REQUEST_COARSE_LOCATION = 1;
-    Uri newImageUri = null;
+    private static final int EDIT_IMAGES = 2;
 
     @Override
     public int identifierForDrawer() {
@@ -61,16 +59,36 @@ public class EditArticleActivity extends BaseActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
-
         super.onCreate(savedInstanceState);
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         setContentView(R.layout.activity_edit_article);
         initData();
+        setUpTextWatcher();
+        setUpImages();
+        setSaveOnClick(findViewById(R.id.edit_article_save));
+        setDeleteOnClick(findViewById(R.id.edit_article_delete), article);
+
+    }
+
+    private void setUpTextWatcher() {
         for (int id : textFieldIDs) {
             ((EditText) findViewById(id)).addTextChangedListener(watcher);
         }
-        findViewById(submitButtonID).setEnabled(false);
+        if (article.getID() == null) {
+            findViewById(submitButtonID).setEnabled(false);
+        }
+    }
 
+    private void setUpImages() {
+        initCarousel();
+        findViewById(R.id.edit_article_edit_image).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getApplicationContext(), EditArticleImagesActivity.class);
+                i.putExtra("article", article);
+                startActivityForResult(i, EDIT_IMAGES);
+            }
+        });
     }
 
     private void fillEditText(int edit_text_id, String text) {
@@ -78,43 +96,45 @@ public class EditArticleActivity extends BaseActivity {
     }
 
     private void initData() {
-        final Article article = getArticle();
-        setSaveOnClick(findViewById(R.id.edit_article_save));
-        setEditImageOnClick(findViewById(R.id.edit_article_image));
+        initArticle();
         if (article == null) {
             findViewById(R.id.edit_article_delete).setVisibility(View.INVISIBLE);
             return;
         }
-
-        setDeleteOnClick(findViewById(R.id.edit_article_delete), article);
         init_text_views(article);
-
-        if (!article.getPictureURLs().isEmpty()) {
-            final String path = article.getPictureURLs().get(0);
-            ImageView view = findViewById(R.id.edit_article_image);
-            new FirebaseImageManager().loadImageInto(path, view);
-        }
     }
 
+    private void initCarousel() {
+        Slider slider = findViewById(R.id.slider);
+        slider.removeAllViews();
+        ArrayList<String> pictures = article.getPictureURLs();
+        if (pictures == null || pictures.size() == 0) {
+            ImageView blank = new ImageView(this);
+            blank.setImageResource(R.drawable.ic_menu_camera);
+            slider.addView(blank);
+            return;
+        }
+
+        List<Slide> slideList = new ArrayList<>();
+        int corner = getResources().getDimensionPixelSize(R.dimen.slider_image_corner);
+        for (int i = 0; i < article.getPictureURLs().size(); i++) {
+            String pictureURL = article.getPictureURLs().get(i);
+            slideList.add(new Slide(i, pictureURL, corner));
+        }
+        slider.addSlides(slideList);
+
+    }
     private void init_text_views(Article article) {
         fillEditText(R.id.edit_article_name, article.getName());
         fillEditText(R.id.edit_article_description, article.getDescription());
-        fillEditText(R.id.edit_article_price, String.valueOf(article.getPrice()));
-        fillEditText(R.id.edit_article_units, String.valueOf(article.getAvailableUnits()));
-    }
-
-    private void setEditImageOnClick(View view) {
-        view.setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        startActivityForResult(new Intent(Intent.ACTION_PICK,
-                                        android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI),
-                                GET_FROM_GALLERY);
-
-                    }
-                }
-        );
+        String price = null;
+        String units = null;
+        if (article.getID() != null) {
+            price = String.valueOf(article.getPrice());
+            units = String.valueOf(article.getAvailableUnits());
+        }
+        fillEditText(R.id.edit_article_price, price);
+        fillEditText(R.id.edit_article_units, units);
     }
 
     private void setDeleteOnClick(View delete, final Article article) {
@@ -175,25 +195,18 @@ public class EditArticleActivity extends BaseActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
-
-        //Detects request codes
-        if (requestCode == GET_FROM_GALLERY && resultCode == Activity.RESULT_OK) {
-            Uri selectedImage = data.getData();
-            if (selectedImage == null) {
-                Log.e("Article edit", "Uploaded image from user is null");
+        if (requestCode == EDIT_IMAGES && resultCode == RESULT_OK) {
+            Bundle extras = data.getExtras();
+            if (extras == null) {
                 return;
             }
-            setImage(selectedImage);
+            article = (Article) extras.get("article");
+            if (article == null) {
+                return;
+            }
+            initCarousel();
         }
-    }
 
-    private void setImage(Uri imageUri) {
-        ImageView imageView = findViewById(R.id.edit_article_image);
-        Picasso.get().load(imageUri)
-                .resize(imageView.getWidth(), imageView.getHeight())
-                .into(imageView);
-        this.newImageUri = imageUri;
     }
 
     private void setSaveOnClick(View view) {
@@ -206,21 +219,20 @@ public class EditArticleActivity extends BaseActivity {
     }
 
     private void save() {
-        final Article article = getArticle();
-        if (article == null) {
-            createArticle();
-            return;
-        }
         article.setName(getViewText(R.id.edit_article_name));
         article.setDescription(getViewText(R.id.edit_article_description));
         article.setAvailableUnits(Integer.parseInt(getViewText(R.id.edit_article_units)));
         article.setPrice(Double.parseDouble(getViewText(R.id.edit_article_price)));
 
+        if (article.getID() == null) {
+            createArticle();
+            return;
+        }
+
         ControllerFactory.getArticleController().update(article).enqueue(new Callback<Article>() {
             @Override
             public void onResponse(@NonNull Call<Article> call, @NonNull Response<Article> response) {
                 Log.d("Article edit", "Successfully updated article");
-                uploadImageToFirebase(article);
                 finish();
             }
 
@@ -231,28 +243,16 @@ public class EditArticleActivity extends BaseActivity {
         });
     }
 
-    private void uploadImageToFirebase(Article article) {
-        if (newImageUri == null) {
-            return;
-        }
-        Log.d("Article edit", "Starting image upload");
-
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        assert user != null;
-
-        String path =
-                user.getUid() + "/" + article.getID() + "/" + newImageUri.getLastPathSegment();
-
-        new FirebaseImageManager().upload(newImageUri, path);
-        article.addPicture(path);
-    }
-
-    final Article getArticle() {
+    private void initArticle() {
         Bundle extra = getIntent().getExtras();
         if (extra == null) {
-            return null;
+            article = new Article();
+            return;
         }
-        return (Article) extra.get("article");
+        article = (Article) extra.get("article");
+        if (article == null) {
+            article = new Article();
+        }
     }
 
     private String getViewText(int view_id) {
@@ -294,16 +294,7 @@ public class EditArticleActivity extends BaseActivity {
         double lat = location.getLatitude();
         double lon = location.getLongitude();
 
-        Article article = new Article(
-                getViewText(R.id.edit_article_name),
-                getViewText(R.id.edit_article_description),
-                Integer.parseInt(getViewText(R.id.edit_article_units)),
-                Integer.parseInt(getViewText(R.id.edit_article_price)),
-                lat,
-                lon
-        );
-
-        uploadImageToFirebase(article);
+        article.setLatLon(lat, lon);
         article.post(new Callback<Article>() {
             @Override
             public void onResponse(@NonNull Call<Article> call, @NonNull Response<Article> response) {
