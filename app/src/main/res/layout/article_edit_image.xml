@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:focusableInTouchMode="true"
-    tools:context=".activity.EditImageActivity">
+    tools:context=".activity.EditArticleImagesActivity">
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/loading_spinner_layout"

@@ -21,7 +21,7 @@ import ar.uba.fi.mercadolibre.adapter.ImageAdapter;
 import ar.uba.fi.mercadolibre.model.Article;
 import ar.uba.fi.mercadolibre.utils.FirebaseImageManager;
 
-public class EditImageActivity extends BaseActivity {
+public class EditArticleImagesActivity extends BaseActivity {
     private static final int GET_FROM_GALLERY = 3;
     private Article article = null;
     FirebaseImageManager mFirebaseImageManager =

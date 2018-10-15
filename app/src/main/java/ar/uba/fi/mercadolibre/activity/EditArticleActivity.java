@@ -84,7 +84,7 @@ public class EditArticleActivity extends BaseActivity {
         findViewById(R.id.edit_article_edit_image).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(getApplicationContext(), EditImageActivity.class);
+                Intent i = new Intent(getApplicationContext(), EditArticleImagesActivity.class);
                 i.putExtra("article", article);
                 startActivityForResult(i, EDIT_IMAGES);
             }
