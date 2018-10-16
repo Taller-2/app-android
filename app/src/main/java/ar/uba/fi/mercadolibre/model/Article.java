@@ -4,6 +4,9 @@ package ar.uba.fi.mercadolibre.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import org.osmdroid.api.IGeoPoint;
+import org.osmdroid.util.GeoPoint;
+
 import java.util.ArrayList;
 
 import ar.uba.fi.mercadolibre.controller.ControllerFactory;
@@ -49,7 +52,8 @@ public class Article extends BaseModel {
         this.pictures = new ArrayList<>();
     }
 
-    public Article() {}
+    public Article() {
+    }
 
     public String getName() {
         return name;
@@ -91,6 +95,7 @@ public class Article extends BaseModel {
         latitude = lat;
         longitude = lon;
     }
+
     public void post(Callback<Article> callback) {
         ControllerFactory.getArticleController()
                 .create(this)
@@ -102,5 +107,9 @@ public class Article extends BaseModel {
             this.pictures = new ArrayList<>();
         }
         this.pictures.add(pictureURL);
+    }
+
+    public IGeoPoint getGeoPoint() {
+        return new GeoPoint(this.latitude, this.longitude);
     }
 }
