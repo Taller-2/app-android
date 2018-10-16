@@ -25,4 +25,8 @@ public class MainMenuActivity extends BaseActivity {
     public void listArticles(View view) {
         startActivity(new Intent(getApplicationContext(), ListArticlesActivity.class));
     }
+
+    public void openActivityMap(View view) {
+        startActivity(new Intent(getApplicationContext(), MapActivity.class));
+    }
 }

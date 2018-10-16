@@ -39,4 +39,5 @@
     <string name="image_camera">Camara</string>
     <string name="article_has_no_images">Este artículo aún no tiene imágenes asociadas. Cargá una desde la galería o la cámara!</string>
     <string name="image_view_desc">Imagen de articulo</string>
+    <string name="open_activity_map">Abrir Mapa de Actividades</string>
 </resources>
