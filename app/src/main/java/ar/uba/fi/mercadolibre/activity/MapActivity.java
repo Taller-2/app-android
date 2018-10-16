@@ -16,6 +16,7 @@ import org.osmdroid.views.overlay.ItemizedOverlayWithFocus;
 import org.osmdroid.views.overlay.OverlayItem;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
@@ -28,8 +29,9 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class MapActivity extends BaseActivity {
-    MapView map = null;
+    MapView map;
     GeoPoint buenosAires = new GeoPoint(-34.62, -58.44);
+    HashMap<String, Article> articles;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -66,7 +68,8 @@ public class MapActivity extends BaseActivity {
                 List<Article> articles = getData(response);
                 if (articles == null) return;
                 if (articles.isEmpty()) toast(R.string.no_results);
-                placeArticlesOnMap(buildOverlayItems(articles), articles);
+                initArticles(articles);
+                placeArticlesOnMap(buildOverlayItems(articles));
             }
 
             @Override
@@ -75,6 +78,11 @@ public class MapActivity extends BaseActivity {
                 onGetDataFailure(t);
             }
         });
+    }
+
+    private void initArticles(List<Article> articles) {
+        this.articles = new HashMap<>();
+        for (Article article : articles) this.articles.put(article.getID(), article);
     }
 
     private ArrayList<OverlayItem> buildOverlayItems(List<Article> articles) {
@@ -95,7 +103,7 @@ public class MapActivity extends BaseActivity {
         return items;
     }
 
-    private void placeArticlesOnMap(ArrayList<OverlayItem> items, final List<Article> articles) {
+    private void placeArticlesOnMap(ArrayList<OverlayItem> items) {
         final boolean eventWasHandled = true;
 
         ItemizedIconOverlay.OnItemGestureListener<OverlayItem> listener = new ItemizedIconOverlay.OnItemGestureListener<OverlayItem>() {
@@ -106,17 +114,13 @@ public class MapActivity extends BaseActivity {
 
             @Override
             public boolean onItemLongPress(final int index, final OverlayItem item) {
-                String id = item.getUid();
-                Article pressedArticle = null;
-                for (Article article : articles) {
-                    if (article.getID().equals(id)) {
-                        pressedArticle = article;
-                        break;
-                    }
+                Article article = articles.get(item.getUid());
+                if (article == null) {
+                    toast(R.string.generic_error);
+                    return eventWasHandled;
                 }
-                if (pressedArticle == null) toast(R.string.generic_error);
                 Intent intent = new Intent(getApplicationContext(), EditArticleActivity.class);
-                intent.putExtra("article", pressedArticle);
+                intent.putExtra("article", article);
                 startActivity(intent);
                 return eventWasHandled;
             }
