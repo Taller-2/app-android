@@ -54,7 +54,7 @@ dependencies {
     implementation 'com.facebook.android:facebook-login:4.37.0'
     implementation 'com.squareup.picasso:picasso:2.71828'
     implementation 'com.github.ApendIr:slider:1.0'
-
+    implementation 'org.osmdroid:osmdroid-android:6.0.2'
 }
 
 apply plugin: 'com.google.gms.google-services'
