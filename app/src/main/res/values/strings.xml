@@ -44,4 +44,8 @@
     <string name="open_chat">Chat</string>
     <string name="send">Enviar</string>
     <string name="could_not_load_messages">Error buscando mensajes anteriores</string>
+    <string name="dollarsign">$</string>
+    <string name="ask_seller">preguntar al vendedor</string>
+    <string name="buy">comprar</string>
+    <string name="available_units_tag">artículos disponinbles</string>
 </resources>

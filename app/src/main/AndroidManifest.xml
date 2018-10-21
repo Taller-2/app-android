@@ -38,5 +38,6 @@
             android:label='@string/article_images'/>
         <activity android:name=".activity.MapActivity" />
         <activity android:name=".activity.ChatActivity" />
+        <activity android:name=".activity.ArticleDetailActivity" />
     </application>
 </manifest>
