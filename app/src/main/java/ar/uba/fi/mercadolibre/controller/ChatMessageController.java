@@ -9,9 +9,9 @@ import retrofit2.http.GET;
 import retrofit2.http.POST;
 
 public interface ChatMessageController {
-    @GET("chat-message/")
+    @GET("chat_message/")
     Call<APIResponse<List<ChatMessage>>> list();
 
-    @POST("chat-message/")
+    @POST("chat_message/")
     Call<Object> create(@Body ChatMessage message);
 }
