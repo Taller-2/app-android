@@ -2,17 +2,12 @@ package ar.uba.fi.mercadolibre.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.ImageView;
 
 import java.text.NumberFormat;
-import java.util.ArrayList;
-import java.util.List;
 
 import ar.uba.fi.mercadolibre.R;
 import ar.uba.fi.mercadolibre.model.Article;
-import ar.uba.fi.mercadolibre.utils.ArticleImageSliderManager;
-import ir.apend.slider.model.Slide;
-import ir.apend.slider.ui.Slider;
+import ar.uba.fi.mercadolibre.views.ArticleSlider;
 
 public class ArticleDetailActivity extends BaseActivity {
 
@@ -45,12 +40,9 @@ public class ArticleDetailActivity extends BaseActivity {
         NumberFormat format = NumberFormat.getCurrencyInstance();
         fillTextView(R.id.detail_article_price, format.format(article.getPrice()));
 
-        Slider s = findViewById(R.id.detail_article_slider);
-
-        ArticleImageSliderManager manager = new ArticleImageSliderManager(s, article);
-
+        ArticleSlider s = findViewById(R.id.detail_article_slider);
         int corner = getResources().getDimensionPixelSize(R.dimen.slider_image_corner);
-        manager.init(this, corner);
+        s.init(article, corner);
     }
 
 }

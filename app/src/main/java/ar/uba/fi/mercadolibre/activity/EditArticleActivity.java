@@ -25,8 +25,7 @@ import java.io.IOException;
 import ar.uba.fi.mercadolibre.R;
 import ar.uba.fi.mercadolibre.controller.ControllerFactory;
 import ar.uba.fi.mercadolibre.model.Article;
-import ar.uba.fi.mercadolibre.utils.ArticleImageSliderManager;
-import ir.apend.slider.ui.Slider;
+import ar.uba.fi.mercadolibre.views.ArticleSlider;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -102,10 +101,9 @@ public class EditArticleActivity extends BaseActivity {
     }
 
     private void initCarousel() {
-        Slider slider = findViewById(R.id.slider);
-        ArticleImageSliderManager sliderManager = new ArticleImageSliderManager(slider, article);
+        ArticleSlider slider = findViewById(R.id.slider);
         int corner = getResources().getDimensionPixelSize(R.dimen.slider_image_corner);
-        sliderManager.init(this, corner);
+        slider.init(article, corner);
     }
 
     private void init_text_views(Article article) {

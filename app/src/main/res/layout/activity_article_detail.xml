@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ir.apend.slider.ui.Slider
+    <ar.uba.fi.mercadolibre.views.ArticleSlider
         android:id="@+id/detail_article_slider"
         android:layout_width="wrap_content"
         android:layout_height="200dp"
