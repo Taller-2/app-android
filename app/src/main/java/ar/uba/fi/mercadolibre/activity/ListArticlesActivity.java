@@ -1,13 +1,11 @@
 package ar.uba.fi.mercadolibre.activity;
 
-import android.app.SearchManager;
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.DialogFragment;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.ListView;
-import android.widget.SearchView;
 
 import java.util.List;
 
@@ -15,6 +13,7 @@ import ar.uba.fi.mercadolibre.R;
 import ar.uba.fi.mercadolibre.adapter.ArticleAdapter;
 import ar.uba.fi.mercadolibre.controller.APIResponse;
 import ar.uba.fi.mercadolibre.controller.ControllerFactory;
+import ar.uba.fi.mercadolibre.dialogs.ArticlesFilterDialog;
 import ar.uba.fi.mercadolibre.model.Article;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -79,33 +78,20 @@ public class ListArticlesActivity extends BaseActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_list_articles, menu);
-        SearchManager searchManager =
-                (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        SearchView searchView =
-                (SearchView) menu.findItem(R.id.list_articles_search).getActionView();
-        searchView.setSearchableInfo(
-                searchManager.getSearchableInfo(getComponentName()));
-        searchView.setIconifiedByDefault(true);
-        searchView.setFocusable(true);
-        searchView.setIconified(false);
-        searchView.requestFocusFromTouch();
-
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                listArticlesByName(query);
-                return true;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                if (newText.length() == 0) {
-                    listAllArticles();
-                }
-                return true;
-            }
-        });
         return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.list_article_settings) {
+            DialogFragment newFragment = new ArticlesFilterDialog();
+            newFragment.show(getSupportFragmentManager(), "filters");
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
 }
