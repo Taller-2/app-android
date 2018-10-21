@@ -97,19 +97,19 @@ public class ChatActivity extends BaseActivity implements RoomListener {
 
             @Override
             public void onOpenFailure(Exception ex) {
-                Log.e("Scaledrone", "onOpenFailure (Listener)", ex);
+                Log.e("ChatActivity", "onOpenFailure (Listener)", ex);
                 finish();
             }
 
             @Override
             public void onFailure(Exception ex) {
-                Log.e("Scaledrone", "onFailure", ex);
+                Log.e("ChatActivity", "onFailure", ex);
                 finish();
             }
 
             @Override
             public void onClosed(String reason) {
-                Log.e("Scaledrone", "onClosed: " + reason);
+                Log.e("ChatActivity", "onClosed: " + reason);
                 finish();
             }
         });
@@ -117,12 +117,12 @@ public class ChatActivity extends BaseActivity implements RoomListener {
 
     @Override
     public void onOpen(Room room) {
-        Log.d("Scaledrone", "onOpen (activity), room " + room.getName());
+        Log.d("ChatActivity", "onOpen (activity), room " + room.getName());
     }
 
     @Override
     public void onOpenFailure(Room room, Exception ex) {
-        Log.e("Scaledrone", "onOpenFailure (activity)", ex);
+        Log.e("ChatActivity", "onOpenFailure (activity)", ex);
         finish();
     }
 
