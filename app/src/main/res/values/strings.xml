@@ -41,4 +41,7 @@
     <string name="image_view_desc">Imagen de articulo</string>
     <string name="open_activity_map">Abrir Mapa de Actividades</string>
     <string name="hold_for_detail">Mantener Presionado para Abrir</string>
+    <string name="open_chat">Chat</string>
+    <string name="send">Enviar</string>
+    <string name="could_not_load_messages">Error buscando mensajes anteriores</string>
 </resources>

@@ -37,5 +37,6 @@
         <activity android:name=".activity.EditArticleImagesActivity"
             android:label='@string/article_images'/>
         <activity android:name=".activity.MapActivity" />
+        <activity android:name=".activity.ChatActivity" />
     </application>
 </manifest>
