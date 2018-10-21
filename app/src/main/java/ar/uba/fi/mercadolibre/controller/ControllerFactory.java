@@ -16,4 +16,8 @@ public class ControllerFactory {
     public static AccountController getAccountController() {
         return RetrofitClient.getClient(API_URL).create(AccountController.class);
     }
+
+    public static ChatMessageController getChatMessageController() {
+        return RetrofitClient.getClient(API_URL).create(ChatMessageController.class);
+    }
 }

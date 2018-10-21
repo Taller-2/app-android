@@ -29,4 +29,8 @@ public class MainMenuActivity extends BaseActivity {
     public void openActivityMap(View view) {
         startActivity(new Intent(getApplicationContext(), MapActivity.class));
     }
+
+    public void openChat(View view) {
+        startActivity(new Intent(getApplicationContext(), ChatActivity.class));
+    }
 }
