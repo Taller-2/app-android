@@ -16,6 +16,7 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 
 import ar.uba.fi.mercadolibre.R;
+import ar.uba.fi.mercadolibre.activity.ArticleDetailActivity;
 import ar.uba.fi.mercadolibre.activity.EditArticleActivity;
 import ar.uba.fi.mercadolibre.model.Article;
 
@@ -52,6 +53,7 @@ public class ArticleAdapter extends ArrayAdapter<Article> {
             addEditButton(view, article);
         } else {
             view.findViewById(R.id.edit_article).setVisibility(View.INVISIBLE);
+            addDetailClickEvent(view, article);
         }
         return view;
     }
@@ -71,6 +73,19 @@ public class ArticleAdapter extends ArrayAdapter<Article> {
         );
     }
 
+    private void addDetailClickEvent(View view, final Article article) {
+        final Activity a = (Activity) this.context;
+
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(a, ArticleDetailActivity.class);
+                i.putExtra("article", article);
+                a.startActivity(i);
+
+            }
+        });
+    }
     private void loadImage(final ImageView imageView, Article a) {
         final String path = a.getPictureURLs().get(0);
         Picasso.get().load(path).into(imageView);
