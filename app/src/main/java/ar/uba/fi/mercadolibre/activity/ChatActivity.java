@@ -28,7 +28,7 @@ import retrofit2.Response;
 
 
 public class ChatActivity extends BaseActivity implements RoomListener {
-    private String roomName = "observable-room"; // There's no privacy yet
+    private final String roomName = "observable-room"; // There's no privacy yet
     private Scaledrone client;
     private ChatMessageAdapter messageAdapter;
     private ListView messagesView;
@@ -74,6 +74,7 @@ public class ChatActivity extends BaseActivity implements RoomListener {
                         currentAccount
                 );
                 messagesView.setAdapter(messageAdapter);
+                scrollToBottom();
             }
 
             @Override
@@ -85,7 +86,8 @@ public class ChatActivity extends BaseActivity implements RoomListener {
     }
 
     public void connectToClient() {
-        client = new Scaledrone("xFKSnmBDfC3SyNTj", currentAccount);
+        String channelID = "xFKSnmBDfC3SyNTj";
+        client = new Scaledrone(channelID, currentAccount);
         client.connect(new Listener() {
             @Override
             public void onOpen() {
@@ -150,10 +152,13 @@ public class ChatActivity extends BaseActivity implements RoomListener {
                     return;
                 }
                 messageAdapter.add(message);
-                // scroll messagesView to the last added element
-                messagesView.setSelection(messagesView.getCount() - 1);
+                scrollToBottom();
             }
         });
+    }
+
+    private void scrollToBottom() {
+        messagesView.setSelection(messagesView.getCount() - 1);
     }
 
     private boolean shouldIgnore(String senderUserID) {
