@@ -1,8 +1,13 @@
 package ar.uba.fi.mercadolibre.activity;
 
+import android.app.SearchManager;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.view.Menu;
 import android.widget.ListView;
+import android.widget.SearchView;
 
 import java.util.List;
 
@@ -26,7 +31,29 @@ public class ListArticlesActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_articles);
 
-        ControllerFactory.getArticleController().list().enqueue(new Callback<APIResponse<List<Article>>>() {
+        Bundle extras = getIntent().getExtras();
+        if (extras == null) {
+            listAllArticles();
+            return;
+        }
+
+        String name = (String) extras.get("article_name");
+
+        if (name == null || name.length() == 0){
+            listAllArticles();
+            return;
+        }
+        listArticlesByName(name);
+    }
+
+    private void listArticlesByName(String name) {
+        listArticles(ControllerFactory.getArticleController().listByName(name));
+    }
+    private void listAllArticles() {
+        listArticles(ControllerFactory.getArticleController().list());
+    }
+    private void listArticles(Call<APIResponse<List<Article>>> articlesCall) {
+        articlesCall.enqueue(new Callback<APIResponse<List<Article>>>() {
             @Override
             public void onResponse(@NonNull Call<APIResponse<List<Article>>> call,
                                    @NonNull Response<APIResponse<List<Article>>> response) {
@@ -48,4 +75,37 @@ public class ListArticlesActivity extends BaseActivity {
             }
         });
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_list_articles, menu);
+        SearchManager searchManager =
+                (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        SearchView searchView =
+                (SearchView) menu.findItem(R.id.list_articles_search).getActionView();
+        searchView.setSearchableInfo(
+                searchManager.getSearchableInfo(getComponentName()));
+        searchView.setIconifiedByDefault(true);
+        searchView.setFocusable(true);
+        searchView.setIconified(false);
+        searchView.requestFocusFromTouch();
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                listArticlesByName(query);
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                if (newText.length() == 0) {
+                    listAllArticles();
+                }
+                return true;
+            }
+        });
+        return true;
+    }
+
 }
