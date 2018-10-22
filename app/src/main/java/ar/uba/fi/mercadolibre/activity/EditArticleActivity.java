@@ -26,6 +26,7 @@ import ar.uba.fi.mercadolibre.R;
 import ar.uba.fi.mercadolibre.controller.ControllerFactory;
 import ar.uba.fi.mercadolibre.model.Article;
 import ar.uba.fi.mercadolibre.views.ArticleSlider;
+import ar.uba.fi.mercadolibre.views.TagsSpinner;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -107,6 +108,8 @@ public class EditArticleActivity extends BaseActivity {
     }
 
     private void init_text_views(Article article) {
+        TagsSpinner spinner = findViewById(R.id.edit_article_tag);
+        spinner.init(this, article);
         fillEditText(R.id.edit_article_name, article.getName());
         fillEditText(R.id.edit_article_description, article.getDescription());
         String price = null;
@@ -205,7 +208,7 @@ public class EditArticleActivity extends BaseActivity {
         article.setDescription(getViewText(R.id.edit_article_description));
         article.setAvailableUnits(Integer.parseInt(getViewText(R.id.edit_article_units)));
         article.setPrice(Double.parseDouble(getViewText(R.id.edit_article_price)));
-
+        article.addTag(((TagsSpinner) findViewById(R.id.edit_article_tag)).getSelectedTag());
         if (article.getID() == null) {
             createArticle();
             return;

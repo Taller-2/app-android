@@ -3,6 +3,7 @@ package ar.uba.fi.mercadolibre.controller;
 import java.util.List;
 
 import ar.uba.fi.mercadolibre.model.Article;
+import ar.uba.fi.mercadolibre.model.Categories;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
@@ -29,7 +30,8 @@ public interface ArticleController {
             @Query("my_lon") Double myLongitude,
             @Query("max_distance") Double maxDistance,
             @Query("price_min") Double priceMin,
-            @Query("price_max") Double priceMax
+            @Query("price_max") Double priceMax,
+            @Query("tags") String category
     );
 
     @POST("article/")
@@ -40,4 +42,7 @@ public interface ArticleController {
 
     @PATCH("article/")
     Call<Article> update(@Body Article article);
+
+    @GET("article/categories")
+    Call<Categories> listCategories();
 }

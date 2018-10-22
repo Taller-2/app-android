@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import ar.uba.fi.mercadolibre.R;
+import ar.uba.fi.mercadolibre.views.TagsSpinner;
 
 public class ArticlesFilterDialog extends DialogFragment {
 
@@ -45,7 +46,8 @@ public class ArticlesFilterDialog extends DialogFragment {
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater();
-        builder.setView(inflater.inflate(R.layout.search_filters, null));
+        View view = inflater.inflate(R.layout.search_filters, null);
+        builder.setView(view);
 
         builder.setPositiveButton(R.string.search, new DialogInterface.OnClickListener() {
             @Override
@@ -62,7 +64,10 @@ public class ArticlesFilterDialog extends DialogFragment {
                         mListener.onDialogNegativeClick(ArticlesFilterDialog.this);
                     }
                 });
-        return builder.create();
 
+        TagsSpinner spinner = view.findViewById(R.id.filter_tags);
+        spinner.init(getActivity());
+        return builder.create();
     }
+
 }

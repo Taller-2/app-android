@@ -84,11 +84,17 @@
         android:layout_height="match_parent" >
 
         <TextView
-            android:id="@+id/textView8"
+            android:id="@+id/textView5"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:padding="5dp"
             android:text="@string/category" />
+
+        <ar.uba.fi.mercadolibre.views.TagsSpinner
+            android:id="@+id/filter_tags"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:spinnerMode="dropdown" />
     </TableRow>
 
 </LinearLayout>

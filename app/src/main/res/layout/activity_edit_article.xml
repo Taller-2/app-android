@@ -92,6 +92,12 @@
                 tools:layout_editor_absoluteX="0dp"
                 tools:layout_editor_absoluteY="152dp" />
 
+            <ar.uba.fi.mercadolibre.views.TagsSpinner
+                android:id="@+id/edit_article_tag"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:spinnerMode="dropdown" />
+
             <Button
                 android:id="@+id/edit_article_save"
                 android:layout_width="wrap_content"

@@ -7,6 +7,7 @@ import com.google.gson.annotations.SerializedName;
 import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.util.GeoPoint;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import ar.uba.fi.mercadolibre.controller.ControllerFactory;
@@ -40,6 +41,10 @@ public class Article extends BaseModel {
     @SerializedName("pictures")
     @Expose
     private ArrayList<String> pictures;
+
+    @SerializedName("tags")
+    @Expose
+    private ArrayList<String> tags;
 
     public Article(String name, String description, int availableUnits, int price,
                    double latitude, double longitude) {
@@ -94,6 +99,17 @@ public class Article extends BaseModel {
     public void setLatLon(double lat, double lon) {
         latitude = lat;
         longitude = lon;
+    }
+
+    public void addTag(String tag) {
+        if (tags == null) {
+            tags = new ArrayList<>();
+        }
+        tags.add(tag);
+    }
+
+    public ArrayList<String> getTags() {
+        return tags;
     }
 
     public void post(Callback<Article> callback) {

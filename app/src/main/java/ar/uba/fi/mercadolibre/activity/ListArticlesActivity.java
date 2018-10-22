@@ -27,6 +27,7 @@ import ar.uba.fi.mercadolibre.controller.APIResponse;
 import ar.uba.fi.mercadolibre.controller.ControllerFactory;
 import ar.uba.fi.mercadolibre.dialogs.ArticlesFilterDialog;
 import ar.uba.fi.mercadolibre.model.Article;
+import ar.uba.fi.mercadolibre.views.TagsSpinner;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -161,6 +162,8 @@ public class ListArticlesActivity extends BaseActivity implements ArticlesFilter
             name = null;
         }
 
+        TagsSpinner tags = dialog.findViewById(R.id.filter_tags);
+        String category = tags.getSelectedTag();
         Double min_price = parseDoubleOrNull(getViewText(R.id.filter_min_price));
         Double max_price = parseDoubleOrNull(getViewText(R.id.filter_max_price));
         Double max_distance = parseDoubleOrNull(getViewText(R.id.filter_max_distance));
@@ -173,7 +176,7 @@ public class ListArticlesActivity extends BaseActivity implements ArticlesFilter
         }
 
         listArticles(ControllerFactory.getArticleController()
-                .search(name, latitude, longitude, max_distance, min_price, max_price));
+                .search(name, latitude, longitude, max_distance, min_price, max_price, category));
     }
 
     private Double parseDoubleOrNull(String value) {
