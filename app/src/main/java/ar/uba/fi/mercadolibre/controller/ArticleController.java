@@ -22,6 +22,16 @@ public interface ArticleController {
     @GET("article/")
     Call<APIResponse<List<Article>>> listByUser(@Query("user") String user);
 
+    @GET("article/")
+    Call<APIResponse<List<Article>>> search(
+            @Query("name") String name,
+            @Query("my_lat") Double myLatitude,
+            @Query("my_lon") Double myLongitude,
+            @Query("max_distance") Double maxDistance,
+            @Query("price_min") Double priceMin,
+            @Query("price_max") Double priceMax
+    );
+
     @POST("article/")
     Call<Article> create(@Body Article article);
 

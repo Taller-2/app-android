@@ -188,7 +188,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     /**
-     * Tries to return data wrapped by APIResponse.
+     * Tries to return dialog wrapped by APIResponse.
      * If it can't, it will call onGetDataFailure and return null.
      *
      * @return Data wrapped by APIResponse or null if there was an error

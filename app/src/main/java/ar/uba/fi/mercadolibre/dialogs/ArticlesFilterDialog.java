@@ -17,6 +17,23 @@ import ar.uba.fi.mercadolibre.R;
 public class ArticlesFilterDialog extends DialogFragment {
 
 
+    public interface Click {
+        void onDialogPositiveClick(DialogFragment dialog);
+        void onDialogNegativeClick(DialogFragment dialog);
+    }
+    Click mListener;
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        try {
+            mListener = (Click) context;
+        } catch (ClassCastException e) {
+            // The parent activity doesn't implement the interface, throw exception
+            throw new ClassCastException(getActivity().toString()
+                    + " must implement NoticeDialogListener");
+        }
+    }
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -30,9 +47,10 @@ public class ArticlesFilterDialog extends DialogFragment {
         LayoutInflater inflater = getActivity().getLayoutInflater();
         builder.setView(inflater.inflate(R.layout.search_filters, null));
 
-        builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+        builder.setPositiveButton(R.string.search, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                mListener.onDialogPositiveClick(ArticlesFilterDialog.this);
 
             }
         });
@@ -41,7 +59,7 @@ public class ArticlesFilterDialog extends DialogFragment {
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-
+                        mListener.onDialogNegativeClick(ArticlesFilterDialog.this);
                     }
                 });
         return builder.create();
