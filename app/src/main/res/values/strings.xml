@@ -51,4 +51,12 @@
     <string name="article">Articulo</string>
     <string name="search_filters">Filtros de busqueda</string>
     <string name="search">Buscar</string>
+    <string name="open_chat">Chat</string>
+    <string name="send">Enviar</string>
+    <string name="could_not_load_messages">Error buscando mensajes anteriores</string>
+    <string name="dollarsign">$</string>
+    <string name="ask_seller">preguntar al vendedor</string>
+    <string name="buy">comprar</string>
+    <string name="available_units_tag">artículos disponibles</string>
+
 </resources>

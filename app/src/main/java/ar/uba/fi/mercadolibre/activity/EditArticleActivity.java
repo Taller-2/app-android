@@ -13,7 +13,6 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -22,14 +21,11 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import ar.uba.fi.mercadolibre.R;
 import ar.uba.fi.mercadolibre.controller.ControllerFactory;
 import ar.uba.fi.mercadolibre.model.Article;
-import ir.apend.slider.model.Slide;
-import ir.apend.slider.ui.Slider;
+import ar.uba.fi.mercadolibre.views.ArticleSlider;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -105,25 +101,11 @@ public class EditArticleActivity extends BaseActivity {
     }
 
     private void initCarousel() {
-        Slider slider = findViewById(R.id.slider);
-        slider.removeAllViews();
-        ArrayList<String> pictures = article.getPictureURLs();
-        if (pictures == null || pictures.size() == 0) {
-            ImageView blank = new ImageView(this);
-            blank.setImageResource(R.drawable.ic_menu_camera);
-            slider.addView(blank);
-            return;
-        }
-
-        List<Slide> slideList = new ArrayList<>();
+        ArticleSlider slider = findViewById(R.id.slider);
         int corner = getResources().getDimensionPixelSize(R.dimen.slider_image_corner);
-        for (int i = 0; i < article.getPictureURLs().size(); i++) {
-            String pictureURL = article.getPictureURLs().get(i);
-            slideList.add(new Slide(i, pictureURL, corner));
-        }
-        slider.addSlides(slideList);
-
+        slider.init(article, corner);
     }
+
     private void init_text_views(Article article) {
         fillEditText(R.id.edit_article_name, article.getName());
         fillEditText(R.id.edit_article_description, article.getDescription());

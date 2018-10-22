@@ -119,7 +119,7 @@ public class MapActivity extends BaseActivity {
                     toast(R.string.generic_error);
                     return eventWasHandled;
                 }
-                Intent intent = new Intent(getApplicationContext(), EditArticleActivity.class);
+                Intent intent = new Intent(getApplicationContext(), ArticleDetailActivity.class);
                 intent.putExtra("article", article);
                 startActivity(intent);
                 return eventWasHandled;
