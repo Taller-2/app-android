@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".activity.BaseActivity">
+
+    <item
+        android:id="@+id/edit_article_more"
+        android:orderInCategory="100"
+        android:title="@string/more"
+        android:icon="@drawable/ic_baseline_more_vert_24px"
+        app:showAsAction="ifRoom">
+
+        <menu>
+            <item android:id="@+id/show_qr"
+                android:title="@string/show_qr" />
+            <item android:id="@+id/delete"
+                android:title="@string/delete" />
+        </menu>
+    </item>
+
+</menu>

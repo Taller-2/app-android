@@ -11,6 +11,8 @@ import android.support.v4.app.ActivityCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -24,6 +26,7 @@ import java.io.IOException;
 
 import ar.uba.fi.mercadolibre.R;
 import ar.uba.fi.mercadolibre.controller.ControllerFactory;
+import ar.uba.fi.mercadolibre.dialogs.ShowQrDialog;
 import ar.uba.fi.mercadolibre.model.Article;
 import ar.uba.fi.mercadolibre.views.ArticleSlider;
 import ar.uba.fi.mercadolibre.views.TagsSpinner;
@@ -44,6 +47,36 @@ public class EditArticleActivity extends BaseActivity {
     @Override
     public int identifierForDrawer() {
         return HOME_IDENTIFIER;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        if (article.getID() == null) {
+            return false;
+        }
+
+        super.onCreateOptionsMenu(menu);
+        getMenuInflater().inflate(R.menu.menu_edit_article, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.delete:
+                return true;
+
+            case R.id.show_qr:
+                showQr();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private void showQr() {
+        ShowQrDialog dialog = ShowQrDialog.newInstance(article);
+        dialog.show(getSupportFragmentManager(), "qr");
     }
 
     int[] textFieldIDs = {
