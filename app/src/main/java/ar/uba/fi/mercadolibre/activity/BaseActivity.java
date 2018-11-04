@@ -46,7 +46,8 @@ public abstract class BaseActivity extends AppCompatActivity {
     static final public int MY_ACCOUNT_IDENTIFIER = 2;
     static final public int SIGN_OUT_IDENTIFIER = 3;
     static final public int MY_ITEMS_IDENTIFIER = 4;
-    static final public int SCAN_QR_IDENTIFIER = 5;
+    static final public int MY_PURCHASES_IDENTIFIER = 5;
+    static final public int SCAN_QR_IDENTIFIER = 6;
 
     private SparseArray<Runnable> activityClasses = null;
 
@@ -70,6 +71,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         activities.append(MY_ACCOUNT_IDENTIFIER, new ActivityStarter(AccountActivity.class));
         activities.append(SIGN_OUT_IDENTIFIER, new ActivityStarter(SignOutActivity.class));
         activities.append(MY_ITEMS_IDENTIFIER, new ActivityStarter(UserArticlesActivity.class));
+        activities.append(MY_PURCHASES_IDENTIFIER, new ActivityStarter(UserPurchasesActivity.class));
         activities.append(SCAN_QR_IDENTIFIER, new Runnable() {
             @Override
             public void run() {
@@ -165,6 +167,10 @@ public abstract class BaseActivity extends AppCompatActivity {
                 .withIdentifier(SCAN_QR_IDENTIFIER)
                 .withName(R.string.scan_qr)
                 .withIcon(R.drawable.ic_baseline_search_24px);
+        PrimaryDrawerItem myPurchases = new PrimaryDrawerItem()
+                .withIdentifier(MY_PURCHASES_IDENTIFIER)
+                .withName(R.string.my_purchases)
+                .withIcon(R.drawable.ic_baseline_shopping_cart_24px);
         new DrawerBuilder()
                 .withActivity(this)
                 .withActionBarDrawerToggle(true)
@@ -174,7 +180,15 @@ public abstract class BaseActivity extends AppCompatActivity {
                 .withCloseOnClick(true)
                 .withToolbar(toolbar)
                 .withSelectedItem(identifierForDrawer())
-                .addDrawerItems(home, myAccount, myItems, scanQr, new DividerDrawerItem(), signOut)
+                .addDrawerItems(
+                        home,
+                        myAccount,
+                        myItems,
+                        myPurchases,
+                        scanQr,
+                        new DividerDrawerItem(),
+                        signOut
+                )
                 .withOnDrawerItemClickListener(drawerItemClickListener())
                 .build();
     }
