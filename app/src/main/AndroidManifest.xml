@@ -43,6 +43,7 @@
         <activity android:name=".activity.ChatActivity" />
         <activity android:name=".activity.ArticleDetailActivity" />
         <activity
-            android:name=".activity.UserPurchasesActivity" />
+            android:name=".activity.UserPurchasesActivity"
+            android:label="@string/my_purchases"/>
     </application>
 </manifest>

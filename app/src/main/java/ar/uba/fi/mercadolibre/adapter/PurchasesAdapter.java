@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import ar.uba.fi.mercadolibre.R;
@@ -40,8 +41,13 @@ public class PurchasesAdapter extends ArrayAdapter<Purchase> {
         return convertView;
     }
 
-    private void loadImage(final ImageView imageView, Article a) {
-        final String path = a.getPictureURLs().get(0);
+    private void loadImage(final ImageView imageView, Article article) {
+        ArrayList<String> pictures = article.getPictureURLs();
+        if (pictures.isEmpty()) {
+            return;
+        }
+
+        final String path = pictures.get(0);
         Picasso.get().load(path).into(imageView);
     }
 
