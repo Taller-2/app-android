@@ -62,4 +62,6 @@
     <string name="show_qr">Mostrar codigo QR</string>
     <string name="qr_code">Codigo QR</string>
     <string name="more">mas opciones</string>
+    <string name="my_purchases">Mis Compras</string>
+    <string name="no_purchases">Todavia no hiciste ninguna compra</string>
 </resources>
