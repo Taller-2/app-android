@@ -17,6 +17,9 @@ public interface ArticleController {
     @GET("article/")
     Call<APIResponse<List<Article>>> list();
 
+    @GET("article/{id}")
+    Call<Article> getByID(@Path("id") String id);
+
     @GET("article/")
     Call<APIResponse<List<Article>>> listByName(@Query("name") String name);
 

@@ -1,6 +1,8 @@
 package ar.uba.fi.mercadolibre.activity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
@@ -31,7 +33,7 @@ import ar.uba.fi.mercadolibre.client.RetrofitClient;
 import ar.uba.fi.mercadolibre.controller.APIResponse;
 import ar.uba.fi.mercadolibre.controller.ControllerFactory;
 import ar.uba.fi.mercadolibre.controller.InvalidResponseException;
-import ar.uba.fi.mercadolibre.model.Account;
+import ar.uba.fi.mercadolibre.model.Article;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -44,16 +46,36 @@ public abstract class BaseActivity extends AppCompatActivity {
     static final public int MY_ACCOUNT_IDENTIFIER = 2;
     static final public int SIGN_OUT_IDENTIFIER = 3;
     static final public int MY_ITEMS_IDENTIFIER = 4;
+    static final public int SCAN_QR_IDENTIFIER = 5;
 
-    private static final SparseArray<Class<?>> activityClasses =
-            getActivitiesByIdentifier();
+    private SparseArray<Runnable> activityClasses = null;
 
-    private static SparseArray<Class<?>> getActivitiesByIdentifier() {
-        SparseArray<Class<?>> activities = new SparseArray<>();
-        activities.append(HOME_IDENTIFIER, MainMenuActivity.class);
-        activities.append(MY_ACCOUNT_IDENTIFIER, AccountActivity.class);
-        activities.append(SIGN_OUT_IDENTIFIER, SignOutActivity.class);
-        activities.append(MY_ITEMS_IDENTIFIER, UserArticlesActivity.class);
+    class ActivityStarter implements Runnable {
+        private Class activityClass;
+        ActivityStarter(Class activityClass) {
+            this.activityClass = activityClass;
+        }
+        @Override
+        public void run() {
+            startActivity(new Intent(
+                    getApplicationContext(),
+                    activityClass
+            ));
+        }
+    }
+
+    private SparseArray<Runnable> getActivitiesByIdentifier() {
+        SparseArray<Runnable> activities = new SparseArray<>();
+        activities.append(HOME_IDENTIFIER, new ActivityStarter(MainMenuActivity.class));
+        activities.append(MY_ACCOUNT_IDENTIFIER, new ActivityStarter(AccountActivity.class));
+        activities.append(SIGN_OUT_IDENTIFIER, new ActivityStarter(SignOutActivity.class));
+        activities.append(MY_ITEMS_IDENTIFIER, new ActivityStarter(UserArticlesActivity.class));
+        activities.append(SCAN_QR_IDENTIFIER, new Runnable() {
+            @Override
+            public void run() {
+                startQrScan();
+            }
+        });
         return activities;
     }
 
@@ -71,6 +93,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        activityClasses = getActivitiesByIdentifier();
         FirebaseUser mUser = FirebaseAuth.getInstance().getCurrentUser();
         if (mUser != null) {
             mUser.getIdToken(true).addOnCompleteListener(new OnCompleteListener<GetTokenResult>() {
@@ -138,6 +161,10 @@ public abstract class BaseActivity extends AppCompatActivity {
                 .withIdentifier(MY_ITEMS_IDENTIFIER)
                 .withName(R.string.my_items)
                 .withIcon(R.drawable.ic_baseline_loyalty_24px);
+        PrimaryDrawerItem scanQr = new PrimaryDrawerItem()
+                .withIdentifier(SCAN_QR_IDENTIFIER)
+                .withName(R.string.scan_qr)
+                .withIcon(R.drawable.ic_baseline_search_24px);
         new DrawerBuilder()
                 .withActivity(this)
                 .withActionBarDrawerToggle(true)
@@ -147,7 +174,7 @@ public abstract class BaseActivity extends AppCompatActivity {
                 .withCloseOnClick(true)
                 .withToolbar(toolbar)
                 .withSelectedItem(identifierForDrawer())
-                .addDrawerItems(home, myAccount, myItems, new DividerDrawerItem(), signOut)
+                .addDrawerItems(home, myAccount, myItems, scanQr, new DividerDrawerItem(), signOut)
                 .withOnDrawerItemClickListener(drawerItemClickListener())
                 .build();
     }
@@ -156,10 +183,8 @@ public abstract class BaseActivity extends AppCompatActivity {
         return new Drawer.OnDrawerItemClickListener() {
             @Override
             public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
-                startActivity(new Intent(
-                        getApplicationContext(),
-                        activityClasses.get((int) drawerItem.getIdentifier())
-                ));
+                int index = (int) drawerItem.getIdentifier();
+                activityClasses.get(index).run();
                 return KEEP_DRAWER_OPEN_ON_ITEM_CLICK;
             }
         };
@@ -206,5 +231,55 @@ public abstract class BaseActivity extends AppCompatActivity {
         Log.e("onGetDataFailure", t.getMessage());
         toast(R.string.generic_error);
         finish();
+    }
+
+    private void startQrScan() {
+        try {
+
+            Intent intent = new Intent("com.google.zxing.client.android.SCAN");
+            intent.putExtra("SCAN_MODE", "QR_CODE_MODE"); // "PRODUCT_MODE for bar codes
+
+            startActivityForResult(intent, 0);
+
+        } catch (Exception e) {
+
+            Uri marketUri = Uri.parse("market://details?id=com.google.zxing.client.android");
+            Intent marketIntent = new Intent(Intent.ACTION_VIEW, marketUri);
+            startActivity(marketIntent);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 0) {
+
+            if (resultCode == RESULT_OK) {
+                String contents = data.getStringExtra("SCAN_RESULT");
+                Log.d("QR SCAN", contents);
+                getArticle(contents);
+
+            }
+            if(resultCode == RESULT_CANCELED){
+                Log.d("QR SCAN", "QR Scan cancelled");
+            }
+        }
+    }
+
+    void getArticle(String id) {
+        final Context context = this;
+        ControllerFactory.getArticleController().getByID(id).enqueue(new Callback<Article>() {
+            @Override
+            public void onResponse(Call<Article> call, Response<Article> response) {
+                Intent i = new Intent(context, ArticleDetailActivity.class);
+                i.putExtra("article", response.body());
+                startActivity(i);
+            }
+
+            @Override
+            public void onFailure(Call<Article> call, Throwable t) {
+                Log.e("Article GET", t.getMessage());
+            }
+        });
     }
 }
