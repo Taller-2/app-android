@@ -1,8 +1,6 @@
 package ar.uba.fi.mercadolibre.activity;
 
 import android.os.Bundle;
-import android.os.PersistableBundle;
-import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
@@ -37,6 +35,10 @@ public class UserPurchasesActivity extends BaseActivity {
             @Override
             public void onResponse(Call<APIResponse<List<Purchase>>> call, Response<APIResponse<List<Purchase>>> response) {
                 List<Purchase> data = getData(response);
+                if (data == null) {
+                    Log.e("Purchases GET", "data was null");
+                    return;
+                }
                 if (data.size() == 0) {
                     showEmptyMessage();
                     return;
