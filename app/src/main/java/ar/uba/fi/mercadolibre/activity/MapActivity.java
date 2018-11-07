@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 
+import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.api.IMapController;
 import org.osmdroid.config.Configuration;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
@@ -29,9 +30,11 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class MapActivity extends BaseActivity {
+    double MAX_DIFF = 0.003;
     MapView map;
     GeoPoint buenosAires = new GeoPoint(-34.62, -58.44);
     HashMap<String, Article> articles;
+    OverlayItem lastClickedItem;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -87,7 +90,13 @@ public class MapActivity extends BaseActivity {
 
     private ArrayList<OverlayItem> buildOverlayItems(List<Article> articles) {
         ArrayList<OverlayItem> items = new ArrayList<>();
+        ArrayList<IGeoPoint> geoPoints = new ArrayList<>();
         for (Article article : articles) {
+            IGeoPoint geoPoint = moveIfAlreadyFound(
+                    article.getGeoPoint(),
+                    geoPoints
+            );
+            geoPoints.add(geoPoint);
             items.add(new OverlayItem(
                     article.getID(),
                     String.format(
@@ -96,11 +105,32 @@ public class MapActivity extends BaseActivity {
                             article.getName(),
                             article.getPrice()
                     ),
-                    getString(R.string.hold_for_detail),
-                    article.getGeoPoint()
+                    getString(R.string.touch_again_for_detail),
+                    geoPoint
             ));
         }
         return items;
+    }
+
+    private IGeoPoint moveIfAlreadyFound(IGeoPoint geoPoint, ArrayList<IGeoPoint> geoPoints) {
+        boolean alreadyFound = false;
+        for (IGeoPoint usedGeoPoint: geoPoints) {
+            if (alreadyFound) break;
+            if (usedGeoPoint.getLatitude() == geoPoint.getLatitude() && usedGeoPoint.getLongitude() == geoPoint.getLongitude()) {
+                alreadyFound = true;
+            }
+        }
+        if (!alreadyFound) return geoPoint;
+        IGeoPoint newGeoPoint = new GeoPoint(
+                geoPoint.getLatitude() + getRandomDiff(),
+                geoPoint.getLongitude() + getRandomDiff()
+        );
+        return moveIfAlreadyFound(newGeoPoint, geoPoints);
+    }
+
+    private double getRandomDiff() {
+        double minusOneToOne = (Math.random() - 0.5) * 2;
+        return minusOneToOne * MAX_DIFF;
     }
 
     private void placeArticlesOnMap(ArrayList<OverlayItem> items) {
@@ -109,19 +139,22 @@ public class MapActivity extends BaseActivity {
         ItemizedIconOverlay.OnItemGestureListener<OverlayItem> listener = new ItemizedIconOverlay.OnItemGestureListener<OverlayItem>() {
             @Override
             public boolean onItemSingleTapUp(final int index, final OverlayItem item) {
+                if (item == lastClickedItem) {
+                    Article article = articles.get(item.getUid());
+                    if (article == null) {
+                        toast(R.string.generic_error);
+                        return eventWasHandled;
+                    }
+                    Intent intent = new Intent(getApplicationContext(), ArticleDetailActivity.class);
+                    intent.putExtra("article", article);
+                    startActivity(intent);
+                }
+                lastClickedItem = item;
                 return eventWasHandled;
             }
 
             @Override
             public boolean onItemLongPress(final int index, final OverlayItem item) {
-                Article article = articles.get(item.getUid());
-                if (article == null) {
-                    toast(R.string.generic_error);
-                    return eventWasHandled;
-                }
-                Intent intent = new Intent(getApplicationContext(), ArticleDetailActivity.class);
-                intent.putExtra("article", article);
-                startActivity(intent);
                 return eventWasHandled;
             }
         };
