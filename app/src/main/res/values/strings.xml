@@ -64,4 +64,6 @@
     <string name="more">mas opciones</string>
     <string name="my_purchases">Mis Compras</string>
     <string name="no_purchases">Todavia no hiciste ninguna compra</string>
+    <string name="shipment_cost">Costo de envío:</string>
+    <string name="does_not_ship">No envía</string>
 </resources>
