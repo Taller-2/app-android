@@ -56,6 +56,7 @@ dependencies {
     implementation 'com.github.ApendIr:slider:1.0'
     implementation 'org.osmdroid:osmdroid-android:6.0.2'
     implementation 'com.scaledrone:scaledrone-java:0.3.0'
+    api 'com.google.guava:guava:25.0-android'
 }
 
 apply plugin: 'com.google.gms.google-services'
