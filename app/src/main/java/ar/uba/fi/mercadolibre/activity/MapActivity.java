@@ -6,6 +6,9 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 
+import com.google.common.base.Predicate;
+import com.google.common.collect.Iterables;
+
 import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.api.IMapController;
 import org.osmdroid.config.Configuration;
@@ -112,20 +115,22 @@ public class MapActivity extends BaseActivity {
         return items;
     }
 
-    private IGeoPoint moveIfAlreadyFound(IGeoPoint geoPoint, ArrayList<IGeoPoint> geoPoints) {
-        boolean alreadyFound = false;
-        for (IGeoPoint usedGeoPoint: geoPoints) {
-            if (alreadyFound) break;
-            if (usedGeoPoint.getLatitude() == geoPoint.getLatitude() && usedGeoPoint.getLongitude() == geoPoint.getLongitude()) {
-                alreadyFound = true;
+    private IGeoPoint moveIfAlreadyFound(final IGeoPoint geoPoint, ArrayList<IGeoPoint> geoPoints) {
+        if (!Iterables.any(geoPoints, new Predicate<IGeoPoint>() {
+            @Override
+            public boolean apply(@NonNull IGeoPoint usedGeoPoint) {
+                return usedGeoPoint.getLatitude() == geoPoint.getLatitude() &&
+                        usedGeoPoint.getLongitude() == geoPoint.getLongitude();
             }
-        }
-        if (!alreadyFound) return geoPoint;
-        IGeoPoint newGeoPoint = new GeoPoint(
-                geoPoint.getLatitude() + getRandomDiff(),
-                geoPoint.getLongitude() + getRandomDiff()
+        })) return geoPoint;
+
+        return moveIfAlreadyFound(
+                new GeoPoint(
+                        geoPoint.getLatitude() + getRandomDiff(),
+                        geoPoint.getLongitude() + getRandomDiff()
+                ),
+                geoPoints
         );
-        return moveIfAlreadyFound(newGeoPoint, geoPoints);
     }
 
     private double getRandomDiff() {
