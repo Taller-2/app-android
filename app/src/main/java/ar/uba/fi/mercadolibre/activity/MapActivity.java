@@ -6,8 +6,8 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 
-import com.google.common.base.Predicate;
-import com.google.common.collect.Iterables;
+import com.google.common.collect.HashBasedTable;
+import com.google.common.collect.Table;
 
 import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.api.IMapController;
@@ -93,13 +93,13 @@ public class MapActivity extends BaseActivity {
 
     private ArrayList<OverlayItem> buildOverlayItems(List<Article> articles) {
         ArrayList<OverlayItem> items = new ArrayList<>();
-        ArrayList<IGeoPoint> geoPoints = new ArrayList<>();
+        Table<Double, Double, Boolean> geoPoints = HashBasedTable.create();
         for (Article article : articles) {
             IGeoPoint geoPoint = moveIfAlreadyFound(
                     article.getGeoPoint(),
                     geoPoints
             );
-            geoPoints.add(geoPoint);
+            geoPoints.put(geoPoint.getLatitude(), geoPoint.getLongitude(), true);
             items.add(new OverlayItem(
                     article.getID(),
                     String.format(
@@ -115,14 +115,10 @@ public class MapActivity extends BaseActivity {
         return items;
     }
 
-    private IGeoPoint moveIfAlreadyFound(final IGeoPoint geoPoint, ArrayList<IGeoPoint> geoPoints) {
-        if (!Iterables.any(geoPoints, new Predicate<IGeoPoint>() {
-            @Override
-            public boolean apply(@NonNull IGeoPoint usedGeoPoint) {
-                return usedGeoPoint.getLatitude() == geoPoint.getLatitude() &&
-                        usedGeoPoint.getLongitude() == geoPoint.getLongitude();
-            }
-        })) return geoPoint;
+    private IGeoPoint moveIfAlreadyFound(final IGeoPoint geoPoint, Table<Double, Double, Boolean> geoPoints) {
+        if (!geoPoints.contains(geoPoint.getLatitude(), geoPoint.getLongitude())) {
+            return geoPoint;
+        }
 
         return moveIfAlreadyFound(
                 new GeoPoint(
