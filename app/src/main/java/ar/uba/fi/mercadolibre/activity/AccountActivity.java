@@ -58,6 +58,7 @@ public class AccountActivity extends BaseActivity {
     private void updateShownAccount(Account account) {
         fillTextView(R.id.email, account.getEmail());
         fillTextView(R.id.name, account.getName());
+        fillTextView(R.id.score, Integer.toString(account.getScore()));
         String pictureURL = account.getProfilePictureURL();
         if (pictureURL == null) {
             return;

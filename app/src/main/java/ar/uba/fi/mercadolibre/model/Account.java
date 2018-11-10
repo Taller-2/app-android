@@ -20,6 +20,10 @@ public class Account {
     @Expose
     private String userID;
 
+    @SerializedName("score")
+    @Expose
+    private int score;
+
     public String getEmail() {
         return email;
     }
@@ -34,6 +38,10 @@ public class Account {
 
     public String getUserID() {
         return userID;
+    }
+
+    public int getScore() {
+        return score;
     }
 
     public void setEmail(String email) {
