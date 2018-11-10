@@ -25,7 +25,8 @@ public interface ArticleController {
     Call<APIResponse<ShipmentCost>> shipmentCost(
             @Path("id") String id,
             @Query("my_lat") Double myLatitude,
-            @Query("my_lon") Double myLongitude
+            @Query("my_lon") Double myLongitude,
+            @Query("payment_method") String paymentMethod
     );
 
     @GET("article/")

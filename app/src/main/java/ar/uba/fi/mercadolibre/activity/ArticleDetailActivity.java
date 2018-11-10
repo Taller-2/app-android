@@ -133,7 +133,7 @@ public class ArticleDetailActivity extends BaseActivity {
                     Log.w("Shipment Cost", "Location == null");
                     return;
                 }
-                ControllerFactory.getArticleController().shipmentCost(article.getID(), location.getLatitude(), location.getLongitude()).enqueue(new Callback<APIResponse<ShipmentCost>>() {
+                ControllerFactory.getArticleController().shipmentCost(article.getID(), location.getLatitude(), location.getLongitude(), "cash").enqueue(new Callback<APIResponse<ShipmentCost>>() {
                     @Override
                     public void onResponse(Call<APIResponse<ShipmentCost>> call, Response<APIResponse<ShipmentCost>> response) {
                         ShipmentCost shipmentCost;

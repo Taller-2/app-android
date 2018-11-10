@@ -141,7 +141,7 @@
         android:layout_marginEnd="32dp"
         android:layout_marginRight="32dp"
         android:width="100dp"
-        android:text="@string/shipment_cost"
+        android:text="@string/cash_shipment_cost"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/detail_article_price" />
 
