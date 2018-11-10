@@ -4,6 +4,7 @@ import java.util.List;
 
 import ar.uba.fi.mercadolibre.model.Article;
 import ar.uba.fi.mercadolibre.model.Categories;
+import ar.uba.fi.mercadolibre.model.ShipmentCost;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
@@ -19,6 +20,14 @@ public interface ArticleController {
 
     @GET("article/{id}")
     Call<Article> getByID(@Path("id") String id);
+
+    @GET("article/{id}/shipment_cost")
+    Call<APIResponse<ShipmentCost>> shipmentCost(
+            @Path("id") String id,
+            @Query("my_lat") Double myLatitude,
+            @Query("my_lon") Double myLongitude,
+            @Query("payment_method") String paymentMethod
+    );
 
     @GET("article/")
     Call<APIResponse<List<Article>>> listByName(@Query("name") String name);
