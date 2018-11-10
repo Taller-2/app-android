@@ -19,6 +19,7 @@ import java.util.Locale;
 
 import ar.uba.fi.mercadolibre.R;
 import ar.uba.fi.mercadolibre.controller.ControllerFactory;
+import ar.uba.fi.mercadolibre.controller.InvalidResponseException;
 import ar.uba.fi.mercadolibre.controller.PurchaseBody;
 import ar.uba.fi.mercadolibre.controller.APIResponse;
 import ar.uba.fi.mercadolibre.model.Article;
@@ -135,9 +136,15 @@ public class ArticleDetailActivity extends BaseActivity {
                 ControllerFactory.getArticleController().shipmentCost(article.getID(), location.getLatitude(), location.getLongitude()).enqueue(new Callback<APIResponse<ShipmentCost>>() {
                     @Override
                     public void onResponse(Call<APIResponse<ShipmentCost>> call, Response<APIResponse<ShipmentCost>> response) {
-                        ShipmentCost shipmentCost = getData(response);
-                        if (shipmentCost == null) return;
+                        ShipmentCost shipmentCost;
                         String text;
+                        try {
+                            shipmentCost = getDataOrThrowException(response);
+                        } catch (InvalidResponseException e) {
+                            Log.e("shipmentCostError", e.getMessage());
+                            toast(R.string.shipment_cost_error);
+                            return;
+                        }
                         if (shipmentCost.isEnabled()) {
                             text = String.format(Locale.getDefault(), "$%.2f", shipmentCost.getCost());
                         } else {
