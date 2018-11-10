@@ -4,6 +4,10 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class ShipmentCost {
+    public static final String STATUS_ENABLED = "enabled";
+    public static final String STATUS_FREE = "free";
+    public static final String STATUS_DISABLED = "disabled";
+
     @SerializedName("cost")
     @Expose
     private float cost;
@@ -14,7 +18,7 @@ public class ShipmentCost {
 
     public boolean isEnabled() {
         if (status == null) return false;
-        return !status.equals("disabled");
+        return !status.equals(STATUS_DISABLED);
     }
 
     public float getCost() {
