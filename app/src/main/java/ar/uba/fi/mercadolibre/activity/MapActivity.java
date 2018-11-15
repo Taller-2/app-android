@@ -34,6 +34,7 @@ import retrofit2.Response;
 
 public class MapActivity extends BaseActivity {
     double MAX_DIFF = 0.003;
+    int MAX_NAME_LENGTH = 30;
     MapView map;
     GeoPoint buenosAires = new GeoPoint(-34.62, -58.44);
     HashMap<String, Article> articles;
@@ -105,7 +106,7 @@ public class MapActivity extends BaseActivity {
                     String.format(
                             Locale.getDefault(),
                             "%s, $%.2f",
-                            article.getName(),
+                            article.getName(MAX_NAME_LENGTH),
                             article.getPrice()
                     ),
                     getString(R.string.touch_again_for_detail),

@@ -7,7 +7,6 @@ import com.google.gson.annotations.SerializedName;
 import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.util.GeoPoint;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import ar.uba.fi.mercadolibre.controller.ControllerFactory;
@@ -62,6 +61,11 @@ public class Article extends BaseModel {
 
     public String getName() {
         return name;
+    }
+
+    public String getName(int lengthLimit) {
+        if (name == null || name.length() <= lengthLimit) return getName();
+        return name.substring(0, lengthLimit) + "...";
     }
 
     public String getDescription() {
