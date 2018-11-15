@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.support.annotation.NonNull;
@@ -58,6 +59,7 @@ public class ArticleDetailActivity extends BaseActivity {
     private void initContent() {
         fillTextView(R.id.detail_article_name, article.getName());
         fillTextView(R.id.detail_article_description, article.getDescription());
+        fillTextView(R.id.categories, TextUtils.join(", ", article.getTags()));
 
         String units = String.valueOf(article.getAvailableUnits());
         fillTextView(R.id.detail_article_available_nits, units);
