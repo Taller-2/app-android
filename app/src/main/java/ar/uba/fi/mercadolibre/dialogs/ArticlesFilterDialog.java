@@ -10,7 +10,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 
 import ar.uba.fi.mercadolibre.R;
 import ar.uba.fi.mercadolibre.views.TagsSpinner;
@@ -20,8 +19,10 @@ public class ArticlesFilterDialog extends DialogFragment {
 
     public interface Click {
         void onDialogPositiveClick(DialogFragment dialog);
+
         void onDialogNegativeClick(DialogFragment dialog);
     }
+
     Click mListener;
 
     @Override
@@ -34,11 +35,6 @@ public class ArticlesFilterDialog extends DialogFragment {
             throw new ClassCastException(getActivity().toString()
                     + " must implement NoticeDialogListener");
         }
-    }
-    @Nullable
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.search_filters, container, false);
     }
 
     @NonNull
@@ -69,5 +65,4 @@ public class ArticlesFilterDialog extends DialogFragment {
         spinner.init(getActivity());
         return builder.create();
     }
-
 }
