@@ -11,8 +11,8 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitClient {
-    private static Retrofit.Builder retrofit = null;
     public static String firebaseToken = null;
+    private static Retrofit.Builder retrofit = null;
 
     public static Retrofit getClient(String url) {
         if (retrofit != null) return retrofit.build();

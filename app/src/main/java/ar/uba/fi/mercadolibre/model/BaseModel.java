@@ -10,9 +10,10 @@ public class BaseModel implements Serializable {
     @Expose
     private String id;
 
+    BaseModel() {
+    }
+
     public String getID() {
         return id;
     }
-
-    BaseModel() {}
 }

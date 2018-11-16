@@ -20,7 +20,7 @@ public class ArticleSlider extends Slider {
     public ArticleSlider(@NonNull Context context) {
         super(context);
     }
-    
+
     public ArticleSlider(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
     }

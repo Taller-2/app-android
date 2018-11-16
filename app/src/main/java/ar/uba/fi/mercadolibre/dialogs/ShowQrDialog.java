@@ -22,8 +22,17 @@ import ar.uba.fi.mercadolibre.R;
 import ar.uba.fi.mercadolibre.model.Article;
 
 public class ShowQrDialog extends DialogFragment {
-    private Article article = null;
     private static final String ARTICLE_KEY = "article";
+    private Article article = null;
+
+    public static ShowQrDialog newInstance(Article article) {
+        Bundle args = new Bundle();
+        args.putSerializable(ARTICLE_KEY, article);
+        ShowQrDialog fragment = new ShowQrDialog();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -63,13 +72,5 @@ public class ShowQrDialog extends DialogFragment {
         } catch (WriterException e) {
             e.printStackTrace();
         }
-    }
-
-    public static ShowQrDialog newInstance(Article article) {
-        Bundle args = new Bundle();
-        args.putSerializable(ARTICLE_KEY, article);
-        ShowQrDialog fragment = new ShowQrDialog();
-        fragment.setArguments(args);
-        return fragment;
     }
 }

@@ -35,9 +35,8 @@ import retrofit2.Response;
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 
 public class ListArticlesActivity extends BaseActivity implements ArticlesFilterDialog.Click {
-    private FusedLocationProviderClient mFusedLocationClient;
-
     Dialog dialog;
+    private FusedLocationProviderClient mFusedLocationClient;
 
     @Override
     public int identifierForDrawer() {

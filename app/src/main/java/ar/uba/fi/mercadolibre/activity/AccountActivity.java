@@ -27,8 +27,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class AccountActivity extends BaseActivity {
-    Account account = null;
     private static final int GET_FROM_GALLERY = 3;
+    Account account = null;
 
     @Override
     public int identifierForDrawer() {

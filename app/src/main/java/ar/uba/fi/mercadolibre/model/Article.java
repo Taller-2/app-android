@@ -63,6 +63,10 @@ public class Article extends BaseModel {
         return name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public String getName(int lengthLimit) {
         if (name == null || name.length() <= lengthLimit) return getName();
         return name.substring(0, lengthLimit) + "...";
@@ -72,32 +76,28 @@ public class Article extends BaseModel {
         return description;
     }
 
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     public int getAvailableUnits() {
         return availableUnits;
+    }
+
+    public void setAvailableUnits(int availableUnits) {
+        this.availableUnits = availableUnits;
     }
 
     public double getPrice() {
         return price;
     }
 
-    public ArrayList<String> getPictureURLs() {
-        return pictures;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public void setPrice(double price) {
         this.price = price;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public void setAvailableUnits(int availableUnits) {
-        this.availableUnits = availableUnits;
+    public ArrayList<String> getPictureURLs() {
+        return pictures;
     }
 
     public void setLatLon(double lat, double lon) {

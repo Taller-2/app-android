@@ -28,12 +28,24 @@ public class Account {
         return email;
     }
 
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     public String getName() {
         return name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public String getProfilePictureURL() {
         return this.profilePictureURL;
+    }
+
+    public void setProfilePictureURL(String path) {
+        this.profilePictureURL = path;
     }
 
     public String getUserID() {
@@ -42,17 +54,5 @@ public class Account {
 
     public int getScore() {
         return score;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setProfilePictureURL(String path) {
-        this.profilePictureURL = path;
     }
 }

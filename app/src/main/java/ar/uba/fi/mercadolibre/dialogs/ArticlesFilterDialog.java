@@ -17,12 +17,6 @@ import ar.uba.fi.mercadolibre.views.TagsSpinner;
 public class ArticlesFilterDialog extends DialogFragment {
 
 
-    public interface Click {
-        void onDialogPositiveClick(DialogFragment dialog);
-
-        void onDialogNegativeClick(DialogFragment dialog);
-    }
-
     Click mListener;
 
     @Override
@@ -64,5 +58,11 @@ public class ArticlesFilterDialog extends DialogFragment {
         TagsSpinner spinner = view.findViewById(R.id.filter_tags);
         spinner.init(getActivity());
         return builder.create();
+    }
+
+    public interface Click {
+        void onDialogPositiveClick(DialogFragment dialog);
+
+        void onDialogNegativeClick(DialogFragment dialog);
     }
 }

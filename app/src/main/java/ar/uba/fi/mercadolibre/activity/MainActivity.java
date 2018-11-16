@@ -20,8 +20,8 @@ import java.util.List;
 import ar.uba.fi.mercadolibre.client.RetrofitClient;
 
 public class MainActivity extends BaseActivity {
-    private FirebaseAuth mAuth;
     private static final int RC_SIGN_IN = 123;
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
