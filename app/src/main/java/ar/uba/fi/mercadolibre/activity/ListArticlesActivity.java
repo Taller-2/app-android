@@ -189,11 +189,11 @@ public class ListArticlesActivity extends BaseActivity implements ArticlesFilter
 
     @Override
     public void onDialogPositiveClick(DialogFragment dialog) {
+        this.dialog = dialog.getDialog();
         if (!hasFineLocationPermissions()) {
             ActivityCompat.requestPermissions(this, new String[]{ACCESS_FINE_LOCATION}, 0);
             return;
         }
-        this.dialog = dialog.getDialog();
         search();
     }
 
