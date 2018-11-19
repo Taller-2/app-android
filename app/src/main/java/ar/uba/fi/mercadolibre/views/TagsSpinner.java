@@ -30,6 +30,12 @@ public class TagsSpinner extends android.support.v7.widget.AppCompatSpinner {
     }
 
     public void init(final Context context) {
+        String[] placeholder = {NO_CATEGORY};
+        setAdapter(new ArrayAdapter<>(
+                context,
+                android.R.layout.simple_spinner_dropdown_item,
+                placeholder
+        ));
         ControllerFactory.getArticleController().listCategories().enqueue(new Callback<Categories>() {
             @Override
             public void onResponse(Call<Categories> call, Response<Categories> response) {
@@ -57,9 +63,8 @@ public class TagsSpinner extends android.support.v7.widget.AppCompatSpinner {
 
     public String getSelectedTag() {
         String item = (String) getSelectedItem();
-        if (item.equals(NO_CATEGORY)) {
-            return null;
-        }
+        if (item == null) return null;
+        if (item.equals(NO_CATEGORY)) return null;
         return item;
     }
 

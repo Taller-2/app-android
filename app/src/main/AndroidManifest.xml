@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+<manifest
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="ar.uba.fi.mercadolibre">
 
@@ -37,7 +38,8 @@
             android:name=".activity.UserArticlesActivity"
             android:label="@string/user_articles"/>
         <activity android:name=".activity.EditArticleActivity" />
-        <activity android:name=".activity.EditArticleImagesActivity"
+        <activity
+            android:name=".activity.EditArticleImagesActivity"
             android:label='@string/article_images'/>
         <activity android:name=".activity.MapActivity" />
         <activity android:name=".activity.ChatActivity" />

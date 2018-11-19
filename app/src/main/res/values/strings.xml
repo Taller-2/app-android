@@ -1,7 +1,7 @@
 <resources>
     <string name="facebook_application_id" translatable="false">2123804667883029</string>
     <string name="facebook_login_protocol_scheme" translatable="false">fb2123804667883029</string>
-    <string name="app_name">MercadoLibre</string>
+    <string name="app_name">Comprame</string>
     <string name="name">Nombre</string>
     <string name="description">Descripción</string>
     <string name="available_units">Unidades disponibles</string>
@@ -42,7 +42,7 @@
     <string name="open_activity_map">Abrir Mapa de Actividades</string>
     <string name="hold_for_detail">Mantener Presionado para Abrir</string>
     <string name="search_hint">Buscar Articulo</string>
-    <string name="max_km">max km</string>
+    <string name="max_km">Max km</string>
     <string name="category">Categoria</string>
     <string name="distance">Distancia</string>
     <string name="max">Max</string>
@@ -62,7 +62,7 @@
     <string name="show_qr">Mostrar codigo QR</string>
     <string name="qr_code">Codigo QR</string>
     <string name="more">mas opciones</string>
-    <string name="my_purchases">Mis Compras</string>
+    <string name="my_purchases">Mis compras</string>
     <string name="no_purchases">Todavia no hiciste ninguna compra</string>
     <string name="cash_shipment_cost">Costo de envío (en efectivo):</string>
     <string name="does_not_ship">No envía</string>
