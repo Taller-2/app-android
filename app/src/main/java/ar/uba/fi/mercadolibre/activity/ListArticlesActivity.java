@@ -40,7 +40,7 @@ public class ListArticlesActivity extends BaseActivity implements ArticlesFilter
 
     @Override
     public int identifierForDrawer() {
-        return HOME_IDENTIFIER;
+        return LIST_ARTICLES_IDENTIFIER;
     }
 
     @Override
