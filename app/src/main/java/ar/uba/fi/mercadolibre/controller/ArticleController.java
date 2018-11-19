@@ -30,9 +30,6 @@ public interface ArticleController {
     );
 
     @GET("article/")
-    Call<APIResponse<List<Article>>> listByName(@Query("name") String name);
-
-    @GET("article/")
     Call<APIResponse<List<Article>>> listByUser(@Query("user") String user);
 
     @GET("article/")
