@@ -151,7 +151,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         PrimaryDrawerItem scanQr = new PrimaryDrawerItem()
                 .withIdentifier(SCAN_QR_IDENTIFIER)
                 .withName(R.string.scan_qr)
-                .withIcon(R.drawable.ic_baseline_search_24px);
+                .withIcon(R.drawable.ic_qr_code);
         PrimaryDrawerItem myPurchases = new PrimaryDrawerItem()
                 .withIdentifier(MY_PURCHASES_IDENTIFIER)
                 .withName(R.string.my_purchases)
