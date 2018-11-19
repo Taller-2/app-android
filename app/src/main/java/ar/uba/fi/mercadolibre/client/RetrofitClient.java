@@ -2,6 +2,9 @@ package ar.uba.fi.mercadolibre.client;
 
 import android.support.annotation.NonNull;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import java.io.IOException;
 
 import okhttp3.Interceptor;
@@ -16,10 +19,14 @@ public class RetrofitClient {
 
     public static Retrofit getClient(String url) {
         if (retrofit != null) return retrofit.build();
+        Gson gson = new GsonBuilder()
+                .setDateFormat("yyyy-MM-dd'T'HH:mm:ss")
+                .create();
+
         retrofit = new Retrofit
                 .Builder()
                 .baseUrl(url)
-                .addConverterFactory(GsonConverterFactory.create());
+                .addConverterFactory(GsonConverterFactory.create(gson));
         if (firebaseToken != null) {
             retrofit.client(httpClientBuilder().build());
         }

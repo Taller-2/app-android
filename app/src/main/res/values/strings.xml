@@ -70,4 +70,8 @@
     <string name="shipment_cost_error">No se pudo calcular el costo de envío</string>
     <string name="score">Puntaje</string>
     <string name="categories">Categorías:</string>
+    <string name="no_questions">No hay preguntas cargadas para este articulo</string>
+    <string name="chat">chat</string>
+    <string name="your_question">Tu pregunta</string>
+    <string name="questions_label">Preguntas</string>
 </resources>

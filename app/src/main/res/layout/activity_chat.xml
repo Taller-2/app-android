@@ -23,6 +23,7 @@
         android:orientation="horizontal">
 
         <EditText
+            android:hint="@string/chat"
             android:id="@+id/editText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

@@ -78,6 +78,12 @@ public class ArticleDetailActivity extends BaseActivity {
                 buy();
             }
         });
+        findViewById(R.id.questions_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                questions();
+            }
+        });
     }
 
     private void buy() {
@@ -103,6 +109,12 @@ public class ArticleDetailActivity extends BaseActivity {
                         Log.e("Purchase POST", t.getMessage());
                     }
                 });
+    }
+
+    public void questions() {
+        Intent intent = new Intent(getApplicationContext(), ArticleQuestionsActivity.class);
+        intent.putExtra("article", article);
+        startActivity(intent);
     }
 
     @Override
