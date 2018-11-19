@@ -1,95 +1,66 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/article_item"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal"
-    android:id="@+id/article_item">
+    android:orientation="horizontal">
 
     <ImageView
         android:id="@+id/list_article_image"
-        android:layout_width="25dp"
-        android:layout_height="100dp"
-        android:layout_weight="1"
-        app:srcCompat="@android:drawable/ic_menu_camera"
-        android:contentDescription="@string/list_article_image" />
+        android:layout_width="125dp"
+        android:layout_height="125dp"
+        android:contentDescription="@string/list_article_image"
+        app:srcCompat="@drawable/ic_camera_alt_black_24dp" />
 
     <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="3">
+        android:layout_weight="3"
+        android:padding="10dp">
 
         <TableRow
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:id="@+id/textView"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight=".40"
-                android:text="@string/name" />
+            android:layout_height="wrap_content"
+            android:padding="2dp">
 
             <TextView
                 android:id="@+id/item_name"
-                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight=".60" />
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:textSize="20sp" />
 
         </TableRow>
 
         <TableRow
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:id="@+id/textView2"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight=".40"
-                android:text="@string/description" />
-
-            <TextView
-                android:id="@+id/item_description"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight=".60" />
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:id="@+id/textView3"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight=".40"
-                android:text="@string/available_units" />
-
-            <TextView
-                android:id="@+id/item_available_units"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight=".60" />
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:id="@+id/textView4"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight=".40"
-                android:text="@string/price" />
+            android:layout_height="wrap_content"
+            android:padding="2dp">
 
             <TextView
                 android:id="@+id/item_price"
-                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight=".60" />
+                android:textColor="@color/md_black_1000"
+                android:textSize="25sp" />
 
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="2dp"
+            android:paddingTop="10dp"
+            android:paddingRight="2dp"
+            android:paddingBottom="2dp"
+            android:textSize="12sp">
+
+            <TextView
+                android:id="@+id/item_available_units"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:textColor="@color/md_green_800" />
         </TableRow>
     </TableLayout>
 

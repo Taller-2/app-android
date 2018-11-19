@@ -34,7 +34,7 @@ public class ArticleSlider extends Slider {
         ArrayList<String> pictures = article.getPictureURLs();
         if (pictures == null || pictures.size() == 0) {
             ImageView blank = new ImageView(getContext());
-            blank.setImageResource(R.drawable.ic_menu_camera);
+            blank.setImageResource(R.drawable.ic_camera_alt_black_24dp);
             addView(blank);
             return;
         }

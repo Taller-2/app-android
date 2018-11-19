@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import java.text.NumberFormat;
 import java.util.List;
 
 import ar.uba.fi.mercadolibre.R;
@@ -33,16 +34,19 @@ public class ArticleAdapter extends ArrayAdapter<Article> {
     @NonNull
     @Override
     public View getView(int position, View view, @NonNull ViewGroup parent) {
-        final Article article = getItem(position);
         if (view == null) {
             view = LayoutInflater
                     .from(getContext())
                     .inflate(R.layout.item_article, parent, false);
         }
+        final Article article = getItem(position);
+        if (article == null) return view;
+
         ((TextView) view.findViewById(R.id.item_name)).setText(article.getName());
-        ((TextView) view.findViewById(R.id.item_description)).setText(article.getDescription());
-        ((TextView) view.findViewById(R.id.item_available_units)).setText(Integer.toString(article.getAvailableUnits()));
-        ((TextView) view.findViewById(R.id.item_price)).setText(Double.toString(article.getPrice()));
+        ((TextView) view.findViewById(R.id.item_available_units)).setText(
+                NumberFormat.getIntegerInstance().format(article.getAvailableUnits()) + " " + getContext().getString(R.string.available_units_tag)
+        );
+        ((TextView) view.findViewById(R.id.item_price)).setText(NumberFormat.getCurrencyInstance().format(article.getPrice()));
 
         if (!article.getPictureURLs().isEmpty()) {
             ImageView image = view.findViewById(R.id.list_article_image);
@@ -52,7 +56,7 @@ public class ArticleAdapter extends ArrayAdapter<Article> {
         if (showEditButton) {
             addEditButton(view, article);
         } else {
-            view.findViewById(R.id.edit_article).setVisibility(View.INVISIBLE);
+            view.findViewById(R.id.edit_article).setVisibility(View.GONE);
             addDetailClickEvent(view, article);
         }
         return view;
