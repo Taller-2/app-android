@@ -1,7 +1,7 @@
 <resources>
     <string name="facebook_application_id" translatable="false">2123804667883029</string>
     <string name="facebook_login_protocol_scheme" translatable="false">fb2123804667883029</string>
-    <string name="app_name">MercadoLibre</string>
+    <string name="app_name">Comprame</string>
     <string name="name">Nombre</string>
     <string name="description">Descripción</string>
     <string name="available_units">Unidades disponibles</string>
