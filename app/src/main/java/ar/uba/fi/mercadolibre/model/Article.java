@@ -7,7 +7,6 @@ import com.google.gson.annotations.SerializedName;
 import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.util.GeoPoint;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import ar.uba.fi.mercadolibre.controller.ControllerFactory;
@@ -64,36 +63,41 @@ public class Article extends BaseModel {
         return name;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public int getAvailableUnits() {
-        return availableUnits;
-    }
-
-    public double getPrice() {
-        return price;
-    }
-
-    public ArrayList<String> getPictureURLs() {
-        return pictures;
-    }
-
     public void setName(String name) {
         this.name = name;
     }
 
-    public void setPrice(double price) {
-        this.price = price;
+    public String getName(int lengthLimit) {
+        if (name == null || name.length() <= lengthLimit) return getName();
+        return name.substring(0, lengthLimit) + "...";
+    }
+
+    public String getDescription() {
+        return description;
     }
 
     public void setDescription(String description) {
         this.description = description;
     }
 
+    public int getAvailableUnits() {
+        return availableUnits;
+    }
+
     public void setAvailableUnits(int availableUnits) {
         this.availableUnits = availableUnits;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    public ArrayList<String> getPictureURLs() {
+        return pictures;
     }
 
     public void setLatLon(double lat, double lon) {

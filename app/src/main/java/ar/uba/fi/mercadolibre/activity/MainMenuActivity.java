@@ -33,7 +33,6 @@ public class MainMenuActivity extends BaseActivity {
                 searchManager.getSearchableInfo(getComponentName()));
         searchView.setIconifiedByDefault(true);
         searchView.setFocusable(true);
-        searchView.setIconified(false);
         searchView.requestFocusFromTouch();
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {

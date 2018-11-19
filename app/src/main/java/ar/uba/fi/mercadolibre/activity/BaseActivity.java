@@ -51,20 +51,6 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     private SparseArray<Runnable> activityClasses = null;
 
-    class ActivityStarter implements Runnable {
-        private Class activityClass;
-        ActivityStarter(Class activityClass) {
-            this.activityClass = activityClass;
-        }
-        @Override
-        public void run() {
-            startActivity(new Intent(
-                    getApplicationContext(),
-                    activityClass
-            ));
-        }
-    }
-
     private SparseArray<Runnable> getActivitiesByIdentifier() {
         SparseArray<Runnable> activities = new SparseArray<>();
         activities.append(HOME_IDENTIFIER, new ActivityStarter(MainMenuActivity.class));
@@ -90,7 +76,6 @@ public abstract class BaseActivity extends AppCompatActivity {
         intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
         super.startActivity(intent);
     }
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -274,7 +259,7 @@ public abstract class BaseActivity extends AppCompatActivity {
                 getArticle(contents);
 
             }
-            if(resultCode == RESULT_CANCELED){
+            if (resultCode == RESULT_CANCELED) {
                 Log.d("QR SCAN", "QR Scan cancelled");
             }
         }
@@ -295,5 +280,21 @@ public abstract class BaseActivity extends AppCompatActivity {
                 Log.e("Article GET", t.getMessage());
             }
         });
+    }
+
+    class ActivityStarter implements Runnable {
+        private Class activityClass;
+
+        ActivityStarter(Class activityClass) {
+            this.activityClass = activityClass;
+        }
+
+        @Override
+        public void run() {
+            startActivity(new Intent(
+                    getApplicationContext(),
+                    activityClass
+            ));
+        }
     }
 }

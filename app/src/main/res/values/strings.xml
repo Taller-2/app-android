@@ -64,4 +64,10 @@
     <string name="more">mas opciones</string>
     <string name="my_purchases">Mis Compras</string>
     <string name="no_purchases">Todavia no hiciste ninguna compra</string>
+    <string name="cash_shipment_cost">Costo de envío (en efectivo):</string>
+    <string name="does_not_ship">No envía</string>
+    <string name="touch_again_for_detail">Volver a tocar para abrir</string>
+    <string name="shipment_cost_error">No se pudo calcular el costo de envío</string>
+    <string name="score">Puntaje</string>
+    <string name="categories">Categorías:</string>
 </resources>

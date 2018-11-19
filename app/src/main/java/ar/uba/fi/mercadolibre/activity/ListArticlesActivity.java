@@ -35,9 +35,8 @@ import retrofit2.Response;
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 
 public class ListArticlesActivity extends BaseActivity implements ArticlesFilterDialog.Click {
-    private FusedLocationProviderClient mFusedLocationClient;
-
     Dialog dialog;
+    private FusedLocationProviderClient mFusedLocationClient;
 
     @Override
     public int identifierForDrawer() {
@@ -59,7 +58,7 @@ public class ListArticlesActivity extends BaseActivity implements ArticlesFilter
 
         String name = (String) extras.get("article_name");
 
-        if (name == null || name.length() == 0){
+        if (name == null || name.length() == 0) {
             listAllArticles();
             return;
         }
@@ -69,9 +68,11 @@ public class ListArticlesActivity extends BaseActivity implements ArticlesFilter
     private void listArticlesByName(String name) {
         listArticles(ControllerFactory.getArticleController().listByName(name));
     }
+
     private void listAllArticles() {
         listArticles(ControllerFactory.getArticleController().list());
     }
+
     private void listArticles(Call<APIResponse<List<Article>>> articlesCall) {
         articlesCall.enqueue(new Callback<APIResponse<List<Article>>>() {
             @Override
@@ -156,6 +157,7 @@ public class ListArticlesActivity extends BaseActivity implements ArticlesFilter
     private String getViewText(int id) {
         return ((EditText) dialog.findViewById(id)).getText().toString();
     }
+
     private void executeSearch(Location location) {
         String name = getViewText(R.id.filter_search_text);
         if (name.length() == 0) {
@@ -189,11 +191,11 @@ public class ListArticlesActivity extends BaseActivity implements ArticlesFilter
 
     @Override
     public void onDialogPositiveClick(DialogFragment dialog) {
+        this.dialog = dialog.getDialog();
         if (!hasFineLocationPermissions()) {
             ActivityCompat.requestPermissions(this, new String[]{ACCESS_FINE_LOCATION}, 0);
             return;
         }
-        this.dialog = dialog.getDialog();
         search();
     }
 

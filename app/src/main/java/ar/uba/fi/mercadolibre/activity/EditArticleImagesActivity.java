@@ -23,9 +23,9 @@ import ar.uba.fi.mercadolibre.utils.FirebaseImageManager;
 
 public class EditArticleImagesActivity extends BaseActivity {
     private static final int GET_FROM_GALLERY = 3;
-    private Article article = null;
     FirebaseImageManager mFirebaseImageManager =
             new FirebaseImageManager();
+    private Article article = null;
 
     @Override
     public int identifierForDrawer() {
@@ -139,6 +139,7 @@ public class EditArticleImagesActivity extends BaseActivity {
             gridview.setVisibility(View.INVISIBLE);
         }
     }
+
     @Override
     public void onBackPressed() {
         Article oldArticle = getArticleFromIntent();

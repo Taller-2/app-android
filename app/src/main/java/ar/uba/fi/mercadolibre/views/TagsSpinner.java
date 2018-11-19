@@ -91,7 +91,7 @@ public class TagsSpinner extends android.support.v7.widget.AppCompatSpinner {
 
         String tag = tags.get(0);
         for (int i = 0; i < getAdapter().getCount(); i++) {
-            if(getAdapter().getItem(i).equals(tag)) {
+            if (getAdapter().getItem(i).equals(tag)) {
                 setSelection(i);
                 return;
             }

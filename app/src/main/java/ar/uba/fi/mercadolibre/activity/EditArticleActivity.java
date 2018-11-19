@@ -38,11 +38,38 @@ import retrofit2.Response;
 import static android.Manifest.permission.ACCESS_COARSE_LOCATION;
 
 public class EditArticleActivity extends BaseActivity {
-    private FusedLocationProviderClient mFusedLocationClient;
-    private Article article = null;
-
     private static final int REQUEST_COARSE_LOCATION = 1;
     private static final int EDIT_IMAGES = 2;
+    int[] textFieldIDs = {
+            R.id.edit_article_name,
+            R.id.edit_article_description,
+            R.id.edit_article_units,
+            R.id.edit_article_price
+    };
+    int submitButtonID = R.id.edit_article_save;
+    private final TextWatcher watcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            boolean shouldEnable = true;
+            for (int id : textFieldIDs) {
+                if (((EditText) findViewById(id)).getText().toString().length() == 0) {
+                    shouldEnable = false;
+                    break;
+                }
+            }
+            findViewById(submitButtonID).setEnabled(shouldEnable);
+        }
+    };
+    private FusedLocationProviderClient mFusedLocationClient;
+    private Article article = null;
 
     @Override
     public int identifierForDrawer() {
@@ -78,14 +105,6 @@ public class EditArticleActivity extends BaseActivity {
         ShowQrDialog dialog = ShowQrDialog.newInstance(article);
         dialog.show(getSupportFragmentManager(), "qr");
     }
-
-    int[] textFieldIDs = {
-            R.id.edit_article_name,
-            R.id.edit_article_description,
-            R.id.edit_article_units,
-            R.id.edit_article_price
-    };
-    int submitButtonID = R.id.edit_article_save;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -290,6 +309,7 @@ public class EditArticleActivity extends BaseActivity {
             }
         }
     }
+
     @SuppressLint("MissingPermission")
     private void setupArticleData() {
         // Precondition: Location permission already granted
@@ -308,6 +328,7 @@ public class EditArticleActivity extends BaseActivity {
             }
         });
     }
+
     private void postArticle(Location location) {
         double lat = location.getLatitude();
         double lon = location.getLongitude();
@@ -331,6 +352,7 @@ public class EditArticleActivity extends BaseActivity {
             }
         });
     }
+
     public void createArticle() {
         if (!hasCoarseLocationPermission()) {
             ActivityCompat.requestPermissions(this, new String[]{ACCESS_COARSE_LOCATION}, 0);
@@ -345,27 +367,5 @@ public class EditArticleActivity extends BaseActivity {
                 ACCESS_COARSE_LOCATION
         ) == PackageManager.PERMISSION_GRANTED;
     }
-
-    private final TextWatcher watcher = new TextWatcher() {
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-        }
-
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-        }
-
-        @Override
-        public void afterTextChanged(Editable s) {
-            boolean shouldEnable = true;
-            for (int id : textFieldIDs) {
-                if (((EditText) findViewById(id)).getText().toString().length() == 0) {
-                    shouldEnable = false;
-                    break;
-                }
-            }
-            findViewById(submitButtonID).setEnabled(shouldEnable);
-        }
-    };
 
 }

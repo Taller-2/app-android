@@ -19,9 +19,10 @@ import retrofit2.Response;
 
 public class UserArticlesActivity extends BaseActivity {
     Account account = null;
+
     @Override
     public int identifierForDrawer() {
-        return HOME_IDENTIFIER;
+        return MY_ITEMS_IDENTIFIER;
     }
 
     @Override
@@ -46,7 +47,7 @@ public class UserArticlesActivity extends BaseActivity {
             }
         });
     }
-    
+
     private void fillList() {
         Log.d("UAA", account.getUserID());
         ControllerFactory.getArticleController().listByUser(account.getUserID()).enqueue(new Callback<APIResponse<List<Article>>>() {
