@@ -57,9 +57,8 @@ public class TagsSpinner extends android.support.v7.widget.AppCompatSpinner {
 
     public String getSelectedTag() {
         String item = (String) getSelectedItem();
-        if (item.equals(NO_CATEGORY)) {
-            return null;
-        }
+        if (item == null) return null;
+        if (item.equals(NO_CATEGORY)) return null;
         return item;
     }
 
