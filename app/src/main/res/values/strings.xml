@@ -41,7 +41,7 @@
     <string name="image_view_desc">Imagen de articulo</string>
     <string name="open_activity_map">Mapa de actividades</string>
     <string name="hold_for_detail">Mantener Presionado para Abrir</string>
-    <string name="search_hint">Buscar Articulo</string>
+    <string name="search_hint">Buscar Artículo</string>
     <string name="max_km">Max km</string>
     <string name="category">Categoria</string>
     <string name="distance">Distancia</string>
@@ -70,4 +70,5 @@
     <string name="shipment_cost_error">No se pudo calcular el costo de envío</string>
     <string name="score">Puntaje</string>
     <string name="categories">Categorías:</string>
+    <string name="welcome_message">Hola!\nQué estás buscando?</string>
 </resources>

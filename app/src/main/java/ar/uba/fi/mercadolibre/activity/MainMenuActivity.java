@@ -40,14 +40,16 @@ public class MainMenuActivity extends BaseActivity {
     }
 
     public void listArticles(View view) {
-        startActivity(new Intent(getApplicationContext(), ListArticlesActivity.class));
+        Intent i = new Intent(getApplicationContext(), ListArticlesActivity.class);
+        i.putExtra("show_filters", Boolean.valueOf(true));
+        startActivity(i);
     }
 
     public void openActivityMap(View view) {
         startActivity(new Intent(getApplicationContext(), MapActivity.class));
     }
 
-    public void openChat(View view) {
-        startActivity(new Intent(getApplicationContext(), ChatActivity.class));
+    public void scanQR(View view) {
+        startQrScan();
     }
 }

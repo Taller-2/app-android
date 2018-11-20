@@ -261,7 +261,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         finish();
     }
 
-    private void startQrScan() {
+    protected void startQrScan() {
         try {
 
             Intent intent = new Intent("com.google.zxing.client.android.SCAN");
