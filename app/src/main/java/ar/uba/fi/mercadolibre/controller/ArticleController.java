@@ -34,7 +34,7 @@ public interface ArticleController {
 
     @GET("article/")
     Call<APIResponse<List<Article>>> search(
-            @Query("name") String name,
+            @Query("name_contains") String name,
             @Query("my_lat") Double myLatitude,
             @Query("my_lon") Double myLongitude,
             @Query("max_distance") Double maxDistance,
