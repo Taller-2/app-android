@@ -46,7 +46,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.205"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/circleButton" />
+            app:layout_constraintTop_toTopOf="@+id/circleButton"
+            tools:ignore="VectorDrawableCompat" />
 
         <at.markushi.ui.CircleButton
             android:id="@+id/circleButton4"
@@ -59,7 +60,8 @@
             app:cb_pressedRingWidth="8dip"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/circleButton3"
-            app:layout_constraintStart_toStartOf="@+id/circleButton3" />
+            app:layout_constraintStart_toStartOf="@+id/circleButton3"
+            tools:ignore="VectorDrawableCompat" />
 
         <at.markushi.ui.CircleButton
             android:id="@+id/circleButton5"
@@ -72,7 +74,8 @@
             app:cb_pressedRingWidth="8dip"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/circleButton"
-            app:layout_constraintStart_toStartOf="@+id/circleButton" />
+            app:layout_constraintStart_toStartOf="@+id/circleButton"
+            tools:ignore="VectorDrawableCompat" />
 
         <at.markushi.ui.CircleButton
             android:id="@+id/circleButton"
@@ -90,7 +93,8 @@
             app:layout_constraintBottom_toTopOf="@+id/circleButton5"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.802"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            tools:ignore="VectorDrawableCompat" />
 
         <TextView
             android:id="@+id/textView12"
