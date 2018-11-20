@@ -39,9 +39,9 @@
     <string name="image_camera">Camara</string>
     <string name="article_has_no_images">Este artículo aún no tiene imágenes asociadas. Cargá una desde la galería o la cámara!</string>
     <string name="image_view_desc">Imagen de articulo</string>
-    <string name="open_activity_map">Abrir Mapa de Actividades</string>
+    <string name="open_activity_map">Mapa de actividades</string>
     <string name="hold_for_detail">Mantener Presionado para Abrir</string>
-    <string name="search_hint">Buscar Articulo</string>
+    <string name="search_hint">Buscar Artículo</string>
     <string name="max_km">Max km</string>
     <string name="category">Categoria</string>
     <string name="distance">Distancia</string>
@@ -51,13 +51,13 @@
     <string name="article">Articulo</string>
     <string name="search_filters">Filtros de busqueda</string>
     <string name="search">Buscar</string>
-    <string name="open_chat">Chat</string>
+    <string name="open_chat">Chat (debug)</string>
     <string name="send">Enviar</string>
     <string name="could_not_load_messages">Error buscando mensajes anteriores</string>
     <string name="dollarsign">$</string>
     <string name="ask_seller">preguntar al vendedor</string>
     <string name="buy">comprar</string>
-    <string name="available_units_tag">artículos disponibles</string>
+    <string name="available_units_tag">artículo(s) disponible(s)</string>
     <string name="scan_qr">Escanear QR</string>
     <string name="show_qr">Mostrar codigo QR</string>
     <string name="qr_code">Codigo QR</string>
@@ -74,4 +74,5 @@
     <string name="chat">chat</string>
     <string name="your_question">Tu pregunta</string>
     <string name="questions_label">Preguntas</string>
+    <string name="welcome_message">Hola!\nQué estás buscando?</string>
 </resources>

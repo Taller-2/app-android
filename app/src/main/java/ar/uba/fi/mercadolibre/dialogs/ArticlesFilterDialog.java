@@ -10,13 +10,13 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 
 import ar.uba.fi.mercadolibre.R;
 import ar.uba.fi.mercadolibre.views.TagsSpinner;
 
 public class ArticlesFilterDialog extends DialogFragment {
-
-
     Click mListener;
 
     @Override
@@ -29,6 +29,14 @@ public class ArticlesFilterDialog extends DialogFragment {
             throw new ClassCastException(getActivity().toString()
                     + " must implement NoticeDialogListener");
         }
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        Window window = getDialog().getWindow();
+        if (window == null) return;
+        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
     }
 
     @NonNull

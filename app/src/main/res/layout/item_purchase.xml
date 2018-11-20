@@ -10,7 +10,7 @@
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:contentDescription="@string/list_article_image"
-        app:srcCompat="@drawable/ic_menu_camera" />
+        app:srcCompat="@drawable/ic_camera_alt_black_24dp" />
 
     <LinearLayout
         android:layout_width="match_parent"

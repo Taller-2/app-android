@@ -5,57 +5,138 @@
     android:id="@+id/toolbar_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/blue_gradient"
     tools:context=".activity.MainMenuActivity">
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <Button
-            android:id="@+id/button2"
-            android:layout_width="wrap_content"
-            android:layout_height="48dp"
-            android:layout_marginTop="32dp"
-            android:onClick="createArticle"
-            android:text="@string/publish_article"
-            app:layout_constraintHorizontal_bias="0.503"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <Button
-            android:id="@+id/button"
+        <TextView
+            android:id="@+id/textView4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            android:onClick="listArticles"
-            android:text="@string/list_articles"
+            android:layout_marginStart="64dp"
+            android:layout_marginLeft="64dp"
+            android:layout_marginEnd="64dp"
+            android:layout_marginRight="64dp"
+            android:text="@string/welcome_message"
+            android:textAlignment="center"
+            android:textColor="#ffffff"
+            android:textSize="35sp"
+            app:layout_constraintBottom_toTopOf="@+id/circleButton"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/button2" />
+            app:layout_constraintTop_toTopOf="parent" />
 
-        <Button
-            android:id="@+id/button3"
+        <at.markushi.ui.CircleButton
+            android:id="@+id/circleButton3"
+            android:layout_width="100dip"
+            android:layout_height="100dip"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginBottom="48dp"
+            android:onClick="scanQR"
+            android:src="@drawable/ic_qr_code"
+            app:cb_color="#ffffff"
+            app:cb_pressedRingWidth="8dip"
+            app:layout_constraintBottom_toTopOf="@+id/circleButton4"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.205"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/circleButton"
+            tools:ignore="VectorDrawableCompat" />
+
+        <at.markushi.ui.CircleButton
+            android:id="@+id/circleButton4"
+            android:layout_width="100dip"
+            android:layout_height="100dip"
+            android:layout_marginBottom="96dp"
+            android:onClick="createArticle"
+            android:src="@drawable/ic_add_black_24dp"
+            app:cb_color="#ffffff"
+            app:cb_pressedRingWidth="8dip"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/circleButton3"
+            app:layout_constraintStart_toStartOf="@+id/circleButton3"
+            tools:ignore="VectorDrawableCompat" />
+
+        <at.markushi.ui.CircleButton
+            android:id="@+id/circleButton5"
+            android:layout_width="100dip"
+            android:layout_height="100dip"
+            android:layout_marginBottom="96dp"
+            android:onClick="listArticles"
+            android:src="@drawable/ic_search_black_24dp"
+            app:cb_color="#ffffff"
+            app:cb_pressedRingWidth="8dip"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/circleButton"
+            app:layout_constraintStart_toStartOf="@+id/circleButton"
+            tools:ignore="VectorDrawableCompat" />
+
+        <at.markushi.ui.CircleButton
+            android:id="@+id/circleButton"
+            android:layout_width="100dip"
+            android:layout_height="100dip"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginBottom="48dp"
+            android:onClick="openActivityMap"
+            android:src="@drawable/ic_location_on_black_24dp"
+            app:cb_color="#ffffff"
+            app:cb_pressedRingWidth="8dip"
+            app:layout_constraintBottom_toTopOf="@+id/circleButton5"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.802"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:ignore="VectorDrawableCompat" />
+
+        <TextView
+            android:id="@+id/textView12"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            android:onClick="openActivityMap"
-            android:text="@string/open_activity_map"
-            app:layout_constraintHorizontal_bias="0.503"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/button" />
+            android:text="@string/scan_qr"
+            android:textColor="#ffffff"
+            app:layout_constraintEnd_toEndOf="@+id/circleButton3"
+            app:layout_constraintStart_toStartOf="@+id/circleButton3"
+            app:layout_constraintTop_toBottomOf="@+id/circleButton3" />
 
-        <Button
-            android:id="@+id/button4"
+        <TextView
+            android:id="@+id/textView13"
             android:layout_width="wrap_content"
-            android:layout_height="48dp"
-            android:layout_marginTop="32dp"
-            android:onClick="openChat"
-            android:text="@string/open_chat"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/button3" />
+            android:layout_height="21dp"
+            android:text="@string/open_activity_map"
+            android:textColor="#ffffff"
+            app:layout_constraintEnd_toEndOf="@+id/circleButton"
+            app:layout_constraintStart_toStartOf="@+id/circleButton"
+            app:layout_constraintTop_toBottomOf="@+id/circleButton" />
+
+        <TextView
+            android:id="@+id/textView14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="createArticle"
+            android:text="@string/publish_article"
+            android:textColor="#ffffff"
+            app:layout_constraintEnd_toEndOf="@+id/circleButton4"
+            app:layout_constraintStart_toStartOf="@+id/circleButton4"
+            app:layout_constraintTop_toBottomOf="@+id/circleButton4" />
+
+        <TextView
+            android:id="@+id/textView15"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/search_hint"
+            android:textColor="#ffffff"
+            app:layout_constraintEnd_toEndOf="@+id/circleButton5"
+            app:layout_constraintStart_toStartOf="@+id/circleButton5"
+            app:layout_constraintTop_toBottomOf="@+id/circleButton5" />
+
 
     </android.support.constraint.ConstraintLayout>
 

@@ -9,6 +9,8 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 
@@ -94,7 +96,11 @@ public class AccountActivity extends BaseActivity {
                 updateCurrentAccount();
             }
         });
-        alert.show();
+        AlertDialog dialog = alert.create();
+        Window window = dialog.getWindow();
+        if (window == null) return;
+        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+        dialog.show();
     }
 
     private void updateCurrentAccount() {

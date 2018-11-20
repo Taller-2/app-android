@@ -16,17 +16,6 @@ import com.squareup.picasso.Picasso;
 public class FirebaseImageManager {
     private FirebaseStorage storage = FirebaseStorage.getInstance();
 
-    public void upload(Uri fileUri, String destinationPath) {
-        upload(fileUri, destinationPath, new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                        Log.d("Firebase upload",
-                                "Image upload to firebase successful");
-                    }
-                }
-        );
-    }
-
     public void upload(Uri fileUri, String destinationPath, OnSuccessListener<UploadTask.TaskSnapshot> onSuccess) {
         StorageReference storageRef = storage.getReference();
 
@@ -44,9 +33,7 @@ public class FirebaseImageManager {
         getDownloadUrl(path, new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
-                Picasso.get().load(uri)
-                        .resize(imageView.getWidth(), imageView.getHeight())
-                        .into(imageView);
+                Picasso.get().load(uri).into(imageView);
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override

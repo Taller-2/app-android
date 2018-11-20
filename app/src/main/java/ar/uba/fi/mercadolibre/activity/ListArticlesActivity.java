@@ -40,7 +40,7 @@ public class ListArticlesActivity extends BaseActivity implements ArticlesFilter
 
     @Override
     public int identifierForDrawer() {
-        return HOME_IDENTIFIER;
+        return LIST_ARTICLES_IDENTIFIER;
     }
 
     @Override
@@ -50,23 +50,14 @@ public class ListArticlesActivity extends BaseActivity implements ArticlesFilter
 
         setContentView(R.layout.activity_list_articles);
 
+        listAllArticles();
+
         Bundle extras = getIntent().getExtras();
-        if (extras == null) {
-            listAllArticles();
-            return;
+        if (extras == null) return;
+        Boolean showFilters = (Boolean) extras.get("show_filters");
+        if (showFilters != null && showFilters) {
+            showFilter();
         }
-
-        String name = (String) extras.get("article_name");
-
-        if (name == null || name.length() == 0) {
-            listAllArticles();
-            return;
-        }
-        listArticlesByName(name);
-    }
-
-    private void listArticlesByName(String name) {
-        listArticles(ControllerFactory.getArticleController().listByName(name));
     }
 
     private void listAllArticles() {
@@ -108,12 +99,16 @@ public class ListArticlesActivity extends BaseActivity implements ArticlesFilter
         int id = item.getItemId();
 
         if (id == R.id.list_article_settings) {
-            DialogFragment newFragment = new ArticlesFilterDialog();
-            newFragment.show(getSupportFragmentManager(), "filters");
+            showFilter();
             return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void showFilter() {
+        DialogFragment newFragment = new ArticlesFilterDialog();
+        newFragment.show(getSupportFragmentManager(), "filters");
     }
 
     private void search() {

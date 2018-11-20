@@ -48,6 +48,10 @@ public abstract class BaseActivity extends AppCompatActivity {
     static final public int MY_ITEMS_IDENTIFIER = 4;
     static final public int MY_PURCHASES_IDENTIFIER = 5;
     static final public int SCAN_QR_IDENTIFIER = 6;
+    static final public int LIST_ARTICLES_IDENTIFIER = 7;
+    static final public int MAP_IDENTIFIER = 8;
+    static final public int CHAT_IDENTIFIER = 9;
+    static final public int PUBLISH_IDENTIFIER = 10;
 
     private SparseArray<Runnable> activityClasses = null;
 
@@ -58,6 +62,10 @@ public abstract class BaseActivity extends AppCompatActivity {
         activities.append(SIGN_OUT_IDENTIFIER, new ActivityStarter(SignOutActivity.class));
         activities.append(MY_ITEMS_IDENTIFIER, new ActivityStarter(UserArticlesActivity.class));
         activities.append(MY_PURCHASES_IDENTIFIER, new ActivityStarter(UserPurchasesActivity.class));
+        activities.append(LIST_ARTICLES_IDENTIFIER, new ActivityStarter(ListArticlesActivity.class));
+        activities.append(MAP_IDENTIFIER, new ActivityStarter(MapActivity.class));
+        activities.append(CHAT_IDENTIFIER, new ActivityStarter(ChatActivity.class));
+        activities.append(PUBLISH_IDENTIFIER, new ActivityStarter(EditArticleActivity.class));
         activities.append(SCAN_QR_IDENTIFIER, new Runnable() {
             @Override
             public void run() {
@@ -156,6 +164,21 @@ public abstract class BaseActivity extends AppCompatActivity {
                 .withIdentifier(MY_PURCHASES_IDENTIFIER)
                 .withName(R.string.my_purchases)
                 .withIcon(R.drawable.ic_baseline_shopping_cart_24px);
+        PrimaryDrawerItem listArticles = new PrimaryDrawerItem()
+                .withIdentifier(LIST_ARTICLES_IDENTIFIER)
+                .withName(R.string.list_articles)
+                .withIcon(R.drawable.ic_search_black_24dp);
+        PrimaryDrawerItem map = new PrimaryDrawerItem()
+                .withIdentifier(MAP_IDENTIFIER)
+                .withName(R.string.open_activity_map)
+                .withIcon(R.drawable.ic_location_on_black_24dp);
+        PrimaryDrawerItem chat = new PrimaryDrawerItem()
+                .withIdentifier(CHAT_IDENTIFIER)
+                .withName(R.string.open_chat);
+        PrimaryDrawerItem publish = new PrimaryDrawerItem()
+                .withIdentifier(PUBLISH_IDENTIFIER)
+                .withName(R.string.publish_article)
+                .withIcon(R.drawable.ic_add_black_24dp);
         new DrawerBuilder()
                 .withActivity(this)
                 .withActionBarDrawerToggle(true)
@@ -167,10 +190,16 @@ public abstract class BaseActivity extends AppCompatActivity {
                 .withSelectedItem(identifierForDrawer())
                 .addDrawerItems(
                         home,
+                        new DividerDrawerItem(),
                         myAccount,
                         myItems,
                         myPurchases,
+                        new DividerDrawerItem(),
+                        listArticles,
+                        map,
                         scanQr,
+                        publish,
+                        chat,
                         new DividerDrawerItem(),
                         signOut
                 )
@@ -232,7 +261,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         finish();
     }
 
-    private void startQrScan() {
+    protected void startQrScan() {
         try {
 
             Intent intent = new Intent("com.google.zxing.client.android.SCAN");

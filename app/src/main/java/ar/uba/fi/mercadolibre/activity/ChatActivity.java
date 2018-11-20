@@ -36,6 +36,11 @@ public class ChatActivity extends BaseActivity implements RoomListener {
     private Account currentAccount;
 
     @Override
+    public int identifierForDrawer() {
+        return CHAT_IDENTIFIER;
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);

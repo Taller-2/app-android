@@ -41,6 +41,11 @@ public class MapActivity extends BaseActivity {
     OverlayItem lastClickedItem;
 
     @Override
+    public int identifierForDrawer() {
+        return MAP_IDENTIFIER;
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initMap();

@@ -10,6 +10,9 @@ android {
         versionName "1.0"
         multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        vectorDrawables {
+            useSupportLibrary true
+        }
     }
     buildTypes {
         release {
@@ -57,6 +60,7 @@ dependencies {
     implementation 'org.osmdroid:osmdroid-android:6.0.2'
     implementation 'com.scaledrone:scaledrone-java:0.3.0'
     api 'com.google.guava:guava:25.0-android'
+    implementation 'com.github.markushi:circlebutton:1.1'
 }
 
 apply plugin: 'com.google.gms.google-services'

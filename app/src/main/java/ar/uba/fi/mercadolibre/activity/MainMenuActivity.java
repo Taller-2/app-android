@@ -1,12 +1,10 @@
 package ar.uba.fi.mercadolibre.activity;
 
-import android.app.SearchManager;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
-import android.widget.SearchView;
 
 import ar.uba.fi.mercadolibre.R;
 
@@ -25,28 +23,13 @@ public class MainMenuActivity extends BaseActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.base_app_menu, menu);
-        SearchManager searchManager =
-                (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        SearchView searchView =
-                (SearchView) menu.findItem(R.id.action_search).getActionView();
-        searchView.setSearchableInfo(
-                searchManager.getSearchableInfo(getComponentName()));
-        searchView.setIconifiedByDefault(true);
-        searchView.setFocusable(true);
-        searchView.requestFocusFromTouch();
-
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+        menu.findItem(R.id.action_search).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
-            public boolean onQueryTextSubmit(String query) {
+            public boolean onMenuItemClick(MenuItem item) {
                 Intent i = new Intent(getApplicationContext(), ListArticlesActivity.class);
-                i.putExtra("article_name", query);
+                i.putExtra("show_filters", Boolean.valueOf(true));
                 startActivity(i);
                 return true;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                return false;
             }
         });
         return true;
@@ -57,14 +40,16 @@ public class MainMenuActivity extends BaseActivity {
     }
 
     public void listArticles(View view) {
-        startActivity(new Intent(getApplicationContext(), ListArticlesActivity.class));
+        Intent i = new Intent(getApplicationContext(), ListArticlesActivity.class);
+        i.putExtra("show_filters", Boolean.valueOf(true));
+        startActivity(i);
     }
 
     public void openActivityMap(View view) {
         startActivity(new Intent(getApplicationContext(), MapActivity.class));
     }
 
-    public void openChat(View view) {
-        startActivity(new Intent(getApplicationContext(), ChatActivity.class));
+    public void scanQR(View view) {
+        startQrScan();
     }
 }

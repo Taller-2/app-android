@@ -42,7 +42,7 @@
                         android:layout_marginTop="149dp"
                         android:contentDescription="@string/edit"
                         android:gravity="bottom"
-                        android:src="@drawable/ic_edit_black_24dp"
+                        app:srcCompat="@drawable/ic_edit_black_24dp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.0"
