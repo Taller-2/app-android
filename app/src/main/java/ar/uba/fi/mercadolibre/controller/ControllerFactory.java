@@ -24,4 +24,8 @@ public class ControllerFactory {
     public static PurchaseController getPurchaseController() {
         return RetrofitClient.getClient(API_URL).create(PurchaseController.class);
     }
+
+    public static QuestionController getQuestionController() {
+        return RetrofitClient.getClient(API_URL).create(QuestionController.class);
+    }
 }
