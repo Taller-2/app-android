@@ -64,10 +64,4 @@
         </TableRow>
     </TableLayout>
 
-    <Button
-        android:id="@+id/edit_article"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="@string/article_edit" />
 </LinearLayout>
