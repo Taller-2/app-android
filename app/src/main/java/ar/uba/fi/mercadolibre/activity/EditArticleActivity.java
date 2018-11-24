@@ -251,7 +251,10 @@ public class EditArticleActivity extends BaseActivity {
         article.setDescription(getViewText(R.id.edit_article_description));
         article.setAvailableUnits(Integer.parseInt(getViewText(R.id.edit_article_units)));
         article.setPrice(Double.parseDouble(getViewText(R.id.edit_article_price)));
-        article.addTag(((TagsSpinner) findViewById(R.id.edit_article_tag)).getSelectedTag());
+        String tag = ((TagsSpinner) findViewById(R.id.edit_article_tag)).getSelectedTag();
+        if (tag != null) {
+            article.addTag(tag);
+        }
         if (article.getID() == null) {
             createArticle();
             return;

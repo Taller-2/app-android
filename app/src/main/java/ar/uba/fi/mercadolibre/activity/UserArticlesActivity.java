@@ -80,6 +80,7 @@ public class UserArticlesActivity extends BaseActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == USER_ARTICLES_ACTIVITY_RESULT) {
+            ((ListView) findViewById(R.id.articleList)).setAdapter(null);
             fillList();
         }
     }
