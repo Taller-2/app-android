@@ -19,16 +19,18 @@ import java.util.List;
 import ar.uba.fi.mercadolibre.R;
 import ar.uba.fi.mercadolibre.activity.ArticleDetailActivity;
 import ar.uba.fi.mercadolibre.activity.EditArticleActivity;
+import ar.uba.fi.mercadolibre.activity.UserArticlesActivity;
 import ar.uba.fi.mercadolibre.model.Article;
 
 public class ArticleAdapter extends ArrayAdapter<Article> {
     private Context context;
-    private boolean showEditButton;
+    private boolean userIsOwner;
 
-    public ArticleAdapter(Context context, List<Article> articles, boolean show_delete) {
+
+    public ArticleAdapter(Context context, List<Article> articles, boolean userIsOwner) {
         super(context, 0, articles);
         this.context = context;
-        this.showEditButton = show_delete;
+        this.userIsOwner = userIsOwner;
     }
 
     @NonNull
@@ -53,43 +55,27 @@ public class ArticleAdapter extends ArrayAdapter<Article> {
             loadImage(image, article);
         }
 
-        if (showEditButton) {
-            addEditButton(view, article);
+        if (userIsOwner) {
+            addDetailClickEvent(view, article, EditArticleActivity.class);
         } else {
-            view.findViewById(R.id.edit_article).setVisibility(View.GONE);
-            addDetailClickEvent(view, article);
+            addDetailClickEvent(view, article, ArticleDetailActivity.class);
         }
         return view;
     }
 
-    private void addEditButton(View view, final Article article) {
-        final Activity a = (Activity) this.context;
-
-        view.findViewById(R.id.edit_article).setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Intent i = new Intent(a, EditArticleActivity.class);
-                        i.putExtra("article", article);
-                        a.startActivity(i);
-                    }
-                }
-        );
-    }
-
-    private void addDetailClickEvent(View view, final Article article) {
+    private void addDetailClickEvent(View view, final Article article, final Class<? extends Activity> activity) {
         final Activity a = (Activity) this.context;
 
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(a, ArticleDetailActivity.class);
+                Intent i = new Intent(a, activity);
                 i.putExtra("article", article);
-                a.startActivity(i);
-
+                a.startActivityForResult(i, UserArticlesActivity.USER_ARTICLES_ACTIVITY_RESULT);
             }
         });
     }
+
 
     private void loadImage(final ImageView imageView, Article a) {
         final String path = a.getPictureURLs().get(0);

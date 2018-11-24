@@ -91,6 +91,7 @@ public class EditArticleActivity extends BaseActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.delete:
+                delete();
                 return true;
 
             case R.id.show_qr:
@@ -115,8 +116,6 @@ public class EditArticleActivity extends BaseActivity {
         setUpTextWatcher();
         setUpImages();
         setSaveOnClick(findViewById(R.id.edit_article_save));
-        setDeleteOnClick(findViewById(R.id.edit_article_delete), article);
-
     }
 
     private void setUpTextWatcher() {
@@ -147,7 +146,6 @@ public class EditArticleActivity extends BaseActivity {
     private void initData() {
         initArticle();
         if (article == null) {
-            findViewById(R.id.edit_article_delete).setVisibility(View.INVISIBLE);
             return;
         }
         init_text_views(article);
@@ -174,42 +172,35 @@ public class EditArticleActivity extends BaseActivity {
         fillEditText(R.id.edit_article_units, units);
     }
 
-    private void setDeleteOnClick(View delete, final Article article) {
-        delete.setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        ControllerFactory.getArticleController().destroy(
-                                article.getID()
-                        ).enqueue(new Callback<Object>() {
-                            @Override
-                            public void onResponse(@NonNull Call<Object> call, @NonNull Response<Object> response) {
-                                if (!response.isSuccessful()) {
-                                    onDeleteFailure();
-                                    String msg;
-                                    try {
-                                        ResponseBody body = response.errorBody();
-                                        msg = body == null ? "Error body was null" : body.string();
-                                    } catch (IOException e) {
-                                        msg = "IOException while reading the response: " + e.getMessage();
-                                    }
-                                    Log.e("Article delete", msg);
-                                    return;
-                                }
-                                onDeleteSuccess();
-                            }
 
-                            @Override
-                            public void onFailure(@NonNull Call<Object> call, @NonNull Throwable t) {
-                                onDeleteFailure();
-                                Log.e("Article delete", t.getMessage());
-
-                            }
-                        });
-
+    private void delete() {
+        ControllerFactory.getArticleController().destroy(
+                article.getID()
+        ).enqueue(new Callback<Object>() {
+            @Override
+            public void onResponse(@NonNull Call<Object> call, @NonNull Response<Object> response) {
+                if (!response.isSuccessful()) {
+                    onDeleteFailure();
+                    String msg;
+                    try {
+                          ResponseBody body = response.errorBody();
+                        msg = body == null ? "Error body was null" : body.string();
+                    } catch (IOException e) {
+                        msg = "IOException while reading the response: " + e.getMessage();
                     }
+                    Log.e("Article delete", msg);
+                    return;
                 }
-        );
+                onDeleteSuccess();
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<Object> call, @NonNull Throwable t) {
+                onDeleteFailure();
+                Log.e("Article delete", t.getMessage());
+
+            }
+        });
     }
 
     private void onDeleteSuccess() {
@@ -260,7 +251,10 @@ public class EditArticleActivity extends BaseActivity {
         article.setDescription(getViewText(R.id.edit_article_description));
         article.setAvailableUnits(Integer.parseInt(getViewText(R.id.edit_article_units)));
         article.setPrice(Double.parseDouble(getViewText(R.id.edit_article_price)));
-        article.addTag(((TagsSpinner) findViewById(R.id.edit_article_tag)).getSelectedTag());
+        String tag = ((TagsSpinner) findViewById(R.id.edit_article_tag)).getSelectedTag();
+        if (tag != null) {
+            article.addTag(tag);
+        }
         if (article.getID() == null) {
             createArticle();
             return;
