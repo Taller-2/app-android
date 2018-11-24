@@ -72,18 +72,32 @@ public class ArticleDetailActivity extends BaseActivity {
         int corner = getResources().getDimensionPixelSize(R.dimen.slider_image_corner);
         s.init(article, corner);
 
-        findViewById(R.id.buy_button).setOnClickListener(new View.OnClickListener() {
+        View buyButton = findViewById(R.id.buy_button);
+        View questionsButton = findViewById(R.id.questions_button);
+
+        setEnabled(
+                new View[]{buyButton, questionsButton},
+                !article.isFromCurrentUser()
+        );
+
+        buyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 buy();
             }
         });
-        findViewById(R.id.questions_button).setOnClickListener(new View.OnClickListener() {
+        questionsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 questions();
             }
         });
+    }
+
+    private void setEnabled(View[] buttons, boolean enabled) {
+        for (View button : buttons) {
+            button.setEnabled(enabled);
+        }
     }
 
     private void buy() {

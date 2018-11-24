@@ -1,6 +1,8 @@
 package ar.uba.fi.mercadolibre.model;
 
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -28,6 +30,10 @@ public class Article extends BaseModel {
     @SerializedName("price")
     @Expose
     private double price;
+
+    @SerializedName("user")
+    @Expose
+    private String userID;
 
     @SerializedName("latitude")
     @Expose
@@ -90,6 +96,12 @@ public class Article extends BaseModel {
 
     public double getPrice() {
         return price;
+    }
+
+    public boolean isFromCurrentUser() {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user == null || this.userID == null) return false;
+        return userID.equals(user.getUid());
     }
 
     public void setPrice(double price) {
