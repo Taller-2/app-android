@@ -63,7 +63,7 @@ public class ArticleAdapter extends ArrayAdapter<Article> {
         return view;
     }
 
-    private void addDetailClickEvent(View view, final Article article, final Class<?> activity) {
+    private void addDetailClickEvent(View view, final Article article, final Class<? extends Activity> activity) {
         final Activity a = (Activity) this.context;
 
         view.setOnClickListener(new View.OnClickListener() {
