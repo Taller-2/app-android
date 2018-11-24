@@ -18,7 +18,6 @@ import java.util.List;
 
 import ar.uba.fi.mercadolibre.R;
 import ar.uba.fi.mercadolibre.activity.ArticleDetailActivity;
-import ar.uba.fi.mercadolibre.activity.BaseActivity;
 import ar.uba.fi.mercadolibre.activity.EditArticleActivity;
 import ar.uba.fi.mercadolibre.activity.UserArticlesActivity;
 import ar.uba.fi.mercadolibre.model.Article;
@@ -26,6 +25,7 @@ import ar.uba.fi.mercadolibre.model.Article;
 public class ArticleAdapter extends ArrayAdapter<Article> {
     private Context context;
     private boolean userIsOwner;
+
 
     public ArticleAdapter(Context context, List<Article> articles, boolean userIsOwner) {
         super(context, 0, articles);
@@ -71,11 +71,11 @@ public class ArticleAdapter extends ArrayAdapter<Article> {
             public void onClick(View v) {
                 Intent i = new Intent(a, activity);
                 i.putExtra("article", article);
-                a.startActivity(i);
-
+                a.startActivityForResult(i, UserArticlesActivity.USER_ARTICLES_ACTIVITY_RESULT);
             }
         });
     }
+
 
     private void loadImage(final ImageView imageView, Article a) {
         final String path = a.getPictureURLs().get(0);

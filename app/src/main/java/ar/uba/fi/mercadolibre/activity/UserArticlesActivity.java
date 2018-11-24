@@ -1,5 +1,6 @@
 package ar.uba.fi.mercadolibre.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.util.Log;
@@ -19,6 +20,8 @@ import retrofit2.Response;
 
 public class UserArticlesActivity extends BaseActivity {
     Account account = null;
+
+    public static final int USER_ARTICLES_ACTIVITY_RESULT = 1;
 
     @Override
     public int identifierForDrawer() {
@@ -54,7 +57,7 @@ public class UserArticlesActivity extends BaseActivity {
             @Override
             public void onResponse(@NonNull Call<APIResponse<List<Article>>> call,
                                    @NonNull Response<APIResponse<List<Article>>> response) {
-                List<Article> articles = getData(response);
+                final List<Article> articles = getData(response);
                 if (articles == null) return;
                 if (articles.isEmpty()) {
                     toast(R.string.user_has_no_articles);
@@ -72,6 +75,13 @@ public class UserArticlesActivity extends BaseActivity {
                 toast(R.string.generic_error);
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == USER_ARTICLES_ACTIVITY_RESULT) {
+            fillList();
+        }
     }
 
     @Override
