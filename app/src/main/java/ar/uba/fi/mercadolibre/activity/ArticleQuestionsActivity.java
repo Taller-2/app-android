@@ -105,14 +105,14 @@ public class ArticleQuestionsActivity extends BaseActivity {
         String message = editText.getText().toString();
         if (message.length() == 0) return;
         editText.getText().clear();
-        saveMessage(new Question(
+        saveQuestion(new Question(
                 article,
                 currentAccount,
                 message
         ));
     }
 
-    private void saveMessage(Question question) {
+    private void saveQuestion(Question question) {
         ControllerFactory.getQuestionController().create(article.getID(), question).enqueue(new Callback<Question>() {
             @Override
             public void onResponse(Call<Question> call,
@@ -124,7 +124,7 @@ public class ArticleQuestionsActivity extends BaseActivity {
             @Override
             public void onFailure(Call<Question> call,
                                   Throwable t) {
-                Log.e("ChatActivity", "Create Chat Message", t);
+                Log.e("ChatActivity", "Create question", t);
             }
         });
     }
