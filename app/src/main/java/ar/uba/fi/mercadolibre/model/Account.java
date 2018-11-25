@@ -3,7 +3,7 @@ package ar.uba.fi.mercadolibre.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Account {
+public class Account extends BaseModel {
     @SerializedName("email")
     @Expose
     private String email;

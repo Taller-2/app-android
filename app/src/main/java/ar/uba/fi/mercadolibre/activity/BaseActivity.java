@@ -52,6 +52,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     static final public int MAP_IDENTIFIER = 8;
     static final public int CHAT_IDENTIFIER = 9;
     static final public int PUBLISH_IDENTIFIER = 10;
+    static final public int ANSWERS_IDENTIFIER = 11;
 
     private SparseArray<Runnable> activityClasses = null;
 
@@ -66,6 +67,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         activities.append(MAP_IDENTIFIER, new ActivityStarter(MapActivity.class));
         activities.append(CHAT_IDENTIFIER, new ActivityStarter(ChatActivity.class));
         activities.append(PUBLISH_IDENTIFIER, new ActivityStarter(EditArticleActivity.class));
+        activities.append(ANSWERS_IDENTIFIER, new ActivityStarter(UserQuestionsActivity.class));
         activities.append(SCAN_QR_IDENTIFIER, new Runnable() {
             @Override
             public void run() {
@@ -179,6 +181,10 @@ public abstract class BaseActivity extends AppCompatActivity {
                 .withIdentifier(PUBLISH_IDENTIFIER)
                 .withName(R.string.publish_article)
                 .withIcon(R.drawable.ic_add_black_24dp);
+        PrimaryDrawerItem myAnswers = new PrimaryDrawerItem()
+                .withIdentifier(ANSWERS_IDENTIFIER)
+                .withName(R.string.my_answers)
+                .withIcon(R.drawable.ic_baseline_chat_bubble_24px);
         new DrawerBuilder()
                 .withActivity(this)
                 .withActionBarDrawerToggle(true)
@@ -194,6 +200,7 @@ public abstract class BaseActivity extends AppCompatActivity {
                         myAccount,
                         myItems,
                         myPurchases,
+                        myAnswers,
                         new DividerDrawerItem(),
                         listArticles,
                         map,

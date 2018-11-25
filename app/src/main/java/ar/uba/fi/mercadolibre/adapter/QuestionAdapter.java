@@ -2,17 +2,13 @@ package ar.uba.fi.mercadolibre.adapter;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
-import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.List;
-import java.util.TimeZone;
 
 import ar.uba.fi.mercadolibre.R;
 import ar.uba.fi.mercadolibre.model.Question;
