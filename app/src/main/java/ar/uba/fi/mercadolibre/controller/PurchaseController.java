@@ -15,4 +15,7 @@ public interface PurchaseController {
 
     @POST("purchase/")
     Call<Object> purchaseArticle(@Body PurchaseBody body);
+
+    @GET("my_sales/")
+    Call<APIResponse<List<Purchase>>> getUserSales();
 }
