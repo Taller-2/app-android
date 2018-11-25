@@ -8,7 +8,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-public class Question implements Serializable {
+public class Question extends BaseModel {
     @SerializedName("user_id")
     @Expose
     private String userId;
@@ -16,6 +16,10 @@ public class Question implements Serializable {
     @SerializedName("article_id")
     @Expose
     private String articleId;
+
+    @SerializedName("article")
+    @Expose
+    private Article article;
 
     @SerializedName("question")
     @Expose
@@ -53,10 +57,21 @@ public class Question implements Serializable {
         return answeredAt;
     }
 
+    public Article getArticle() {
+        return article;
+    }
+
     public Question(Article article, Account user, String question) {
         this.articleId = article.getID();
         this.userId = user.getUserID();
         this.question = question;
         createdAt = Calendar.getInstance().getTime();
+    }
+
+    public void answer(String answer) {
+        this.answer = answer;
+        this.createdAt = null;
+        article = null;
+
     }
 }

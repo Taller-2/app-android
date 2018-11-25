@@ -49,5 +49,8 @@
             android:label="@string/my_purchases"/>
         <activity android:name=".activity.ArticleQuestionsActivity"
             android:label="@string/questions_label"/>
+        <activity android:name=".activity.AnswerQuestionActivity"
+            android:label="@string/answer_activity_label"/>
+        <activity android:name=".activity.UserQuestionsActivity" />
     </application>
 </manifest>

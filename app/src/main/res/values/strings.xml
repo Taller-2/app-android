@@ -75,4 +75,9 @@
     <string name="your_question">Tu pregunta</string>
     <string name="questions_label">Preguntas</string>
     <string name="welcome_message">Hola!\nQué estás buscando?</string>
+    <string name="your_answer">Tu respuesta</string>
+    <string name="hint">hint</string>
+    <string name="answer_activity_label">Responder</string>
+    <string name="answer">Responder</string>
+    <string name="my_answers">Mis Respuestas</string>
 </resources>
