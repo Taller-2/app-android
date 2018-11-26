@@ -29,7 +29,7 @@ import retrofit2.Response;
 
 public class ChatActivity extends BaseActivity implements RoomListener {
     private final static String channelID = "xFKSnmBDfC3SyNTj";
-    private final String roomName = "observable-room"; // There's no privacy yet
+    private String roomName;
     private Scaledrone client;
     private ChatMessageAdapter messageAdapter;
     private ListView messagesView;
@@ -44,6 +44,7 @@ public class ChatActivity extends BaseActivity implements RoomListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        roomName = "observable-" + getIntent().getExtras().get("chat_room");
         setContentView(R.layout.activity_chat);
         ControllerFactory.getAccountController().currentAccount().enqueue(new Callback<APIResponse<Account>>() {
             @Override
