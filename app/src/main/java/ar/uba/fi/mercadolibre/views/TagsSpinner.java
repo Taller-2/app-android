@@ -51,7 +51,7 @@ public class TagsSpinner extends android.support.v7.widget.AppCompatSpinner {
 
     private void fill(Response<Categories> response, Context context) {
         Categories c = response.body();
-        assert c != null;
+        if (c == null) return;
         ArrayList<String> categories = c.getCategories();
         categories.add(0, NO_CATEGORY);
         ArrayAdapter<String> adapter =
