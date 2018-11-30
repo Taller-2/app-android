@@ -81,4 +81,6 @@
     <string name="answer">Responder</string>
     <string name="my_answers">Mis Respuestas</string>
     <string name="no_sales">Todavía no vendiste ningún producto :(</string>
+    <string name="notifications_admin_channel_name">test</string>
+    <string name="notifications_admin_channel_description">testest</string>
 </resources>
