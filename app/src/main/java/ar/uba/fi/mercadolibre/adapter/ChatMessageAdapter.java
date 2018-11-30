@@ -43,7 +43,7 @@ public class ChatMessageAdapter extends ArrayAdapter<ChatMessage> {
         TextView theirName = view.findViewById(R.id.their_name);
 
         String senderUserID = message.senderUserID();
-        if (senderUserID != null && senderUserID.equals(currentAccount.getUserID())) {
+        if (senderUserID != null && senderUserID.equals(currentAccount.getID())) {
             myMessageBody.setText(message.getText());
 
             myMessageBody.setVisibility(View.VISIBLE);
