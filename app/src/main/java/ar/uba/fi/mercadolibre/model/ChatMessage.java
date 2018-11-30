@@ -12,6 +12,10 @@ public class ChatMessage {
     @Expose
     private String name;
 
+    @SerializedName("purchase_id")
+    @Expose
+    private String purchaseId;
+
     @SerializedName("sender_user_id")
     @Expose
     private String senderUserID;
@@ -20,6 +24,11 @@ public class ChatMessage {
         this.text = text;
         this.name = name;
         this.senderUserID = senderUserID;
+    }
+
+    public ChatMessage(String text, String purchaseId) {
+        this.text = text;
+        this.purchaseId = purchaseId;
     }
 
     public String getText() {

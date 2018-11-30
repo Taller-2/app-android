@@ -28,7 +28,9 @@ import retrofit2.Response;
 
 
 public class ChatActivity extends BaseActivity implements RoomListener {
-    private final String roomName = "observable-room"; // There's no privacy yet
+    private final static String channelID = "xFKSnmBDfC3SyNTj";
+    private String roomName;
+    private String purchaseId;
     private Scaledrone client;
     private ChatMessageAdapter messageAdapter;
     private ListView messagesView;
@@ -43,6 +45,8 @@ public class ChatActivity extends BaseActivity implements RoomListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        purchaseId = (String) getIntent().getExtras().get("chat_room");
+        roomName = "observable-" + purchaseId;
         setContentView(R.layout.activity_chat);
         ControllerFactory.getAccountController().currentAccount().enqueue(new Callback<APIResponse<Account>>() {
             @Override
@@ -66,7 +70,7 @@ public class ChatActivity extends BaseActivity implements RoomListener {
     }
 
     private void initMessages() {
-        ControllerFactory.getChatMessageController().list().enqueue(new Callback<APIResponse<List<ChatMessage>>>() {
+        ControllerFactory.getChatMessageController().list(roomName).enqueue(new Callback<APIResponse<List<ChatMessage>>>() {
             @Override
             public void onResponse(Call<APIResponse<List<ChatMessage>>> call,
                                    Response<APIResponse<List<ChatMessage>>> response) {
@@ -91,7 +95,6 @@ public class ChatActivity extends BaseActivity implements RoomListener {
     }
 
     public void connectToClient() {
-        String channelID = "xFKSnmBDfC3SyNTj";
         client = new Scaledrone(channelID, currentAccount);
         client.connect(new Listener() {
             @Override
@@ -182,13 +185,12 @@ public class ChatActivity extends BaseActivity implements RoomListener {
         editText.getText().clear();
         saveMessage(new ChatMessage(
                 message,
-                currentAccount.getName(),
-                currentAccount.getUserID()
+                purchaseId
         ));
     }
 
     private void saveMessage(ChatMessage message) {
-        ControllerFactory.getChatMessageController().create(message).enqueue(new Callback<Object>() {
+        ControllerFactory.getChatMessageController().create(roomName, message).enqueue(new Callback<Object>() {
             @Override
             public void onResponse(Call<Object> call,
                                    Response<Object> response) {

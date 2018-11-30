@@ -90,4 +90,7 @@
     <string name="credit_card">Tarjeta de crédito</string>
     <string name="units">Unidades</string>
     <string name="debit_card">Tarjeta de débito</string>
+    <string name="no_sales">Todavía no vendiste ningún producto :(</string>
+    <string name="notifications_admin_channel_name">test</string>
+    <string name="notifications_admin_channel_description">testest</string>
 </resources>

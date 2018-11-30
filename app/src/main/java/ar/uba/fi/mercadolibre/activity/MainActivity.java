@@ -13,11 +13,20 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GetTokenResult;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 
 import java.util.Arrays;
 import java.util.List;
 
 import ar.uba.fi.mercadolibre.client.RetrofitClient;
+import ar.uba.fi.mercadolibre.controller.APIResponse;
+import ar.uba.fi.mercadolibre.controller.ControllerFactory;
+import ar.uba.fi.mercadolibre.controller.InvalidResponseException;
+import ar.uba.fi.mercadolibre.model.Account;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MainActivity extends BaseActivity {
     private static final int RC_SIGN_IN = 123;
@@ -68,9 +77,8 @@ public class MainActivity extends BaseActivity {
                 .addOnCompleteListener(new OnCompleteListener<GetTokenResult>() {
                     public void onComplete(@NonNull Task<GetTokenResult> task) {
                         if (task.isSuccessful()) {
-                            // String idToken = task.getResult().getToken();
-                            startActivity(new Intent(getApplicationContext(), MainMenuActivity.class));
-                            // ...
+                            processInstanceId();
+
                         } else {
                             String msg = task.getException().getLocalizedMessage();
                             if (msg != null) {
@@ -82,6 +90,56 @@ public class MainActivity extends BaseActivity {
                 });
     }
 
+    private void processInstanceId() {
+        FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener(new OnSuccessListener<InstanceIdResult>() {
+            @Override
+            public void onSuccess(InstanceIdResult instanceIdResult) {
+                postInstanceIdToAccount(instanceIdResult.getToken());
+
+            }
+        });
+    }
+
+    private void postInstanceIdToAccount(final String id) {
+        ControllerFactory.getAccountController().currentAccount().enqueue(new Callback<APIResponse<Account>>() {
+            @Override
+            public void onResponse(Call<APIResponse<Account>> call, Response<APIResponse<Account>> response) {
+                if (response.isSuccessful()) {
+                    try {
+                        doAccountUpdateAndShowMainMenu(response.body().getData(), id);
+                    } catch (InvalidResponseException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<APIResponse<Account>> call, Throwable t) {
+
+            }
+        });
+    }
+
+    private void doAccountUpdateAndShowMainMenu(final Account account, final String id) {
+        account.setInstanceId(id);
+        ControllerFactory.getAccountController().updateCurrentAccount(account).enqueue(new Callback<Object>() {
+            @Override
+            public void onResponse(Call<Object> call, Response<Object> response) {
+                if (response.isSuccessful()) {
+                    // String idToken = task.getResult().getToken();
+                    startActivity(new Intent(getApplicationContext(), MainMenuActivity.class));
+                    // ...
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Object> call, Throwable t) {
+
+            }
+        });
+    }
     @Override
     public void onStart() {
         super.onStart();

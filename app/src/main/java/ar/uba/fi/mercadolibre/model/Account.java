@@ -1,5 +1,6 @@
 package ar.uba.fi.mercadolibre.model;
 
+import com.google.firebase.storage.StorageException;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -23,6 +24,10 @@ public class Account extends BaseModel {
     @SerializedName("score")
     @Expose
     private int score;
+
+    @SerializedName("instance_id")
+    @Expose
+    private String instanceId;
 
     public String getEmail() {
         return email;
@@ -54,5 +59,9 @@ public class Account extends BaseModel {
 
     public int getScore() {
         return score;
+    }
+
+    public void setInstanceId(String instanceId) {
+        this.instanceId = instanceId;
     }
 }

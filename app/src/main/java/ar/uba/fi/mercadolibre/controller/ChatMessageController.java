@@ -7,11 +7,12 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 
 public interface ChatMessageController {
-    @GET("chat_message/")
-    Call<APIResponse<List<ChatMessage>>> list();
+    @GET("chat_message/{room}/")
+    Call<APIResponse<List<ChatMessage>>> list(@Path("room") String room);
 
-    @POST("chat_message/")
-    Call<Object> create(@Body ChatMessage message);
+    @POST("chat_message/{room}/")
+    Call<Object> create(@Path("room") String room, @Body ChatMessage message);
 }

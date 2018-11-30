@@ -53,6 +53,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     static final public int CHAT_IDENTIFIER = 9;
     static final public int PUBLISH_IDENTIFIER = 10;
     static final public int ANSWERS_IDENTIFIER = 11;
+    static final public int MY_SALES_IDENTIFIER = 12;
 
     private SparseArray<Runnable> activityClasses = null;
 
@@ -74,6 +75,7 @@ public abstract class BaseActivity extends AppCompatActivity {
                 startQrScan();
             }
         });
+        activities.append(MY_SALES_IDENTIFIER, new ActivityStarter(UserSalesActivity.class));
         return activities;
     }
 
@@ -185,6 +187,10 @@ public abstract class BaseActivity extends AppCompatActivity {
                 .withIdentifier(ANSWERS_IDENTIFIER)
                 .withName(R.string.my_answers)
                 .withIcon(R.drawable.ic_baseline_chat_bubble_24px);
+        PrimaryDrawerItem mySales = new PrimaryDrawerItem()
+                .withIdentifier(MY_SALES_IDENTIFIER)
+                .withName("Mis Ventas")
+                .withIcon(R.drawable.ic_baseline_attach_money_24px);
         new DrawerBuilder()
                 .withActivity(this)
                 .withActionBarDrawerToggle(true)
@@ -200,6 +206,7 @@ public abstract class BaseActivity extends AppCompatActivity {
                         myAccount,
                         myItems,
                         myPurchases,
+                        mySales,
                         myAnswers,
                         new DividerDrawerItem(),
                         listArticles,
