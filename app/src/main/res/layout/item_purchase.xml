@@ -28,10 +28,17 @@
             android:text="TextView" />
 
         <TextView
-            android:id="@+id/status"
+            android:id="@+id/payment_status"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="5dp"
-            android:text="Estado: Pendiente" />
+            android:text="" />
+
+        <TextView
+            android:id="@+id/shipment_status"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:text="" />
     </LinearLayout>
 </LinearLayout>

@@ -93,4 +93,10 @@
     <string name="no_sales">Todavía no vendiste ningún producto :(</string>
     <string name="notifications_admin_channel_name">test</string>
     <string name="notifications_admin_channel_description">testest</string>
+    <string name="payment_status">Pago: %1$s</string>
+    <string name="shipment_status">Envío: %1$s</string>
+    <string name="pending">Pendiente</string>
+    <string name="done">Realizado</string>
+    <string name="cancelled">Cancelado</string>
+    <string name="not_found">No se encuentra</string>
 </resources>
