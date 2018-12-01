@@ -54,8 +54,8 @@
         <activity android:name=".activity.AnswerQuestionActivity"
             android:label="@string/answer_activity_label"/>
         <activity android:name=".activity.UserQuestionsActivity" />
+        <activity android:name=".activity.ArticlePurchaseActivity" />
         <activity android:name=".activity.UserSalesActivity" />
-
         <service android:name=".client.FirebaseNotifications">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
@@ -63,12 +63,13 @@
             <meta-data
                 android:name="com.google.firebase.messaging.default_notification_icon"
                 android:resource="@drawable/ic_baseline_search_24px" />
-            <!-- Set color used with incoming notification messages. This is used when no color is set for the incoming
-                 notification message. See README(https://goo.gl/6BKBk7) for more. -->
+            <!-- Set color used with incoming notification messages.
+                 This is used when no color is set for the incoming
+                 notification message. See README(https://goo.gl/6BKBk7)
+                 for more. -->
             <meta-data
                 android:name="com.google.firebase.messaging.default_notification_color"
                 android:resource="@color/colorAccent" />
-
         </service>
     </application>
 </manifest>

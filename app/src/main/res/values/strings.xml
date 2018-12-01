@@ -80,7 +80,23 @@
     <string name="answer_activity_label">Responder</string>
     <string name="answer">Responder</string>
     <string name="my_answers">Mis Respuestas</string>
+    <string name="payment_method">Medio de Pago</string>
+    <string name="address">Dirección</string>
+    <string name="shipment">Envío</string>
+    <string name="shipment_cost">Costo de envío</string>
+    <string name="confirm_purchase">Confirmar compra</string>
+    <string name="total_amount">Total</string>
+    <string name="cash">Efectivo</string>
+    <string name="credit_card">Tarjeta de crédito</string>
+    <string name="units">Unidades</string>
+    <string name="debit_card">Tarjeta de débito</string>
     <string name="no_sales">Todavía no vendiste ningún producto :(</string>
     <string name="notifications_admin_channel_name">test</string>
     <string name="notifications_admin_channel_description">testest</string>
+    <string name="payment_status">Pago: %1$s</string>
+    <string name="shipment_status">Envío: %1$s</string>
+    <string name="pending">Pendiente</string>
+    <string name="done">Realizado</string>
+    <string name="cancelled">Cancelado</string>
+    <string name="not_found">No se encuentra</string>
 </resources>

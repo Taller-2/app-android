@@ -23,7 +23,6 @@ import ar.uba.fi.mercadolibre.R;
 import ar.uba.fi.mercadolibre.controller.APIResponse;
 import ar.uba.fi.mercadolibre.controller.ControllerFactory;
 import ar.uba.fi.mercadolibre.controller.InvalidResponseException;
-import ar.uba.fi.mercadolibre.controller.PurchaseBody;
 import ar.uba.fi.mercadolibre.model.Article;
 import ar.uba.fi.mercadolibre.model.ShipmentCost;
 import ar.uba.fi.mercadolibre.views.ArticleSlider;
@@ -37,6 +36,7 @@ import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 public class ArticleDetailActivity extends BaseActivity {
     private Article article = null;
     private FusedLocationProviderClient mFusedLocationClient;
+    private ShipmentCost shipmentCost;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,10 +75,7 @@ public class ArticleDetailActivity extends BaseActivity {
         View buyButton = findViewById(R.id.buy_button);
         View questionsButton = findViewById(R.id.questions_button);
 
-        setEnabled(
-                new View[]{buyButton, questionsButton},
-                !article.isFromCurrentUser()
-        );
+        questionsButton.setEnabled(!article.isFromCurrentUser());
 
         buyButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -94,35 +91,11 @@ public class ArticleDetailActivity extends BaseActivity {
         });
     }
 
-    private void setEnabled(View[] buttons, boolean enabled) {
-        for (View button : buttons) {
-            button.setEnabled(enabled);
-        }
-    }
-
     private void buy() {
-        String articleId = article.getID();
-        int units = 1;
-
-        ControllerFactory.getPurchaseController()
-                .purchaseArticle(new PurchaseBody(articleId, units))
-                .enqueue(new Callback<Object>() {
-                    @Override
-                    public void onResponse(Call<Object> call, Response<Object> response) {
-                        if (response.isSuccessful()) {
-                            // Move to a payment method screen here
-                            toast(R.string.ok);
-                            finish();
-                            return;
-                        }
-                        Log.e("Purchase POST", response.errorBody().toString());
-                    }
-
-                    @Override
-                    public void onFailure(Call<Object> call, Throwable t) {
-                        Log.e("Purchase POST", t.getMessage());
-                    }
-                });
+        Intent intent = new Intent(getApplicationContext(), ArticlePurchaseActivity.class);
+        intent.putExtra("article", article);
+        intent.putExtra("shipmentCost", shipmentCost);
+        startActivity(intent);
     }
 
     public void questions() {
@@ -164,8 +137,7 @@ public class ArticleDetailActivity extends BaseActivity {
                 }
                 ControllerFactory.getArticleController().shipmentCost(article.getID(), location.getLatitude(), location.getLongitude(), "cash").enqueue(new Callback<APIResponse<ShipmentCost>>() {
                     @Override
-                    public void onResponse(Call<APIResponse<ShipmentCost>> call, Response<APIResponse<ShipmentCost>> response) {
-                        ShipmentCost shipmentCost;
+                    public void onResponse(@NonNull Call<APIResponse<ShipmentCost>> call, @NonNull Response<APIResponse<ShipmentCost>> response) {
                         String text;
                         try {
                             shipmentCost = getDataOrThrowException(response);
@@ -174,8 +146,15 @@ public class ArticleDetailActivity extends BaseActivity {
                             toast(R.string.shipment_cost_error);
                             return;
                         }
-                        if (shipmentCost.isEnabled()) {
-                            text = String.format(Locale.getDefault(), "$%.2f", shipmentCost.getCost());
+                        findViewById(R.id.buy_button).setEnabled(
+                                !article.isFromCurrentUser() && article.getAvailableUnits() > 0
+                        );
+                        if (shipmentCost.isEnabled(ShipmentCost.PaymentMethod.CASH)) {
+                            text = String.format(
+                                    Locale.getDefault(),
+                                    "$%.2f",
+                                    shipmentCost.getCost(ShipmentCost.PaymentMethod.CASH)
+                            );
                         } else {
                             text = getString(R.string.does_not_ship);
                         }
@@ -183,7 +162,7 @@ public class ArticleDetailActivity extends BaseActivity {
                     }
 
                     @Override
-                    public void onFailure(Call<APIResponse<ShipmentCost>> call, Throwable t) {
+                    public void onFailure(@NonNull Call<APIResponse<ShipmentCost>> call, @NonNull Throwable t) {
                         Log.w("Shipment Cost", t.getMessage());
                     }
                 });

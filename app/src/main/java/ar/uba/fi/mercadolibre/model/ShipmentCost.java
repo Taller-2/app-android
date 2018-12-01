@@ -3,25 +3,60 @@ package ar.uba.fi.mercadolibre.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class ShipmentCost {
+import java.io.Serializable;
+
+public class ShipmentCost implements Serializable {
     public static final String STATUS_ENABLED = "enabled";
     public static final String STATUS_FREE = "free";
     public static final String STATUS_DISABLED = "disabled";
 
-    @SerializedName("cost")
+    @SerializedName("cash")
     @Expose
-    private float cost;
+    private PaymentMethodDetail cash;
 
-    @SerializedName("status")
+    @SerializedName("credit")
     @Expose
-    private String status;
+    private PaymentMethodDetail credit;
 
-    public boolean isEnabled() {
-        if (status == null) return false;
-        return !status.equals(STATUS_DISABLED);
+    @SerializedName("debit")
+    @Expose
+    private PaymentMethodDetail debit;
+
+    public boolean isEnabled(PaymentMethod method) {
+        switch (method) {
+            case CASH:
+                return cash.status != null && !cash.status.equals(STATUS_DISABLED);
+            case CREDIT:
+                return credit.status != null && !credit.status.equals(STATUS_DISABLED);
+            case DEBIT:
+                return debit.status != null && !debit.status.equals(STATUS_DISABLED);
+        }
+        return false;
     }
 
-    public float getCost() {
-        return cost;
+    public float getCost(PaymentMethod method) {
+        switch (method) {
+            case CASH:
+                return cash.cost;
+            case CREDIT:
+                return credit.cost;
+            case DEBIT:
+                return debit.cost;
+        }
+        return 0;
+    }
+
+    public enum PaymentMethod {
+        CASH, CREDIT, DEBIT
+    }
+
+    private class PaymentMethodDetail implements Serializable {
+        @SerializedName("cost")
+        @Expose
+        private float cost;
+
+        @SerializedName("status")
+        @Expose
+        private String status;
     }
 }
