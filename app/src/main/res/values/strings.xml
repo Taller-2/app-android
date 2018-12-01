@@ -99,4 +99,13 @@
     <string name="done">Realizado</string>
     <string name="cancelled">Cancelado</string>
     <string name="not_found">No se encuentra</string>
+    <string name="account_history">Historial</string>
+    <string name="no_account_events">No hay eventos en tu historial</string>
+    <string name="my_event_history">Mi historial</string>
+    <string name="account_event_timestamp_placeholder">(Fecha desconocida)</string>
+    <string name="account_event_detail"><b>%1$s</b> de %2$s</string>
+    <string name="purchase">Compra</string>
+    <string name="sale">Venta</string>
+    <string name="publication">Publicación</string>
+    <string name="score_increment">Sumó %1$s puntos</string>
 </resources>

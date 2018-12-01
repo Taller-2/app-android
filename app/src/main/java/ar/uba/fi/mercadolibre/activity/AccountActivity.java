@@ -160,4 +160,10 @@ public class AccountActivity extends BaseActivity {
             }
         });
     }
+
+    public void openEventList(View view) {
+        Intent intent = new Intent(getApplicationContext(), AccountEventListActivity.class);
+        intent.putExtra("account", account);
+        startActivity(intent);
+    }
 }

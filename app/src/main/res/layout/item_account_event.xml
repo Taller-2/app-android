@@ -1,0 +1,22 @@
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="10dp">
+
+    <TableRow>
+        <TextView
+            android:id="@+id/timestamp"
+            android:text="@string/account_event_timestamp_placeholder"/>
+    </TableRow>
+
+    <TableRow>
+        <TextView
+            android:id="@+id/event"/>
+    </TableRow>
+
+    <TableRow>
+        <TextView
+            android:id="@+id/score_increment"/>
+    </TableRow>
+
+</TableLayout>
