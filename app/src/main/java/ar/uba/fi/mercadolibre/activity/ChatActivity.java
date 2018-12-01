@@ -141,7 +141,7 @@ public class ChatActivity extends BaseActivity implements RoomListener {
         String senderUserID = null;
         if (data != null) {
             senderName = data.get("name").asText();
-            senderUserID = data.get("userID").asText();
+            senderUserID = data.get("id").asText();
         }
         if (senderName == null || senderName.length() == 0) {
             senderName = "<unknown>";
