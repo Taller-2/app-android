@@ -69,7 +69,7 @@ public class FirebaseNotifications extends FirebaseMessagingService {
         FirebaseMessage message = getMessageFromType(messageType, remoteMessage.getData());
         if (message != null) {
             Intent i = message.getNotificationIntent(getApplicationContext());
-            notificationBuilder.setContentIntent(PendingIntent.getActivity(getApplicationContext(), 0, i, 0));
+            notificationBuilder.setContentIntent(PendingIntent.getActivity(getApplicationContext(), notificationId, i, 0));
         }
         NotificationManager notificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
