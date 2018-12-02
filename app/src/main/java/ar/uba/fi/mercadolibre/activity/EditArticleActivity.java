@@ -153,7 +153,7 @@ public class EditArticleActivity extends BaseActivity {
 
     private void initCarousel() {
         ArticleSlider slider = findViewById(R.id.slider);
-        int corner = getResources().getDimensionPixelSize(R.dimen.slider_image_corner);
+        int corner = getResources().getDimensionPixelSize(R.dimen.corner);
         slider.init(article, corner);
     }
 

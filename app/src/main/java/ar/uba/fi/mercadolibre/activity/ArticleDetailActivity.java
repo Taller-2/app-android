@@ -69,7 +69,7 @@ public class ArticleDetailActivity extends BaseActivity {
         fillTextView(R.id.detail_article_price, format.format(article.getPrice()));
 
         ArticleSlider s = findViewById(R.id.detail_article_slider);
-        int corner = getResources().getDimensionPixelSize(R.dimen.slider_image_corner);
+        int corner = getResources().getDimensionPixelSize(R.dimen.corner);
         s.init(article, corner);
 
         View buyButton = findViewById(R.id.buy_button);
