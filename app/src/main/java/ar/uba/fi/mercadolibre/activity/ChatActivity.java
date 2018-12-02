@@ -95,6 +95,8 @@ public class ChatActivity extends BaseActivity implements RoomListener {
     }
 
     public void connectToClient() {
+        // Scaledrone demands passed data must be under 1kb. Clear events, we don't use them in this context
+        currentAccount.clearEvents();
         client = new Scaledrone(channelID, currentAccount);
         client.connect(new Listener() {
             @Override
@@ -110,7 +112,7 @@ public class ChatActivity extends BaseActivity implements RoomListener {
             }
 
             @Override
-            public void onFailure(Exception ex) {
+                public void onFailure(Exception ex) {
                 Log.e("ChatActivity", "onFailure", ex);
                 finish();
             }

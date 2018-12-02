@@ -73,4 +73,8 @@ public class Account extends BaseModel {
     public ArrayList<AccountEvent> getEvents() {
         return events;
     }
+
+    public void clearEvents() {
+        events = null;
+    }
 }
