@@ -38,11 +38,6 @@ public class ChatActivity extends BaseActivity implements RoomListener {
     private Account currentAccount;
 
     @Override
-    public int identifierForDrawer() {
-        return CHAT_IDENTIFIER;
-    }
-
-    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         purchaseId = (String) getIntent().getExtras().get("chat_room");

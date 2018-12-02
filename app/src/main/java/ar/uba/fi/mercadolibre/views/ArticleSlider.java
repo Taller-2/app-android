@@ -40,12 +40,10 @@ public class ArticleSlider extends Slider {
         }
 
         List<Slide> slideList = new ArrayList<>();
-        for (int i = 0; i < article.getPictureURLs().size(); i++) {
+        for (int i = article.getPictureURLs().size() - 1; i >= 0; i--) {
             String pictureURL = article.getPictureURLs().get(i);
             slideList.add(new Slide(i, pictureURL, corner));
-
         }
         addSlides(slideList);
     }
-
 }

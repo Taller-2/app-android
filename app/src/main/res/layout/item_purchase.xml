@@ -6,7 +6,7 @@
 
     <ImageView
         android:id="@+id/purchasedItemImage"
-        android:layout_width="150dp"
+        android:layout_width="200dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:contentDescription="@string/list_article_image"

@@ -85,7 +85,12 @@ public class PurchasesAdapter extends ArrayAdapter<Purchase> {
         }
 
         final String path = pictures.get(0);
-        Picasso.get().load(path).into(imageView);
+        Picasso
+                .get()
+                .load(path)
+                .resize(200, 200)
+                .centerCrop()
+                .into(imageView);
     }
 
 }

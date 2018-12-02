@@ -79,6 +79,11 @@ public class ArticleAdapter extends ArrayAdapter<Article> {
 
     private void loadImage(final ImageView imageView, Article a) {
         final String path = a.getPictureURLs().get(0);
-        Picasso.get().load(path).into(imageView);
+        Picasso
+                .get()
+                .load(path)
+                .resize(125, 125)
+                .centerCrop()
+                .into(imageView);
     }
 }

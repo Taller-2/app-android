@@ -49,7 +49,10 @@ public class ImageAdapter extends BaseAdapter {
         final ImageView imageView = convertView.findViewById(R.id.image_adapter_image);
         Picasso p = Picasso.get();
         p.setLoggingEnabled(true);
-        p.load(imageURLs.get(position)).into(imageView);
+        p.load(imageURLs.get(position))
+                .resize(200, 200)
+                .centerCrop()
+                .into(imageView);
         imageView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {

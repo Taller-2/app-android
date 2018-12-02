@@ -50,7 +50,6 @@ public abstract class BaseActivity extends AppCompatActivity {
     static final public int SCAN_QR_IDENTIFIER = 6;
     static final public int LIST_ARTICLES_IDENTIFIER = 7;
     static final public int MAP_IDENTIFIER = 8;
-    static final public int CHAT_IDENTIFIER = 9;
     static final public int PUBLISH_IDENTIFIER = 10;
     static final public int ANSWERS_IDENTIFIER = 11;
     static final public int MY_SALES_IDENTIFIER = 12;
@@ -66,7 +65,6 @@ public abstract class BaseActivity extends AppCompatActivity {
         activities.append(MY_PURCHASES_IDENTIFIER, new ActivityStarter(UserPurchasesActivity.class));
         activities.append(LIST_ARTICLES_IDENTIFIER, new ActivityStarter(ListArticlesActivity.class));
         activities.append(MAP_IDENTIFIER, new ActivityStarter(MapActivity.class));
-        activities.append(CHAT_IDENTIFIER, new ActivityStarter(ChatActivity.class));
         activities.append(PUBLISH_IDENTIFIER, new ActivityStarter(EditArticleActivity.class));
         activities.append(ANSWERS_IDENTIFIER, new ActivityStarter(UserQuestionsActivity.class));
         activities.append(SCAN_QR_IDENTIFIER, new Runnable() {
@@ -176,9 +174,6 @@ public abstract class BaseActivity extends AppCompatActivity {
                 .withIdentifier(MAP_IDENTIFIER)
                 .withName(R.string.open_activity_map)
                 .withIcon(R.drawable.ic_location_on_black_24dp);
-        PrimaryDrawerItem chat = new PrimaryDrawerItem()
-                .withIdentifier(CHAT_IDENTIFIER)
-                .withName(R.string.open_chat);
         PrimaryDrawerItem publish = new PrimaryDrawerItem()
                 .withIdentifier(PUBLISH_IDENTIFIER)
                 .withName(R.string.publish_article)
@@ -213,7 +208,6 @@ public abstract class BaseActivity extends AppCompatActivity {
                         map,
                         scanQr,
                         publish,
-                        chat,
                         new DividerDrawerItem(),
                         signOut
                 )
