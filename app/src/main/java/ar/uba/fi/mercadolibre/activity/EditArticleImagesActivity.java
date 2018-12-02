@@ -72,7 +72,7 @@ public class EditArticleImagesActivity extends BaseActivity {
                 Log.e("Article edit", "Uploaded image from user is null");
                 return;
             }
-            findViewById(R.id.loading_spinner_layout).setVisibility(View.VISIBLE);
+            toggleSpinner(true);
             mFirebaseImageManager.upload(selectedImage, selectedImage.toString(), new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
@@ -83,11 +83,18 @@ public class EditArticleImagesActivity extends BaseActivity {
         }
     }
 
+    private void toggleGrid(boolean show) {
+        findViewById(R.id.images_layout).setVisibility(show ? View.VISIBLE : View.GONE);
+        findViewById(R.id.no_images_layout).setVisibility(show ? View.GONE : View.VISIBLE);
+    }
+
+    private void toggleSpinner(boolean show) {
+        findViewById(R.id.loading_spinner_layout).setVisibility(show ? View.VISIBLE : View.GONE);
+    }
+
     private void refreshImages(Uri selectedImage) {
         final GridView gridview = findViewById(R.id.edit_image_gridview);
-        gridview.setVisibility(View.VISIBLE);
-        findViewById(R.id.no_images_layout).setVisibility(View.GONE);
-
+        toggleGrid(true);
         mFirebaseImageManager.getDownloadUrl(selectedImage.toString(), new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
@@ -101,7 +108,7 @@ public class EditArticleImagesActivity extends BaseActivity {
                         }
                         adapter = (ImageAdapter) gridview.getAdapter();
                         adapter.notifyDataSetChanged();
-                        findViewById(R.id.loading_spinner_layout).setVisibility(View.GONE);
+                        toggleSpinner(false);
                     }
                 });
             }
@@ -112,12 +119,10 @@ public class EditArticleImagesActivity extends BaseActivity {
         final GridView gridview = findViewById(R.id.edit_image_gridview);
         ArrayList<String> pictures = article.getPictureURLs();
         if (pictures == null || pictures.size() == 0) {
-            findViewById(R.id.no_images_layout).setVisibility(View.VISIBLE);
-            gridview.setVisibility(View.INVISIBLE);
+            toggleGrid(false);
             return;
         }
-        findViewById(R.id.no_images_layout).setVisibility(View.GONE);
-        gridview.setVisibility(View.VISIBLE);
+        toggleGrid(true);
         gridview.setAdapter(new ImageAdapter(this, pictures, new Callback() {
             @Override
             public void onSuccess() {
@@ -135,13 +140,20 @@ public class EditArticleImagesActivity extends BaseActivity {
         ArrayList<String> pictures = article.getPictureURLs();
         final GridView gridview = findViewById(R.id.edit_image_gridview);
         if (pictures != null && pictures.size() == 0) {
-            findViewById(R.id.no_images_layout).setVisibility(View.VISIBLE);
-            gridview.setVisibility(View.INVISIBLE);
+            toggleGrid(false);
         }
     }
 
-    @Override
-    public void onBackPressed() {
+    private Article getArticleFromIntent() {
+        Intent i = getIntent();
+        Bundle extras = i.getExtras();
+        if (extras == null) {
+            return null;
+        }
+        return (Article) i.getExtras().get("article");
+    }
+
+    public void finish(View view) {
         Article oldArticle = getArticleFromIntent();
         if (oldArticle == null) {
             super.onBackPressed();
@@ -154,15 +166,6 @@ public class EditArticleImagesActivity extends BaseActivity {
         }
         Intent i = getIntent().putExtra("article", article);
         setResult(RESULT_OK, i);
-        super.onBackPressed();
-    }
-
-    private Article getArticleFromIntent() {
-        Intent i = getIntent();
-        Bundle extras = i.getExtras();
-        if (extras == null) {
-            return null;
-        }
-        return (Article) i.getExtras().get("article");
+        finish();
     }
 }

@@ -38,35 +38,93 @@
         <TextView
             android:id="@+id/noImagesText"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="17dp"
             android:layout_weight="1"
             android:ellipsize="end"
             android:enabled="true"
             android:gravity="center_vertical|center_horizontal"
             android:lines="3"
             android:minLines="2"
+            android:padding="40dp"
             android:text="@string/article_has_no_images"
             android:visibility="visible"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/button5"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/button5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginBottom="17dp"
+            android:text="@string/edit_image_done"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:onClick="finish"
+            app:layout_constraintStart_toStartOf="parent" />
+
     </android.support.constraint.ConstraintLayout>
 
-    <GridView xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/edit_image_gridview"
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/images_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:columnWidth="90dp"
-        android:gravity="center"
-        android:horizontalSpacing="10dp"
-        android:numColumns="auto_fit"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:scrollbars="none"
-        android:smoothScrollbar="false"
-        android:stretchMode="columnWidth"
-        android:verticalSpacing="10dp"
-        android:visibility="visible" />
+        android:visibility="visible">
 
+        <GridView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/edit_image_gridview"
+            android:layout_width="match_parent"
+            android:columnWidth="90dp"
+            android:gravity="center"
+            android:horizontalSpacing="10dp"
+            android:numColumns="auto_fit"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:scrollbars="none"
+            android:smoothScrollbar="false"
+            android:stretchMode="columnWidth"
+            android:verticalSpacing="10dp"
+            android:visibility="visible"
+            app:layout_constraintBottom_toTopOf="@+id/textView8"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_height="0dp" />
+
+        <TextView
+            android:id="@+id/textView8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginBottom="16dp"
+            android:text="@string/edit_image_delete_hint"
+            app:layout_constraintBottom_toTopOf="@+id/button4"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <Button
+            android:id="@+id/button4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginBottom="17dp"
+            android:text="@string/edit_image_done"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:onClick="finish"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    </android.support.constraint.ConstraintLayout>
 </android.widget.LinearLayout>

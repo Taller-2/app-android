@@ -37,7 +37,7 @@
     <string name="article_images">Imágenes</string>
     <string name="image_gallery">Galeria</string>
     <string name="image_camera">Camara</string>
-    <string name="article_has_no_images">Este artículo aún no tiene imágenes asociadas. Cargá una desde la galería o la cámara!</string>
+    <string name="article_has_no_images">Este artículo aún no tiene imágenes asociadas.\nCargá una desde la galería o la cámara!</string>
     <string name="image_view_desc">Imagen de articulo</string>
     <string name="open_activity_map">Mapa de actividades</string>
     <string name="hold_for_detail">Mantener Presionado para Abrir</string>
@@ -108,4 +108,6 @@
     <string name="sale">Venta</string>
     <string name="publication">Publicación</string>
     <string name="score_increment">Sumó %1$s puntos</string>
+    <string name="edit_image_done">Listo</string>
+    <string name="edit_image_delete_hint">Mantené presionada una imagen para quitarla</string>
 </resources>
