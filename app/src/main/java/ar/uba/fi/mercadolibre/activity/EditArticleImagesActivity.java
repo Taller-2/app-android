@@ -15,6 +15,7 @@ import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Callback;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
 import ar.uba.fi.mercadolibre.R;
 import ar.uba.fi.mercadolibre.adapter.ImageAdapter;
@@ -73,10 +74,17 @@ public class EditArticleImagesActivity extends BaseActivity {
                 return;
             }
             toggleSpinner(true);
-            mFirebaseImageManager.upload(selectedImage, selectedImage.toString(), new OnSuccessListener<UploadTask.TaskSnapshot>() {
+
+            final String destinationPath = article.getID()
+                    + '/'
+                    + UUID.randomUUID().toString()
+                    + '/'
+                    + selectedImage.toString();
+
+            mFirebaseImageManager.upload(selectedImage, destinationPath, new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    refreshImages(selectedImage);
+                    refreshImages(destinationPath);
                 }
             });
 
@@ -92,10 +100,10 @@ public class EditArticleImagesActivity extends BaseActivity {
         findViewById(R.id.loading_spinner_layout).setVisibility(show ? View.VISIBLE : View.GONE);
     }
 
-    private void refreshImages(Uri selectedImage) {
+    private void refreshImages(String destinationPath) {
         final GridView gridview = findViewById(R.id.edit_image_gridview);
         toggleGrid(true);
-        mFirebaseImageManager.getDownloadUrl(selectedImage.toString(), new OnSuccessListener<Uri>() {
+        mFirebaseImageManager.getDownloadUrl(destinationPath, new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
                 article.addPicture(uri.toString());

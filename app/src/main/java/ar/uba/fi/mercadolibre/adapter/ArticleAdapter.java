@@ -50,9 +50,11 @@ public class ArticleAdapter extends ArrayAdapter<Article> {
         );
         ((TextView) view.findViewById(R.id.item_price)).setText(NumberFormat.getCurrencyInstance().format(article.getPrice()));
 
+        ImageView image = view.findViewById(R.id.list_article_image);
         if (!article.getPictureURLs().isEmpty()) {
-            ImageView image = view.findViewById(R.id.list_article_image);
             loadImage(image, article);
+        } else {
+            image.setImageResource(R.drawable.ic_camera_alt_black_24dp);
         }
 
         if (userIsOwner) {

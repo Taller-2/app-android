@@ -48,7 +48,14 @@ public class PurchasesAdapter extends ArrayAdapter<Purchase> {
         }
         Article article = purchase.getArticle();
         ((TextView) convertView.findViewById(R.id.articleName)).setText(article.getName());
-        loadImage((ImageView) convertView.findViewById(R.id.purchasedItemImage), article);
+
+        ImageView image = convertView.findViewById(R.id.purchasedItemImage);
+        if (!article.getPictureURLs().isEmpty()) {
+            loadImage(image, article);
+        } else {
+            image.setImageResource(R.drawable.ic_camera_alt_black_24dp);
+        }
+
         Resources resources = convertView.getResources();
         ((TextView) convertView.findViewById(R.id.payment_status)).setText(
                 String.format(

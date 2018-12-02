@@ -43,9 +43,12 @@ public class UserQuestionAdapter extends ArrayAdapter<Question> {
         Article article = question.getArticle();
         assert article != null;
         ((TextView) convertView.findViewById(R.id.item_name)).setText(article.getName());
+
+        ImageView image = convertView.findViewById(R.id.list_article_image);
         if (!article.getPictureURLs().isEmpty()) {
-            ImageView image = convertView.findViewById(R.id.list_article_image);
             loadImage(image, article);
+        } else {
+            image.setImageResource(R.drawable.ic_camera_alt_black_24dp);
         }
 
         ((TextView) convertView.findViewById(R.id.question)).setText(question.getQuestion());
