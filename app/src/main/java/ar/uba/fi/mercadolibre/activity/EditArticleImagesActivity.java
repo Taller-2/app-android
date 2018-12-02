@@ -51,15 +51,16 @@ public class EditArticleImagesActivity extends BaseActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-
-        if (id == R.id.action_gallery) {
-            startActivityForResult(new Intent(Intent.ACTION_PICK,
-                            android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI),
-                    GET_FROM_GALLERY);
-            return true;
+        if (item.getItemId() == R.id.action_gallery) {
+                startActivityForResult(
+                        new Intent(
+                                Intent.ACTION_PICK,
+                                android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI
+                        ),
+                        GET_FROM_GALLERY
+                );
+                return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
