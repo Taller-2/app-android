@@ -1,4 +1,4 @@
-package ar.uba.fi.mercadolibre.client;
+package ar.uba.fi.mercadolibre.notifications;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -16,16 +16,32 @@ import android.util.Log;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 import ar.uba.fi.mercadolibre.R;
-import ar.uba.fi.mercadolibre.activity.ChatActivity;
 
 public class FirebaseNotifications extends FirebaseMessagingService {
     private final static String CHANNEL_ID = "ComprameChannel";
     private final static String KEY_TITLE = "title";
     private final static String KEY_MESSAGE = "message";
-    private final static String PURCHASE_ID = "purchase_id";
+    private final static String KEY_TYPE = "type";
+
+    private enum NotificationType {
+        CHAT, NEW_PURCHASE, NEW_QUESTION, NEW_ANSWER
+    }
+    private HashMap<String, NotificationType> types;
+
+    @Override
+    public void onCreate() {
+        types = new HashMap<>();
+        types.put("chat", NotificationType.CHAT);
+        types.put("new_question", NotificationType.NEW_QUESTION);
+        types.put("new_answer", NotificationType.NEW_ANSWER);
+        types.put("product_sold", NotificationType.NEW_PURCHASE);
+    }
+
     NotificationManager notificationManager;
 
     @Override
@@ -49,9 +65,12 @@ public class FirebaseNotifications extends FirebaseMessagingService {
                 .setAutoCancel(true)
                 .setSound(defaultSoundUri);
 
-        Intent i = new Intent(getApplicationContext(), ChatActivity.class);
-        i.putExtra("chat_room", remoteMessage.getData().get(PURCHASE_ID));
-        notificationBuilder.setContentIntent(PendingIntent.getActivity(getApplicationContext(), 0, i, 0));
+        String messageType = remoteMessage.getData().get(KEY_TYPE);
+        FirebaseMessage message = getMessageFromType(messageType, remoteMessage.getData());
+        if (message != null) {
+            Intent i = message.getNotificationIntent(getApplicationContext());
+            notificationBuilder.setContentIntent(PendingIntent.getActivity(getApplicationContext(), 0, i, 0));
+        }
         NotificationManager notificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
@@ -70,6 +89,17 @@ public class FirebaseNotifications extends FirebaseMessagingService {
         adminChannel.enableVibration(true);
         if (notificationManager != null) {
             notificationManager.createNotificationChannel(adminChannel);
+        }
+    }
+
+    private FirebaseMessage getMessageFromType(String type, Map<String, String> data) {
+        NotificationType notificationType = types.get(type);
+        switch (notificationType) {
+            case CHAT: return new ChatMessage(data);
+            case NEW_QUESTION: return new NewQuestionMessage(data);
+            case NEW_PURCHASE: return new NewPurchaseMessage(data);
+            case NEW_ANSWER: return new NewAnswerMessage(data);
+            default: return null;
         }
     }
 }

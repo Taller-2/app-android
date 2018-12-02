@@ -58,7 +58,7 @@
         <activity android:name=".activity.UserSalesActivity" />
         <activity android:name=".activity.AccountEventListActivity"
             android:label="@string/my_event_history"/>
-        <service android:name=".client.FirebaseNotifications">
+        <service android:name=".notifications.FirebaseNotifications">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>

@@ -29,4 +29,7 @@ public interface QuestionController {
 
     @PATCH("question/")
     Call<Question> patch(@Body Question question);
+
+    @GET("question/{id}/")
+    Call<Question> get(@Path("id") String questionId);
 }
